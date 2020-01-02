@@ -3,7 +3,7 @@ namespace j79frame\lib\controller;
 
 use j79frame\lib\util\Log;
 use j79frame\lib\controller\DataFormat;
-use j79frame\lib\core\ModelAuthVerifier;
+use j79frame\app\common\ModelAuthVerifier;
 /**
 *  DataFormat
 *  对Model或者Controller类返回结果进行格式标准化。  
@@ -18,36 +18,24 @@ class ModelInterface
 	*/
 	
 	protected static $_interfaces;
-    /*=array(
+    /*
+     * $_interfaces=array(
 
-								//interface名，唯一。
-						        'shop_pro_add'=>array(
-								                      'model' =>'\\j79frame\\app\\model\\FProduct',
-													  //model的类名
-													  'method'=>'add',
-													  //model的function名
-													  'label' =>'店铺新产品添加',
-													  //说明信息
-													  'auth_type'=>'shop',
-													  //权限验证的类型，当前为shop权限验证。
+            //interface名，唯一。
+            'shop_pro_add'=>array(
+                                  'model' =>'\\j79frame\\app\\model\\FProduct',
+                                  //model的类名
+                                  'method'=>'add',
+                                  //model的function名
+                                  'label' =>'店铺新产品添加',
+                                  //说明信息
+                                  'auth_type'=>'shop',
+                                  //权限验证的类型，当前为shop权限验证。
+            ),
+            ... ...
 
-
-
-								),
-
-
-
-
-
-
-
-
-
-
-
-
-
-	);//--------/$_interfaces*/
+	  );
+    */
 
     /**
      * AuthTypeList
@@ -71,8 +59,8 @@ class ModelInterface
      */
 	public static function access($interfaceName, $param, $curOp){
 
-		require (\GSetting::$PATH_ROOT."/global.mi.php");
-		$miSetting=$GLOBAL_MODEL_INTERFACE;
+		require (\CONFIG::$PATH_ROOT."/global.mi.php");
+		$miSetting=\CONFIG::$APP['MIsetting'];
 
 
 		$interfaceName=strtolower($interfaceName);	
