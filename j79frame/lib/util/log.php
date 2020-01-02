@@ -1,20 +1,20 @@
 <?php
 namespace j79frame\lib\util;
-/**LogManager
-*  log类
-*  log文件名，add操作时，临时设置，没有指定，就采用默认名：'log'。
-*  log文件的扩展名，由静态变量LOG_FILE_EXT给定。
-*  log文件的目录，不可由外部制定，默认定位\log目录
-*
-*  @author: jin rong (rong.king@foxmail.com)
-*  @method:
-*  		add      : 添加log指定内容
-*       addVal   : 添加log一个变量名和值
-*       val      : 与addVal相同
-*       addPlain : 加纯粹内容，不做任何改动。
-*
-**/
-class Log
+/**
+ * LOG
+ * log类
+ * log文件名，add操作时，临时设置，没有指定，就采用默认名：'log'。
+ * log文件的扩展名，由静态变量LOG_FILE_EXT给定。
+ * log文件的目录，不可由外部制定，默认定位/data/log目录
+ *
+ * @author: jin rong (rong.king@foxmail.com)
+ * @method:
+ *  		add      : 添加log指定内容,
+ *       addV     : 添加log一个变量名和值
+ *       addPlain : 加纯粹内容，不做任何改动。
+ *
+ **/
+class LOG
 {
 
 	protected static  $_log_dir='data/log';//相对于网站根目录的log目录地址,开始和结尾都不带目录分隔符好。
@@ -27,11 +27,12 @@ class Log
 
 
     /**
+     * addV
      * add var current value into log.
      * @param $valueName : var name
      * @param $value     : current value
      */
-	public static function addVal($valueName, $value=''){
+	public static function addV($valueName, $value=''){
 		
 	
         //add time and ip prefix.
@@ -54,23 +55,19 @@ class Log
 		
 	}//-/
 	
-	/**
-	*  val
-	*  add val, same as addVal
-	*/
-	public static function val($valueName, $value=''){
-		static::addVal($valueName, $value);
-		
-	}//-/	
+
 	
 	
 	/**
-	* add
-	* 添加log
-	* @param  $content : log内容，不包括时间。时间自动标在每条log的最前面，用中括号包住。
-	* @param  $logfile : log文件的名称，仅仅是文件名，不包括路径。路径由_log_dir变量预设。默认值：空字符串。
-	* @return bool     : true: success ; false: failed.
-	**/
+	 * add
+	 * add log string content,automatically add time and ip at front.
+	 * @param  $content       : log内容，不包括时间。时间自动标在每条log的最前面，用中括号包住。
+	 * @param  $logfile       : logfile name, not including ext-name and path, just filename only. [default]='' ,means filename='log'.
+     *                          path name get from $this->_log_dir;
+     *                          ext-name get from self::LOG_FILE_EXT
+     * @param  $flagAddPrefix : flag to determine add time and ip prefix or not. [default]=true, add prefix;
+	 * @return bool           : true- success ; false- failed.
+	 **/
 	public static function add($content, $logfile='',$flagAddPrefix=true){
 		
 		//if not plain variables, then add log-value div.
@@ -81,11 +78,8 @@ class Log
 		//add prefix.
 		$content=$flagAddPrefix? '<span class="time">['.date("Y-m-d H:i:s").']</span><span class="ip">{'.static::getIP().'}</span>'.$content.PHP_EOL : $content.PHP_EOL;
 		
-		//add log by plain method.
-		return static::addPlain($content, $logfile,$flagAddPrefix);
-		
-		
-				
+		//add log by addPlain method.
+		return static::addPlain($content, $logfile);
 		 		
 		
 	}//------/add
@@ -228,37 +222,36 @@ class Log
 			  $contents = fread($handle, filesize ($filename));
 			  return $contents;
 			}else{
-			  return '<div class="log-blank">无内容</div>';	
+			  return '<div class="log-blank">N/A</div>';
 			}
 		}catch(Exception $e){
-			return '<div class="log-blank">无内容</div>';
+			return '<div class="log-blank">N/A</div>';
 		}
 		
 		
 	}//-/
-	
-	/**
-	*  view
-	*  view log content.
-	*/
+
+    /**
+     * view
+     * view log content into screen.
+     * @param string $logfile
+     */
 	public static function view($logfile=''){
 		
 		$content=static::read($logfile);
 		//$content=str_replace(" ", "&nbsp;",$content);
 		$content=str_replace(chr(10), "<br/>",$content);
 		
-		//$content=str_replace(PHP_EOL, "<br/>",$content);
-		
-		
 		echo $content;
 		
 	}//-/
-	
-	
-	/**
-	*  clear
-	*  clear log file content.
-	*/
+
+
+    /**
+     * clear
+     * clear log file and delete file.
+     * @param string $logfile: logfile name.     *
+     */
 	public static function clear($logfile=''){
 		
 		$final_log_file=$logfile!='' ? $logfile:'log';	
@@ -267,14 +260,16 @@ class Log
 		unlink($filename);
 		
 	}//-/
-	
-	
-	
-	/**
-	*  getIP
-	*/
-	public static function getIP(){
-		$ip='Unkown IP';
+
+
+    /**
+     * getIP
+     * get ip address.
+     * @param string $valueFailed : default value returned when failed getting ip. default='Unknown IP'
+     * @return string
+     */
+	public static function getIP($valueFailed='Unknown IP'){
+		$ip=$valueFailed;
 		if(!empty($_SERVER['HTTP_CLIENT_IP'])){
 			return static::isIP($_SERVER['HTTP_CLIENT_IP'])?$_SERVER['HTTP_CLIENT_IP']:$ip;
 		}elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
@@ -283,10 +278,13 @@ class Log
 			return static::isIP($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:$ip;
 		}
 	}//-/
-	
-	/**
-	*  isIP
-	*/
+
+    /**
+     * isIP
+     * check if correct IP format
+     * @param  $str : ip string
+     * @return bool|false|int: true- is correct ip format. false- incorrect.
+     */
 	public static function isIP($str){
 		$ip=explode('.',$str);
 		for($i=0;$i<count($ip);$i++){  

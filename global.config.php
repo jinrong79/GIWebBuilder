@@ -1,5 +1,5 @@
 <?php
-use j79frame\lib\util\Log;
+use j79frame\lib\util\LOG;
 
 //set time zone
 date_default_timezone_set('PRC');
@@ -141,23 +141,8 @@ class CONFIG
     public static function GET_SPENT_TIME()
     {
         $curTime = microtime(true);
-        $timeSpent = round(($curTime - static::$TIME_START), 4);
+        $timeSpent = round(($curTime - static::$APP['timeStart']), 4);
         return $timeSpent;
-    }//-/
-
-
-    /**
-     *  FORMAT_PATH
-     *  return standard path string. dir is sperated by DIRECTORY_SEPARATOR constant
-     *
-     * @param  {string} pathString : path or url string.
-     *
-     * @return {string}           : return path string.
-     */
-    public static function FORMAT_PATH($pathString)
-    {
-        return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $pathString);
-
     }//-/
 
 
@@ -193,11 +178,10 @@ function j79_autoloader($class)
 
     }
 }
-
 spl_autoload_register('j79_autoloader');
 
 
-//set include path
+/* set include path */
 set_include_path(
     CONFIG::$PATH_ROOT . "/j79frame/app" . PATH_SEPARATOR .
     CONFIG::$PATH_ROOT . "/j79frame/app/util" . PATH_SEPARATOR .
