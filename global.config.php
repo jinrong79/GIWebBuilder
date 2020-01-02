@@ -8,7 +8,7 @@ error_reporting(E_ALL);  //turn error off when system online.
 
 /* include global.func.php  */
 // path can be changed.
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR.'j79frame'.DIRECTORY_SEPARATOR . 'global.func.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'j79frame' . DIRECTORY_SEPARATOR .'lib' . DIRECTORY_SEPARATOR. 'global.func.php';
 
 
 /* global config*/
@@ -86,57 +86,9 @@ class CONFIG
     );
 
 
-
-
-    /**
-     *  GET_DB_CONNECT
-     *
-     *  connect db by settings and save it in global value \CONFIG::$DB
-     *
-     * @return {bool/mysqli} :
-     *                          false -> error
-     *                          mysqli handler -> success.
-     *
-     */
-    public static function GET_DB_CONNECT()
-    {
-        //Log::add('db connect start:'.\GSetting::GET_SPENT_TIME());
-        if (is_null(self::$DB_CONNECT) || !(self::$DB_CONNECT instanceof mysqli)) {//if dbConnect is null or  is not instance of mysqli
-
-            //判断本地/远程, 加载不同数据库连接设定：
-            self::$DB_CONNECT_SETTINGS = self::$DB_CONNECT_SETTINGS_REMOTE;
-            if (stripos($_SERVER['HTTP_HOST'], 'localhost') !== false) {
-                self::$DB_CONNECT_SETTINGS = self::$DB_CONNECT_SETTINGS_LOCAL;
-            }
-
-            //verify dbSettings.
-            if (!is_array(self::$DB_CONNECT_SETTINGS) || count(self::$DB_CONNECT_SETTINGS) <= 0) {
-                return false;
-            }
-
-            $db = new mysqli(self::$DB_CONNECT_SETTINGS['host'], self::$DB_CONNECT_SETTINGS['user'], self::$DB_CONNECT_SETTINGS['pwd'], self::$DB_CONNECT_SETTINGS['dbname']);
-
-            if (mysqli_connect_errno()) {
-                $err_msg = 'Error: can not open DB, code-' . mysqli_connect_errno();
-                Log::add($err_msg);
-                //echo '<p>Fatal Error: Error occur when connect DB !</p>';
-                return false;
-
-            } else {
-                $db->select_db(self::$DB_CONNECT_SETTINGS['dbname']);
-                $db->set_charset('utf8');
-                self::$DB_CONNECT = $db;
-                //Log::add('db connect end[instatic]:'.\GSetting::GET_SPENT_TIME());
-                return $db;
-            }
-        } else {//if dbConnect already exist and is instance of mysqli , just return it.
-            return self::$DB_CONNECT;
-        }
-    }//-/
-
     /**
      *  GET_SPENT_TIME
-     *  get spent time from the start of this php
+     *  get spent time from the start of this php script
      */
     public static function GET_SPENT_TIME()
     {
@@ -167,20 +119,6 @@ if (stripos($_SERVER['HTTP_HOST'], 'localhost') !== false) {
 }
 
 
-/* set the class auto loading */
-function j79_autoloader($class)
-{
-    if (stripos($class, 'CONFIG') === false && stripos($class, 'GF') === false) {
-        //&& file_exists(strtolower($class) . ".php")
-
-        require_once(strtolower($class) . ".php");
-
-
-    }
-}
-spl_autoload_register('j79_autoloader');
-
-
 /* set include path */
 set_include_path(
     CONFIG::$PATH_ROOT . "/j79frame/app" . PATH_SEPARATOR .
@@ -188,5 +126,18 @@ set_include_path(
     CONFIG::$PATH_ROOT . "/j79frame/app/3rd" . PATH_SEPARATOR .
     get_include_path()
 );
+
+
+/* set the class auto loading */
+function j79_autoloader($class)
+{
+    if (stripos($class, 'CONFIG',-6) === false && stripos($class, 'GF',-2) === false) {
+        require_once(strtolower($class) . ".php");
+    }
+}
+spl_autoload_register('j79_autoloader');
+
+
+
 
 
