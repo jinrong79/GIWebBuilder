@@ -58,23 +58,36 @@ class DBConnector
 	*              null: 出错
 	*              mysqli：成功则返回数据库连接。
 	*/
-	public static function connect(){		
+	public static function connect($dbConnectSetting=NULL){
 		
-		/*if(self::$_dbConnect===false || is_null(self::$_dbConnect) || !( self::$_dbConnect instanceof mysqli)){
-			self::$_dbConnect=\GSetting::GET_DB_CONNECT();				
-		}*/
-		
-		if( self::$_dbConnect!==false &&  !is_null(self::$_dbConnect)  && self::$_dbConnect instanceof mysqli){
-		    return self::$_dbConnect;
-		}else{
-			
-			self::$_dbConnect=\GSetting::GET_DB_CONNECT();		
-			
-			if( !is_null(self::$_dbConnect) &&  self::$_dbConnect instanceof mysqli  ){
-			   return self::$_dbConnect;
-			}
-			return null;
+
+        //get db connection setting:
+        // if empty, get from global config.
+        $dbConnectSetting=empty($dbConnectSetting)? \CONFIG::$APP['dbConnectSetting']:$dbConnectSetting;
+		if(empty($dbConnectSetting)){
+            Log::add('DB connection setting is empty!');
+            return null;
+        }
+
+		//if current connection is empty, then create connection.
+		if( empty(self::$_dbConnect)){
+
+            $db = new mysqli($dbConnectSetting['host'], $dbConnectSetting['user'], $dbConnectSetting['pwd'], $dbConnectSetting['dbname']);
+            if (mysqli_connect_errno()) {
+                Log::add('Error: can not open DB, code-' . mysqli_connect_errno());
+                return null;
+            } else {
+                $db->select_db($dbConnectSetting['dbname']);
+                $db->set_charset('utf8');
+                self::$_dbConnect= $db;
+            }
 		}
+
+        //return connection instance if valid
+        return self::$_dbConnect;
+
+
+
 				
 	}//-/
 

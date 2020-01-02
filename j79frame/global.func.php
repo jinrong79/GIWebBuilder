@@ -1,92 +1,30 @@
 <?php
-/* GFunc class for global functions */
-class GFunc
+/**
+ * Class
+ * GF
+ * global functions
+ */
+class GF
 {
 
     /**
-     *  readKey
-     *  [static]
-     *  read dataArray, find keyName item, if exist set the value to targetVar.
-     *  if not exist key or dataArray is not valid:
-     *                if default!=NULL and default!='NULL' ,
-     *                   then set default value to targetVar.
-     *                if default=='NULL',
-     *                   then set NULL to targetVar.
-     *  otherwise: do nothing.
-     *
-     *  @param {mix}    targetVar : target var. Be noticed, it pass by reference.
-     *  @param {string} keyName   : array key name
-     *  @param {array}  dataArray : key-array which contain main data.
-     *  @param {mix}    default   : default value. if NULL, then not set
-     *
-     */
-    public static function readKey(&$targetVar, $keyName, $dataArray, $default=NULL){
-
-        if(is_array($dataArray) && is_string($keyName) && trim($keyName)!=''){
-            $keyName=trim($keyName);
-
-            $readValue=self::getValue($keyName,$dataArray);
-
-            if(!is_null($readValue)){
-
-                $targetVar=$readValue;
-
-            }else{
-
-                if(!is_null($default)){
-                    $targetVar=strcasecmp($default,'NULL')!=0? $default: NULL;
-                }
-
-            }
-
-        }else{
-
-            if(!is_null($default)){
-                $targetVar=strcasecmp($default,'NULL')!=0? $default: NULL;
-            }
-        }
-
-
-    }//-/
-
-    /**
-     *  getKey
-     *  similar to readKey, but always return value.
-     *  if not has key or other error case, it return $default value.
-     *
-     */
-    public static function getKey($keyName, $dataArray, $default=''){
-
-        $result=$default;
-        self::readKey($result, $keyName, $dataArray);
-
-        /*if($default!='' && $result==''){
-           $result=$default;
-        }*/
-
-        return $result;
-
-    }//-/
-
-    /**
-     * getValue
+     * getKey
      * get value from asoc-array data by key-name.
      * key-name support "data.idx" like multi-level key-name.
-     * @param {string} $keyName : key-name of value to get.
-     * @param {assoc/mix} $data : data to read from.
-     * @param {mix} $defaultValue : if invalid key or no-existing key , then return defaultValue, [NULL- default]
-     * @return {mix} : return value.
+     * @param {string} $keyName      : key-name of value to get,support "data.idx" like multi-level key-name.
+     * @param {assoc}  $data         : data to read from.
+     * @param {mix}    $defaultValue : if invalid key or no-existing key , then return defaultValue, [NULL- default]
+     * @return {mix}                 : return value.
      */
-    public static function getValue($keyName, $data, $defaultValue=NULL){
-        if($keyName=='' ||  !is_array($data) || !self::isAssoc($data) || count($data)<=0 ){
+    public static function getKey($keyName, $data, $defaultValue=NULL){
+        if(!is_string($keyName) || trim($keyName)=='' ||  !is_array($data) || count($data)<=0 || !self::isAssoc($data) ){
             return $defaultValue;
         }
-
         $keyNameArr=explode('.', $keyName);
         $curData=$data;
-        foreach ($keyNameArr as $keyn) {
-            if(isset( $curData[$keyn])){
-                $curData=$curData[$keyn];
+        foreach ($keyNameArr as $keyN) {
+            if(isset( $curData[$keyN])){
+                $curData=$curData[$keyN];
             }else{
                 return $defaultValue;
             }
@@ -96,6 +34,43 @@ class GFunc
     }//-/
 
     /**
+     *  fillKey
+     *  [static]
+     *  read dataArray, find keyName item, if exist set the value to targetVar.
+     *  if not exist  or dataArray is not valid:
+     *                if default!=NULL and default!='NULL' ,
+     *                   then set default value to targetVar;
+     *                if default=='NULL',
+     *                   then set NULL to targetVar;
+     *                else
+     *                   do nothing to targetVar.
+     *  otherwise: do nothing.
+     *
+     *  @param {mix}    targetVar : target var. Be noticed, it pass by reference.
+     *  @param {string} keyName   : array key name
+     *  @param {array}  dataArray : key-array which contain main data.
+     *  @param {mix}    default   : default value. if NULL, then not set; if 'NULL' string then, set NULL when default.
+     *
+     */
+    public static function fillKey(&$targetVar, $keyName, $dataArray, $default=NULL){
+
+        //read value and set to targetVar when value not NULL.
+        $readValue=self::getKey($keyName,$dataArray,NULL);
+        if(!is_null($readValue)){
+            $targetVar=$readValue;
+            return;
+        }
+
+        //set default value if default!=NULL.
+        if(!is_null($default)){
+            $targetVar=strcasecmp($default,'NULL')!=0? $default: NULL;
+        }
+
+    }//-/
+
+
+
+    /**
      * isOK
      *  check if result is success or not.
      *  @param  {key-array} result : result data in key-array format.
@@ -103,7 +78,6 @@ class GFunc
      */
     public static function isOK($result){
         if( is_array($result) && array_key_exists('result', $result) && intval($result['result'])==1){
-
             return true;
         }else{
             return false;
@@ -232,32 +206,6 @@ class GFunc
 
 	
 	/**
-	*  parseIdxToSQL
-	*  parse idx string ,and return sql string of idx comparation.
-	*  e.g:  
-	*      '1,2,3'      => ' IN (1,2,3)'
-	*      '1'          => ' =1 '
-	*      '111ag'      => ''
-	*      array(1,2,3) => ' IN (1,2,3)'
-	*
-	*  @param {string/int/array} idx : idx / idx list string like '1,2,3' / idx array.
-	*  @return {string}  : idx comapration SQL string. like ' IN (3,4,5)' or ' =3' , return '' if failed.
-	*/
-	public static function parseIdxToSQL($idx){
-		$idxRe=self::parseIdx($idx);
-		if($idxRe!==false){			
-			if(is_array($idxRe)){
-				return ' IN ('.implode(',',$idxRe).')';
-			}else{
-			    return ' ='.intval($idxRe);	
-			}			
-		}
-		return '';
-	}//-/parseIdxToSQL
-
-
-	
-	/**
 	*  strCount
 	*  count charactors in str. including utf-8.
 	*  return {int} : amount of charactors in a string.
@@ -369,70 +317,18 @@ class GFunc
         }else{
             return null;
         }
-    }
-
-
-
-
-
-
+    }//-/
 
 
     /**
-     * groupListByKey
-     * group list items by key value.
-     *
-     * @param $itemList     : array of items. each items has key and value.
-     * @param $keyName      : name of key value for grouping
-     * @param $groupKeyName : key-name of grouped data. if empty, use $keyName.
-     * @return array       : grouped list. each group key name  = keyName_keyValue
-     *
-     * e.g.:
-     *     itemList=array(
-     *                     array('keyA'=>1, 'keyB'=>3),
-     *                     array('keyA'=>1, 'keyB'=>4),
-     *                     array('keyA'=>2, 'keyB'=>5),
-     *                   )
-     *     keyName='keyA'
-     *
-     *     groupKeyName='groupA'
-     *
-     *
-     *
-     *     result= array(
-     *                  'groupA_1'=>array(
-     *                                 array('keyA'=>1, 'keyB'=>3),
-     *                                 array('keyA'=>1, 'keyB'=>4),
-     *                            ),
-     *                  'groupA_2'=>array(
-     *                                 array('keyA'=>2, 'keyB'=>5),
-     *                            ),
-     *     )
-     *
+     * formatPath
+     * return standard path string. dir is sperated by DIRECTORY_SEPARATOR constant
+     * @param  string pathString : path or url string.
+     * @return string          : return path string.
      */
-    public static function groupListByKey($itemList, $keyName, $groupKeyName='', $sep='-'){
-
-        $result=array();
-        $groupKeyName=trim($groupKeyName);
-
-
-        if(empty($itemList) || empty($keyName)){
-            return $result;
-        }
-
-        foreach ($itemList as $key=>$cartItem){
-
-            $keyValue=self::getValue($keyName, $cartItem,0);
-            $groupKey= empty($groupKeyName) ?  $keyName.$sep.$keyValue : $groupKeyName.$sep.$keyValue;
-
-            if(!isset($result[$groupKey]) || !is_array($result[$groupKey])){
-                $result[$groupKey]=array();
-            }
-            array_push($result[$groupKey],$cartItem);
-
-        }
-
-        return $result;
+    public static function formatPath($pathString)
+    {
+        return str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $pathString);
 
     }//-/
 

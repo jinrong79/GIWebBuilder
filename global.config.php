@@ -1,4 +1,6 @@
 <?php
+use j79frame\lib\util\Log;
+
 //set time zone
 date_default_timezone_set('PRC');
 error_reporting(E_ALL);  //turn error off when system online.
@@ -20,8 +22,6 @@ class CONFIG
 {
 
 
-    public static $SITE_NAME = 'GI Web Builder';     //site name
-
 
     /* path def. */
 
@@ -42,17 +42,14 @@ class CONFIG
     //application data: all application setting data.
     public static $APP=array(
 
-        'timeStart'=>NULL, //current script start time.
-
-        //url setting of current application
-        'urlHome'=>'/index.html',
-        'urlAdmin'=>'/admin/index.html',
-
-        'lang'=>1, //current language idx. detail info ,pls refer to j79frame\lib\util\Lang,
-
-        'operator'=>NULL, //current operator,
 
 
+        'timeStart'=>NULL,  //current script start time.
+        'lang'=>1,          //current language idx. detail info ,pls refer to j79frame\lib\util\Lang,
+        'operator'=>NULL,   //current operator,
+
+        //db connection setting for currently running.
+        'dbConnectSetting'=>NULL,
 
         //db connection list:
         'db'=>array(
@@ -60,8 +57,13 @@ class CONFIG
             'temp'=>false,     // temporal db connection, newly created for current page.
         ),
 
-        //db connection setting for currently running.
-        'dbConnectSetting'=>NULL,
+        //following data set in app.config.php:
+
+        /*'siteName'=>'GI WebBuilder',//website name viewed.
+
+        //url setting of current application
+        'urlHome'=>'/index.html',
+        'urlAdmin'=>'/admin/index.html',
 
         //db connection setting for local testing:
         'dbConnectSettingLocal'=> array(
@@ -79,9 +81,7 @@ class CONFIG
             'user' => 'root',
             'pwd' => 'oArpCnd4',
             'dbname' => 'db_eyb'
-        ),
-
-
+        ),*/
 
     );
 
@@ -170,15 +170,22 @@ CONFIG::$APP['timeStart'] = microtime(true);
 /* acquire current path to PATH_ROOT */
 CONFIG::$PATH_ROOT = dirname(__FILE__);
 
-
 /* include app.config.php  */
 require_once CONFIG::$PATH_ROOT . DIRECTORY_SEPARATOR . 'app.config.php';
+
+
+/* set current db connection setting */
+if (stripos($_SERVER['HTTP_HOST'], 'localhost') !== false) {
+    CONFIG::$APP['dbConnectSetting'] = CONFIG::$APP['dbConnectSettingLocal'];
+}else{
+    CONFIG::$APP['dbConnectSetting'] = CONFIG::$APP['dbConnectSettingSite'];
+}
 
 
 /* set the class auto loading */
 function j79_autoloader($class)
 {
-    if (stripos($class, 'CONFIG') === false && stripos($class, 'GFunc') === false) {
+    if (stripos($class, 'CONFIG') === false && stripos($class, 'GF') === false) {
         //&& file_exists(strtolower($class) . ".php")
 
         require_once(strtolower($class) . ".php");
