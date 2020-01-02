@@ -1,5 +1,5 @@
 <?php
-use j79frame\lib\util\LOG;
+use j79frame\lib\util\Log;
 
 //set time zone
 date_default_timezone_set('PRC');
@@ -25,18 +25,19 @@ class CONFIG
 
     /* path def. */
 
-    public static $PATH_ROOT = '';           //current system root dir, automatically acquired according to current global.config.php file path.
+    public static $PATH_ROOT = '';               //current system root dir, automatically acquired according to current global.config.php file path.
+
 
     public static $SITE_DOMAIN='';                           //site domain, like 'www.giwebbuilder.com'
     public static $URL_SETTINGS = '/j79frame/app/settings';  //url of setting files
-    public static $URL_WEBPAGE = '/pages';                   //pc 网页端页面所在相对路径
-    public static $URL_MOBILE_WEBPAGE='/mpages';             //手机网页端所在相对路径
+    public static $URL_WEBPAGE = '/pages';                   //pc端页面所在相对路径
+    public static $URL_MOBILE_WEBPAGE='/mpages';             //手机端页面所在相对路径
 
 
 
     //site root links
-    public static $URL_HOME = '/index.html';
-    public static $URL_HOME_ADMIN = '/admin/index.html';
+    public static $PAGE_HOME = '/index.html';
+    public static $PAGE_HOME_ADMIN = '/admin/index.html';
 
 
     //application data: all application setting data.

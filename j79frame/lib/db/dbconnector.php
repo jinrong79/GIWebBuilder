@@ -1,20 +1,23 @@
 <?php
-namespace j79frame\lib\core\db;
+namespace j79frame\lib\db;
 use  j79frame\lib\util\Log;
 
 use mysqli;
 
 /**
-*  DBConnector
-*  数据库连接类。
-*  数据库连接针对一个应用只保持一个，存在全局设置的\GSetting::$DB_CONNECT 当中。	
-*
-*  @attribute:
-*				dbConnect: mysqli数据库连接。					
-*  					
-*
-**/
-
+ * Class DBConnector
+ *
+ * 数据库连接类。
+ * 数据库连接，建立后存入全局变量\CONFIG::$APP['db'][dbLinkKey], 其中dbLinkKey是指此连接的全局调用名称，默认值是'default'。
+ * 也就是说\CONFIG::$APP['db'][’default']是全局共享的数据库连接对象。
+ * 如果想使用新的连接，建立连接是传递不同的dbLinkKey值就可以。
+ *
+ *
+ *  @attribute:
+ *				dbConnect: mysqli数据库连接。
+ *
+ * @package j79frame\lib\db
+ */
 class DBConnector
 {
 	
@@ -47,30 +50,36 @@ class DBConnector
 	}//-/
 	
 	/**
-	* connect
-	* 
-	* start connecting db and return db-connection.
-	* 如果静态变量dbConnect不为空，而且是mysqli类对象，直接返回dbConnect，
-	* 如果不是，则执行全局设置\GSetting中的GET_DB_CONNECT来获取数据库连接。
-	* 数据库连接针对一个应用只保持一个，存在全局设置的\GSetting::$DB_CONNECT 当中。
-	*
-	* @return {mix}:
-	*              null: 出错
-	*              mysqli：成功则返回数据库连接。
-	*/
-	public static function connect($dbConnectSetting=NULL){
+	 * connect
+	 * try connecting db and return db-connection when success.
+     *
+	 * -首先获取数据库连接设定$dbConnectSetting,如果参数为空，就从全局设定\CONFIG::$APP['dbConnectSetting']获取。
+     * -然后，根据里面连接标识$dbLinkKey，检查全局\CONFIG::$APP['db']里面是否存在此连接标识为键值的连接对象
+     *  如果存在，就不新建连接，直接返回此连接对象；
+     *  如果不存在，就新建数据库连接，存入\CONFIG::$APP['db'][$dbLinkKey]里面，同时返回此新的连接对象。
+     *
+     * 使用说明：
+     *        1. 一般情况下，空参数调用，即可返回default的数据库连接对象，此对象全局共享。
+     *        2. 如果需要使用回滚等操作，需要独立连接时，$dbLinkKey设定为单独名称，即可获取新的数据库连接，只要保持$dbLinkKey的全局唯一，就不会发生冲突。
+     *
+	 * @param $dbConnectSetting : db connect setting, [default]=null, then get from \CONFIG::$APP['dbConnectSetting'].
+     * @param $dbLinkKey        : db link keyname in \CONFIG::$APP['db'] array. [default]='default', global-shared db link.
+	 * @return mixed            : null-出错; mysqli：成功则返回数据库连接。
+	 */
+	public static function connect($dbConnectSetting=NULL,$dbLinkKey='default'){
 		
 
         //get db connection setting:
-        // if empty, get from global config.
+        //if empty, get from global config.
         $dbConnectSetting=empty($dbConnectSetting)? \CONFIG::$APP['dbConnectSetting']:$dbConnectSetting;
 		if(empty($dbConnectSetting)){
             Log::add('DB connection setting is empty!');
             return null;
         }
 
-		//if current connection is empty, then create connection.
-		if( empty(self::$_dbConnect)){
+
+		//if connection with current keyname in global APP is empty, then create connection.
+		if( empty(\CONFIG::$APP['db'][$dbLinkKey])){
 
             $db = new mysqli($dbConnectSetting['host'], $dbConnectSetting['user'], $dbConnectSetting['pwd'], $dbConnectSetting['dbname']);
             if (mysqli_connect_errno()) {
@@ -80,13 +89,14 @@ class DBConnector
                 $db->select_db($dbConnectSetting['dbname']);
                 $db->set_charset('utf8');
                 self::$_dbConnect= $db;
+
+                //save to global APP data.
+                \CONFIG::$APP['db'][$dbLinkKey]=$db;
             }
 		}
 
         //return connection instance if valid
         return self::$_dbConnect;
-
-
 
 				
 	}//-/

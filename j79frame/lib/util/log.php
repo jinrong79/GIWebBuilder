@@ -1,7 +1,7 @@
 <?php
 namespace j79frame\lib\util;
 /**
- * LOG
+ * Log
  * log类
  * log文件名，add操作时，临时设置，没有指定，就采用默认名：'log'。
  * log文件的扩展名，由静态变量LOG_FILE_EXT给定。
@@ -14,7 +14,7 @@ namespace j79frame\lib\util;
  *       addPlain : 加纯粹内容，不做任何改动。
  *
  **/
-class LOG
+class Log
 {
 
 	protected static  $_log_dir='data/log';//相对于网站根目录的log目录地址,开始和结尾都不带目录分隔符好。
@@ -54,6 +54,18 @@ class LOG
 
 		
 	}//-/
+
+
+    /**
+     * val
+     * @param $valueName
+     * @param string $value
+     */
+    public static function val($valueName, $value=''){
+
+	    static::addV($valueName, $value);
+
+    }//-/
 	
 
 	
