@@ -28,29 +28,38 @@ class CONFIG
     public static $PATH_ROOT = '';               //current system root dir, automatically acquired according to current global.config.php file path.
 
 
-    public static $SITE_DOMAIN='';                           //site domain, like 'www.giwebbuilder.com'
+
     public static $URL_SETTINGS = '/j79frame/app/settings';  //url of setting files
     public static $URL_WEBPAGE = '/pages';                   //pc端页面所在相对路径
     public static $URL_MOBILE_WEBPAGE='/mpages';             //手机端页面所在相对路径
 
 
+    /* operator: current operator instance */
+    public static $OPERATOR=NULL;
 
-    //site root links
-    public static $PAGE_HOME = '/index.html';
-    public static $PAGE_HOME_ADMIN = '/admin/index.html';
+
 
 
     //application data: all application setting data.
     public static $APP=array(
 
-
-
         'timeStart'=>NULL,  //current script start time.
         'lang'=>1,          //current language idx. detail info ,pls refer to j79frame\lib\util\Lang,
         'operator'=>NULL,   //current operator,
 
+
+        /*url setting of current application*/
+        'urlHome'=>'/index.html',
+        'urlAdmin'=>'/admin/index.html',
+
+        /* site name */
+        'siteName'=>'GI WebBuilder Application',//website name viewed.
+
+
         //db connection setting for currently running.
         'dbConnectSetting'=>NULL,
+
+        'siteDomain'=>'', //site domain, like 'www.giwebbuilder.com'
 
         //db connection list:
         'db'=>array(
@@ -132,7 +141,7 @@ set_include_path(
 /* set the class auto loading */
 function j79_autoloader($class)
 {
-    if (stripos($class, 'CONFIG',-6) === false && stripos($class, 'GF',-2) === false) {
+    if (stripos($class, 'CONFIG',0) === false && stripos($class, 'GF',0) === false) {
         require_once(strtolower($class) . ".php");
     }
 }

@@ -7,7 +7,7 @@ if($requestDataType==5){ //xml
 }
 
 //include config files.
-require_once  $_SERVER['DOCUMENT_ROOT']."/global.config.php";
+require_once   dirname(__FILE__).DIRECTORY_SEPARATOR."global.config.php";
 
 
 //do dispatching:

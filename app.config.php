@@ -7,6 +7,9 @@
         'urlHome'=>'/index.html',
         'urlAdmin'=>'/admin/index.html',
 
+        /* current site domain */
+        'siteDomain'=>'www.gibuilder.com',
+
 
         /*db connection setting
           - two settings: local testing setting and site lunching setting.
