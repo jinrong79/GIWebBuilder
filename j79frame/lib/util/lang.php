@@ -1,5 +1,6 @@
 <?php
 namespace j79frame\lib\util;
+use j79frame\lib\core\j79obj;
 use j79frame\lib\util\HttpRequest;
 
 /**
@@ -14,7 +15,7 @@ use j79frame\lib\util\HttpRequest;
 *          getLangIdx [static]
 *         
 **/
-class Lang
+class Lang extends j79obj
 {
 	
     const DEFAULT_LANG_IDX=1;	

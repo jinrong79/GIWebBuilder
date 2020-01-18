@@ -1,6 +1,7 @@
 <?php
 namespace j79frame\lib\util;
 
+use j79frame\lib\core\j79obj;
 use j79frame\lib\util\Uploader;
 use j79frame\lib\util\Image;
 use j79frame\lib\util\Log;
@@ -21,7 +22,7 @@ use j79frame\lib\util\Log;
 *           setSavePath -set default save path.
 *
 */
-class  ImgUploader
+class  ImgUploader extends  j79obj
 {
 	
 

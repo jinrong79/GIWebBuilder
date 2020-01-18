@@ -1,5 +1,6 @@
 <?php
 namespace j79frame\lib\controller;
+use j79frame\lib\core\j79obj;
 use j79frame\lib\core\Operator;
 use j79frame\lib\core\AuthVerifier;
 use j79frame\lib\controller\DataFormat;
@@ -14,7 +15,7 @@ use j79frame\lib\util\Log;
 *                 $dp=new Dispatcher();
 *                 $dp->dispatch();
 */
-class Dispatcher
+class Dispatcher extends j79obj
 {
 	
 	const RESULT_FORMAT_JSON=0;

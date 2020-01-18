@@ -1,6 +1,7 @@
 <?php
 namespace j79frame\lib\util;
 
+use j79frame\lib\core\j79obj;
 use j79frame\lib\util\Lang;
 
 /**
@@ -21,7 +22,7 @@ use j79frame\lib\util\Lang;
 *	   
 *         
 **/
-class Address
+class Address extends j79obj
 {
 	
 		

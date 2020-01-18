@@ -1,5 +1,6 @@
 <?php
 namespace j79frame\lib\util;
+use j79frame\lib\core\j79obj;
 
 
 /**
@@ -8,7 +9,7 @@ namespace j79frame\lib\util;
  * 取得中文对应的拼音字母
  *
  **/
-class ChineseChar
+class ChineseChar extends j79obj
 {
 	
 	

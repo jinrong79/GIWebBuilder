@@ -1,6 +1,7 @@
 <?php
 namespace j79frame\lib\util;
 
+use j79frame\lib\core\j79obj;
 use j79frame\lib\util\XML;
 
 /**
@@ -8,7 +9,7 @@ use j79frame\lib\util\XML;
 **  主要功能： 1- 根据表单格式定义的xml文件，输出表单输入/表单修改的html代码。
 **           2- 根据表单格式定义的xml文件， 读取表单提交的数据，构成xml 
 **/
-class  FormBuilder
+class  FormBuilder extends j79obj
 {
 	
 	public $URL_Form_XML; //xml file for form; 表单格式定义

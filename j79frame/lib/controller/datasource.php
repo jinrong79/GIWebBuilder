@@ -1,11 +1,12 @@
 <?php
 namespace j79frame\lib\controller;
+use j79frame\lib\core\j79obj;
 
 /**
 *  DataSource
 *  主要用于向网页传递全局结果数据
 */
-class DataSource
+class DataSource extends j79obj
 {
 	public static $RESULT=array();	 //静态变量，用于存model产生的结果数据，并传递给template view。
 	

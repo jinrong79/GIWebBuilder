@@ -9,7 +9,7 @@ use j79frame\lib\core\Operator;
  *  验证当前操作者对Model的操作权限。
  *
  */
-class AuthVerifier
+class AuthVerifier extends  j79obj
 {
 
     //当前的操作者（登录的用户）

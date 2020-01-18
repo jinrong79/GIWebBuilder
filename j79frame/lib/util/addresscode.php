@@ -2,6 +2,7 @@
 namespace j79frame\lib\util;
 
 use j79frame\lib\core\db\DBReader;
+use j79frame\lib\core\j79obj;
 use j79frame\lib\util\Lang;
 
 /**
@@ -15,7 +16,7 @@ use j79frame\lib\util\Lang;
 *	   
 *         
 **/
-class AddressCode
+class AddressCode extends j79obj
 {
 
     const MAX_DEPTH=4;

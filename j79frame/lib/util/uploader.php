@@ -1,5 +1,7 @@
 <?php
 namespace j79frame\lib\util;
+use j79frame\lib\core\j79obj;
+
 /**
  * Created by JetBrains PhpStorm.
  * User: taoqili
@@ -7,7 +9,7 @@ namespace j79frame\lib\util;
  * Time: 上午11: 32
  * UEditor编辑器通用上传类
  */
-class Uploader
+class Uploader extends j79obj
 {
     private $fileField; //文件域名
     private $file; //文件上传对象

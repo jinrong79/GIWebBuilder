@@ -1,5 +1,7 @@
 <?php
 namespace j79frame\lib\util;
+use j79frame\lib\core\j79obj;
+
 /**=================CLASS: ErrorManager
  *  error信息类
  *	@author: jin rong (rong.king@foxmail.com)
@@ -10,7 +12,7 @@ namespace j79frame\lib\util;
  *		    add : 添加错误信息。
  *  		getList: 返回错误信息列表数组
  **/
-class ErrorInfo
+class ErrorInfo extends j79obj
 {
 	
 	protected $_array_err; // 出错信息数组, 对应的只读属性名称：list	

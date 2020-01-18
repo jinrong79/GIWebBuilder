@@ -10,7 +10,7 @@ use j79frame\lib\util\Log;
 * @author     jin.rong <rong.king@foxmail.com>
  
 */
-class Operator {
+class Operator extends j79obj {
 	
 	// 行为对应的数字编码。因为数据库中存储的是此数字，而非SELECT等字符串。
 	const CODE_SELECT     =1; 

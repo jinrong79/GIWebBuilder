@@ -8,30 +8,76 @@ class GF
 {
 
     /**
-     * getKey
-     * get value from asoc-array data by key-name.
+     * getKeyValue
+     * get value from assoc-array data by key-name.
      * key-name support "data.idx" like multi-level key-name.
-     * @param {string} $keyName      : key-name of value to get,support "data.idx" like multi-level key-name.
-     * @param {assoc}  $data         : data to read from.
-     * @param {mix}    $defaultValue : if invalid key or no-existing key , then return defaultValue, [NULL- default]
-     * @return {mix}                 : return value.
+     * @param string $keyName      : key-name of value to get,support "data.idx" like multi-level key-name.
+     * @param array  $data         : data to read from.
+     * @param mixed  $defaultValue : if invalid key or no-existing key , then return defaultValue, [NULL- default]
+     * @param bool   $flagNoBlank  : flag how to handle blank string like "  ".
+     *                               true[default] -- cheat blank string as empty, and return default value.
+     *                               false -- cheat blank string as normal string  and return it.
+     * @return mixed                 : return value.
      */
-    public static function getKey($keyName, $data, $defaultValue=NULL){
+    public static function getKeyValue($keyName, $data, $defaultValue=NULL,$flagNoBlank=true){
         if(!is_string($keyName) || trim($keyName)=='' ||  !is_array($data) || count($data)<=0 || !self::isAssoc($data) ){
             return $defaultValue;
         }
-        $keyNameArr=explode('.', $keyName);
-        $curData=$data;
-        foreach ($keyNameArr as $keyN) {
-            if(isset( $curData[$keyN])){
-                $curData=$curData[$keyN];
-            }else{
-                return $defaultValue;
+        $keyName=trim($keyName);
+
+        //if single level key-name:
+        if(stripos($keyName,'.')===false){
+            $curData=isset($data[$keyName]) ? $data[$keyName]:NULL;
+
+        }else{//if deep level key-name:
+
+            $keyNameArr=explode('.', $keyName);
+            $curData=$data;
+            foreach ($keyNameArr as $keyN) {
+                if(isset( $curData[$keyN])){
+                    $curData=$curData[$keyN];
+                }else{
+                    //not found key, then set null and break loop:
+                    $curData=NULL;
+                    break;
+                }
             }
         }
-        return $curData;
+
+        //check if blank string when flagNoBlank==true:
+        $curData=$flagNoBlank===true && is_string($curData) && trim($curData)==''  ? NULL: $curData;
+
+        //if null then return defaultValue,else return data:
+        return is_null($curData)? $defaultValue:$curData;
 
     }//-/
+
+    /**
+     * getKey
+     * alias of getKeyValue
+     * @param string $keyName
+     * @param array  $data
+     * @param mixed  $defaultValue
+     * @param bool   $flagNoBlank
+     * @return mixed
+     */
+    public static function getKey($keyName, $data, $defaultValue=NULL,$flagNoBlank=true){
+        return self::getKeyValue($keyName, $data, $defaultValue,$flagNoBlank);
+    }//-/
+
+    /**
+     * getValue
+     * alias of getKeyValue
+     * @param string $keyName
+     * @param array  $data
+     * @param mixed  $defaultValue
+     * @param bool   $flagNoBlank
+     * @return mixed
+     */
+    public static function getValue($keyName, $data, $defaultValue=NULL,$flagNoBlank=true){
+        return self::getKeyValue($keyName, $data, $defaultValue,$flagNoBlank);
+    }//-/
+
 
     /**
      *  fillKey
@@ -46,16 +92,17 @@ class GF
      *                   do nothing to targetVar.
      *  otherwise: do nothing.
      *
-     *  @param {mix}    targetVar : target var. Be noticed, it pass by reference.
-     *  @param {string} keyName   : array key name
-     *  @param {array}  dataArray : key-array which contain main data.
-     *  @param {mix}    default   : default value. if NULL, then not set; if 'NULL' string then, set NULL when default.
+     *  @param {mix}    targetVar  : target var. Be noticed, it pass by reference.
+     *  @param {string} keyName    : array key name
+     *  @param {array}  dataArray  : key-array which contain main data.
+     *  @param {mix}    default    : default value. if NULL, then not set; if 'NULL' string then, set NULL when default.
+     *  @param {bool}   flagNoBlank: true[default] -- cheat blank string as empty, and return default value.
      *
      */
-    public static function fillKey(&$targetVar, $keyName, $dataArray, $default=NULL){
+    public static function fillKey(&$targetVar, $keyName, $dataArray, $default=NULL,$flagNoBlank=true){
 
         //read value and set to targetVar when value not NULL.
-        $readValue=self::getKey($keyName,$dataArray,NULL);
+        $readValue=self::getKeyValue($keyName,$dataArray,NULL,$flagNoBlank);
         if(!is_null($readValue)){
             $targetVar=$readValue;
             return;
@@ -65,6 +112,56 @@ class GF
         if(!is_null($default)){
             $targetVar=strcasecmp($default,'NULL')!=0? $default: NULL;
         }
+
+    }//-/
+
+    /**
+     *  getVParams
+     *  verify params for vital keys.
+     *  if all exists, then return those key data.
+     *  else return false, and filled noErrorOrEmptyKeys with empty key name array.
+     *  @param array        $data                : param data.
+     *  @param array/string $keyNameList         : keyname list string or array.
+     *  @param mixed        &$noErrorOrEmptyKeys : will be filled with true if all exists.
+     *                                             else will be filled with empty key name array.
+     *  @param bool         $flagNoBlank         : true-cheat blank string(like "  ") as empty, return default value.
+     *
+     *  @return mixed                            : if all exists, then return value of key data in array. else false;
+     *
+     *  @usage:
+     *          list($idx,$uid,$sid)=self::getVParams($params,'idx,user_idx,shop_idx',$noErr);
+     *          if($noErr!==true){
+     *          	  return $noErr; //return empty key list.
+     *          }
+     */
+    public static function getVParams($data, $keyNameList, &$noErrorOrEmptyKeys,$flagNoBlank=true){
+
+
+        $keyNameList=is_string($keyNameList) && strlen($keyNameList)>0 ? explode(',',$keyNameList) : $keyNameList;
+        if(!is_array($keyNameList)){//error
+            return false;
+        }
+
+        $result=array();
+        $emptyList=array();
+        foreach($keyNameList as $keyName){
+
+            if(trim($keyName)!=''){
+                $curV= self::getKeyValue($keyName, $data,NULL,$flagNoBlank);
+                array_push($result, $curV);
+                if(is_null($curV)){
+                    array_push($emptyList, $keyName);
+                }
+            }
+        }
+
+        $noErrorOrEmptyKeys=true;
+        if(count($emptyList)>0){
+            $noErrorOrEmptyKeys=$emptyList;
+        }
+
+        return $result;
+
 
     }//-/
 

@@ -1,6 +1,7 @@
 <?php
 namespace j79frame\lib\controller;
 
+use j79frame\lib\core\j79obj;
 use j79frame\lib\util\Log;
 use j79frame\lib\controller\DataFormat;
 use j79frame\app\common\ModelAuthVerifier;
@@ -8,7 +9,7 @@ use j79frame\app\common\ModelAuthVerifier;
 *  DataFormat
 *  对Model或者Controller类返回结果进行格式标准化。  
 */
-class ModelInterface
+class ModelInterface extends j79obj
 {
 	
 	const AUTH_TYPE_DELIMITER='|';

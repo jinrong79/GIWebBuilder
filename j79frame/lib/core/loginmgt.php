@@ -1,6 +1,7 @@
 <?php
 namespace j79frame\lib\core;
 
+use j79frame\lib\core\j79obj;
 use j79frame\lib\db\DBReader;
 use j79frame\lib\core\Operator;
 use j79frame\lib\util\Log;
@@ -17,7 +18,7 @@ use j79frame\lib\util\Log;
 * 
 */
 
-class LoginMgt
+class LoginMgt extends j79obj
 {
 	
 	

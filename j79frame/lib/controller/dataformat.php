@@ -1,10 +1,12 @@
 <?php
 namespace j79frame\lib\controller;
+use j79frame\lib\core\j79obj;
+
 /**
 *  DataFormat
 *  对Model或者Controller类返回结果进行格式标准化。  
 */
-class DataFormat
+class DataFormat extends j79obj
 {
 
     /**

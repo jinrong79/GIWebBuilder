@@ -1,6 +1,7 @@
 <?php
 namespace j79frame\lib\util;
 
+use j79frame\lib\core\j79obj;
 use \SimpleXMLElement as SimpleXMLElement;
 
 /**XML
@@ -17,7 +18,8 @@ use \SimpleXMLElement as SimpleXMLElement;
 *
 **/
 
-class XML{
+class XML extends  j79obj
+{
 	
 	//------------construct
 	public function __construct(){

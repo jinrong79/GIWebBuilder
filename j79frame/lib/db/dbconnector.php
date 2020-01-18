@@ -1,5 +1,6 @@
 <?php
 namespace j79frame\lib\db;
+use j79frame\lib\core\j79obj;
 use  j79frame\lib\util\Log;
 
 use mysqli;
@@ -18,10 +19,12 @@ use mysqli;
  *
  * @package j79frame\lib\db
  */
-class DBConnector
+class DBConnector extends j79obj
 {
 	
 	public static $_dbConnect=false; //mysqli db connect
+
+    public static $errorMsg='';
 	
 	
 	/**
@@ -43,8 +46,8 @@ class DBConnector
 	*/
 	public function __set($name, $value){
 		 
-		 if(strcasecmp($name,'dbConnect')==0 && !is_null($value) && $value instanceof mysqli ){	
-		    $this->_dbConnect= $value;
+		 if(strcasecmp($name,'dbConnect')==0 && !is_null($value) && $value instanceof mysqli ){
+		    self::$_dbConnect= $value;
 		 }
 		
 	}//-/
@@ -67,13 +70,16 @@ class DBConnector
 	 * @return mixed            : null-出错; mysqli：成功则返回数据库连接。
 	 */
 	public static function connect($dbConnectSetting=NULL,$dbLinkKey='default'){
-		
+
+        self::$errorMsg='';
 
         //get db connection setting:
         //if empty, get from global config.
         $dbConnectSetting=empty($dbConnectSetting)? \CONFIG::$APP['dbConnectSetting']:$dbConnectSetting;
 		if(empty($dbConnectSetting)){
-            Log::add('DB connection setting is empty!');
+
+            self::$errorMsg='DB connection setting is empty!';
+            Log::add(self::$errorMsg);
             return null;
         }
 
@@ -83,7 +89,9 @@ class DBConnector
 
             $db = new mysqli($dbConnectSetting['host'], $dbConnectSetting['user'], $dbConnectSetting['pwd'], $dbConnectSetting['dbname']);
             if (mysqli_connect_errno()) {
-                Log::add('Error: can not open DB, code-' . mysqli_connect_errno());
+
+                self::$errorMsg='Error: can not open DB, code-' . mysqli_connect_errno();
+                Log::add(self::$errorMsg);
                 return null;
             } else {
                 $db->select_db($dbConnectSetting['dbname']);

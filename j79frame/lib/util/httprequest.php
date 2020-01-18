@@ -1,17 +1,15 @@
 <?php
 namespace j79frame\lib\util;
+use j79frame\lib\core\j79obj;
 
-/**LogManager
-*  log类
-*	log文件名，可以指定，由file_name公开属性给定。也可在add操作时，临时设置。
-*  log文件的目录，不可由外部制定，默认定位\log目录
-*
-*	@author: jin rong (rong.king@foxmail.com)
-*  @method:
-*  					add:  添加log。
-*
-**/
-class HttpRequest
+/**
+ * HttpRequest
+ *
+ *@author: jin rong (rong.king@foxmail.com)
+ *@method:
+ *
+ **/
+class HttpRequest extends j79obj
 {
 	
 	const VALUE_TYPE_INT=0;
@@ -58,10 +56,10 @@ class HttpRequest
 	*  getURLValue
 	*  get url value by keyname. if not exist, return default value.
 	*
-	*  @param {string}  keyName : key name
-	*  @param {int}     type    : HttpRequest::VALUE_TYPE_INT[default] | VALUE_TYPE_TEXT | VALUE_TYPE_FLOAT
-	*  @param {mix}     default : when not exist key, return default value. 
-	*                             
+	*  @param string  $keyName : key name
+	*  @param int     $type    : HttpRequest::VALUE_TYPE_INT[default] | VALUE_TYPE_TEXT | VALUE_TYPE_FLOAT
+	*  @param mixed   $default : when not exist key, return default value.
+    *  @return mixed           : value get from url
 	* 
 	*/
 	public static function getURLValue($keyName, $type=0, $default=''){
@@ -85,4 +83,4 @@ class HttpRequest
 	}//-/
 	
 
-}//============/CLASS: Log
+}//============/CLASS:HttpRequest

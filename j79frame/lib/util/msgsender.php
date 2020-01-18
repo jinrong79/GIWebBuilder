@@ -1,5 +1,6 @@
 <?php
 namespace j79frame\lib\util;
+use j79frame\lib\core\j79obj;
 use j79frame\lib\util\Log;
 
 /**LogManager
@@ -12,7 +13,7 @@ use j79frame\lib\util\Log;
 *  					add:  添加log。
 *
 **/
-class MsgSender
+class MsgSender extends j79obj
 {
 	
 	protected  $_serverID='admin';

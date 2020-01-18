@@ -1,6 +1,7 @@
 <?php
 namespace j79frame\lib\util;
 
+use j79frame\lib\core\j79obj;
 use j79frame\lib\util\Log;
 
 /**
@@ -17,7 +18,7 @@ use j79frame\lib\util\Log;
  *           Resize  -缩放图片文件
  *
  */
-class  Image
+class  Image extends j79obj
 {
 
     protected $_path = '';    // file full path and name.

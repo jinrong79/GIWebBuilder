@@ -1,5 +1,6 @@
 <?php
 namespace j79frame\lib\db;
+use j79frame\lib\core\j79obj;
 use j79frame\lib\db\DBConnector;
 use j79frame\lib\util\Log;
 use mysqli;
@@ -13,7 +14,7 @@ use mysqli;
 *  @author: jin rong (rong.king@foxmail.com)					
 **/
 
-class DBReader
+class DBReader extends  j79obj
 {
 	
 	const  DEFAULT_PAGE_VOLUME=20; //每页记录数量默认值。

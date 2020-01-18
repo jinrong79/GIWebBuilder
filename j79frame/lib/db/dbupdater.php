@@ -1,5 +1,6 @@
 <?php
 namespace j79frame\lib\db;
+use j79frame\lib\core\j79obj;
 use  j79frame\lib\db\DBConnector;
 use  j79frame\lib\util\Log;
 use mysqli;
@@ -19,7 +20,7 @@ use mysqli;
 *	@author: jin rong (rong.king@foxmail.com)
 **/
 
-class DBUpdater
+class DBUpdater extends j79obj
 {
 
 

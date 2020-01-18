@@ -1,5 +1,7 @@
 <?php
 namespace j79frame\lib\util;
+use j79frame\lib\core\j79obj;
+
 /**=================CLASS: ErrorManager
 *  file类
 *  @author: jin rong (rong.king@foxmail.com)
@@ -12,7 +14,7 @@ namespace j79frame\lib\util;
 *       [static] saveFile
 *       [static] appendFile
 **/
-class File
+class File extends j79obj
 {
 	
 	/**
