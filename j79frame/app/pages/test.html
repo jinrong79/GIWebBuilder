@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>TEST</h1>
+<script src="/js/jquery/1.11.3/jquery.min.js"></script>
+<script src="/js/plugin/jquery.json.js"></script>
+<script src="/js/plugin/bootstrap.min.js"></script>
+<script src="/js/lib/j79/basic.js"></script>
+<script>
+    $(document).ready(function (e) {
+       $.get("test.php",function(data){
+           var jsData=j79.toJSON(data);
+           console.log(jsData);
+
+        });
+    });
+</script>
+</body>
+</html>

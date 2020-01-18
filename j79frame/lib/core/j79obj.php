@@ -66,4 +66,4 @@ class j79obj
     public function errClear(){
         $this->_error=array();
     }//-/
-}
+}//=====/class:j79obj

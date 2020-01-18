@@ -1,0 +1,197 @@
+{
+  "name":"product",
+  "table":"tb1",
+  "attributes":{
+    "idx":{
+      "type":"ID",
+      "dbName":"product_idx",
+      "valueType":"int",
+      "size":"4",
+      "generator":"auto_increment"
+    },
+    "title":{
+      "type":"VALUE",
+      "dbName":"product_title",
+      "valueType":"string",
+      "size":"100",
+      "required":"1",
+      "index":"1",
+      "des":"product name",
+      "validator":"/^[\\S\\s]{3,45}$/s"
+    },
+
+    "weight":{
+      "type":"VALUE",
+      "dbName":"product_weight",
+      "valueType":"int",
+      "size":"2",
+      "unsigned":"1",
+      "required":"1",
+      "des":"product weight in unit[g]",
+      "validator":"/^[\\d]{1,5}$/s"
+    },
+    "price":{
+      "type":"VALUE",
+      "dbName":"product_price",
+      "valueType":"float",
+      "size":"4",
+      "required":"1",
+      "des":"product price in 1/100[￥]",
+      "validator":"/^[\\d]{1,8}$/s"
+    },
+    "category":{
+      "type":"VALUE",
+      "dbName":"product_category",
+      "valueType":"int",
+      "size":"8",
+      "required":"1",
+      "index":"1",
+      "des":"product category",
+      "inputControl":{
+        "type":"category_selector",
+        "setting":{
+          "xml":"//j79frame/app/settings/procat.xml"
+        }
+      }
+
+    },
+    "simg":{
+      "type":"VALUE",
+      "dbName":"product_simg",
+      "valueType":"image",
+      "size":"3",
+      "required":"1",
+      "des":"product small image for list",
+      "path":"/data/img/product/simg/",
+      "maxWidth":"1920",
+      "maxHeight":"1920"
+    },
+    "origin":{
+      "type":"VALUE",
+      "dbName":"product_origin",
+      "valueType":"text",
+      "size":"20",
+      "required":"0",
+      "des":"product origin place name"
+    },
+    "brand":{
+      "type":"VALUE",
+      "dbName":"product_brand",
+      "valueType":"string",
+      "size":"20",
+      "required":"0",
+      "des":"product brand name"
+    },
+    "update_time":{
+      "type":"VALUE",
+      "dbName":"product_update_time",
+      "valueType":"time",
+      "required":"0",
+      "insertValue":"[[TIME]]",
+      "updateValue":"[[TIME]]",
+      "des":"product update time"
+    },
+    "pid":{
+      "type":"VALUE",
+      "dbName":"product_pid",
+      "valueType":"string",
+      "size":"20",
+      "required":"1",
+      "unique":"1",
+      "des":"product origin place name"
+    },
+    "delivery_fee":{
+      "type":"REFERENCE",
+      "dbName":"delivery_fee_idx",
+      "valueType":"int",
+      "size":"4",
+      "default":"0",
+      "target":"deliveryFeeTemplate",
+      "targetIndex":"idx",
+      "des":"product delivery_fee_template"
+    },
+    "sku_list":{
+      "type":"GATHERING",
+      "target":{
+        "name":"sku",
+        "table":"tbSku",
+        "attributes":{
+          "idx":{
+            "type":"ID",
+            "dbName":"sku_idx",
+            "valueType":"int",
+            "size":"4",
+            "generator":"auto_increment"
+          },
+          "product":{
+            "type":"VALUE",
+            "dbName":"product_idx",
+            "valueType":"int",
+            "size":"4",
+            "required":"1"
+          },
+          "stock":{
+            "type":"VALUE",
+            "dbName":"product_stock",
+            "valueType":"int",
+            "size":"4",
+            "required":"1"
+          },
+          "sales":{
+            "type":"VALUE",
+            "dbName":"product_sales_amount",
+            "valueType":"int",
+            "size":"4",
+            "required":"1"
+          },
+          "optColor":{
+            "type":"VALUE",
+            "dbName":"opt_color",
+            "valueType":"int",
+            "size":"2",
+            "required":"1"
+          },
+          "optSize":{
+            "type":"VALUE",
+            "dbName":"opt_size",
+            "valueType":"int",
+            "size":"2",
+            "required":"1"
+          }
+        }
+      },
+      "indexName":"idx",
+      "indexNameGathered":"product"
+    }
+  },
+
+
+
+  "segments":{
+    "detail":{
+      "table":"tb2",
+      "attributes":{
+        "info":{
+          "type":"VALUE",
+          "dbName":"product_info",
+          "valueType":"text",
+          "size":"500",
+          "des":"product info text"
+        },
+        "bimg":{
+          "type":"VALUE",
+          "dbName":"product_bimg",
+          "valueType":"image",
+          "size":"3",
+          "required":"1",
+          "des":"product big image for detail",
+          "path":"/data/img/product/bimg/",
+          "maxWidth":"1920",
+          "maxHeight":"1920"
+        }
+      }
+    }
+  }
+
+
+}
