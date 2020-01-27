@@ -218,10 +218,10 @@ class AuthVerifier extends  j79obj
      *                                   意味着，权限赋予2个情况:
      *                                   1）登录用户，同时是本Model的Owner ；
      *                                   2）登录用户，同时是本Model的assistant（协助管理者，子账号概念)
-     * @param {Operater}  curOperator : current operator who applied this action request.
+     * @param {object}  curOperator   : current operator who applied this action request.
      * @param {object}    targetObj   : control target obj.
-     *                                   default[NULL]
-     *
+     *                                  default[NULL]
+     * @return bool: true- OK, authorized access; false- unauthorized access.
      */
     protected function _verifyRoles($roles, $curOperator, $targetObj = NULL)
     {
