@@ -32,6 +32,11 @@
             'dbname' => 'db_eyb'
         ),
 
+        //authorization map: will be filled in global.auth.php
+        'authMap'=>array(),
+        //model interface setting: will be filled in global.mi.php
+        'MIsetting'=>array(),
+
     )
 );
 
