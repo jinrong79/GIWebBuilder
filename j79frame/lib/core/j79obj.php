@@ -1,15 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: jinrong
- * Date: 2020/1/18
- * Time: 21:06
- */
-
 namespace j79frame\lib\core;
 
 /**
- * Class j79obj
+ * j79obj
+ * [Class ]
  * root object class for all j79frame-class.
  * @package j79frame\lib\core
  */
