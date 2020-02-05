@@ -20,7 +20,7 @@
             'driver'=>'mysqli',
             'host' => 'p:localhost:3306',
             'user' => 'root',
-            'pwd' => 'sheepyang',
+            'pwd' => '131211',
             'dbname' => 'db_eyb'
         ),
         //db connection setting for remote site:
