@@ -1,0 +1,7 @@
+<span class="time">[2020-02-05 22:00:15]</span><span class="ip">{Unknown IP}</span>is session started? no
+<span class="time">[2020-02-05 22:00:15]</span><span class="ip">{Unknown IP}</span><div class="log-value-name">sid when operator construct:<em>=&gt;</em>
+</div><div class="log-value">fccgg2u7chk0v57ml1qld48j46</div>
+<span class="time">[2020-02-05 22:00:15]</span><span class="ip">{Unknown IP}</span><div class="log-value-name">dispatch target:<em>=&gt;</em>
+</div><div class="log-value">products->select</div>
+<span class="time">[2020-02-05 22:00:15]</span><span class="ip">{Unknown IP}</span><div class="log-value-name">session ID when dispatch:<em>=&gt;</em>
+</div><div class="log-value">fccgg2u7chk0v57ml1qld48j46</div>
