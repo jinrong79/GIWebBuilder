@@ -32,7 +32,7 @@
 										page          :  current page
 										perPage       :  record amount in one page.
 										
-										div           :  current div idx
+										div           :  current division idx
 										category      :  current category idx
 										sort          :  current sort value
 										searchValue   :  current seach value
