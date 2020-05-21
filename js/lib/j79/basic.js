@@ -31,8 +31,8 @@
 	 
 	  *  @param {object}  postData : param data
 	  *                              {
-	  *                                  	    
-	  *                                data          :  //post data in object.attr foramt.
+	  *                                url           :  post url, default="/com.php"
+	  *                                data          :  post data in object.attr foramt.
 	  *                                               {         
 	  *                                                 target: //server dispatching target, must exists.
 	  *                                                 ... ...
@@ -69,6 +69,8 @@
         var handleFailed = data.actionFailed;
         var handleErr = data.actionErr;
         var disabledList = data.disabled;
+
+        var postURL=data.url || '/com.php';
 
         if (!postData || !postData.target) {
             console.log('format error');
@@ -111,7 +113,7 @@
         console.log("Post-Data ["+postData.target+'] :');
         console.log( postData);
 
-        $.post('/com.php', postData,
+        $.post(postURL, postData,
                 function(data, status) {
 
                     //console.log("Result status: ");

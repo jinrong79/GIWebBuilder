@@ -10,19 +10,20 @@
 </ul>
 <script src="/js/jquery/1.11.3/jquery.min.js"></script>
 <script src="/js/plugin/jquery.json.js"></script>
+<script src="/js/lib/j79/basic.js"></script>
 <script src="/js/lib/j79/list.base.js"></script>
 <script>
     $(document).ready(function (e) {
         let list1=new ListBase(
             {
                 "listData":[
-                    {"title":"jinrong is bad","time":"2020-05-15 12:22:40"},
-                    {"title":"jinrong is very  bad","time":"2020-05-12 12:32:50"},
-                    {"title":"jinrong is good","time":"2020-05-10 11:51:60"}
+                    {"title":"jinrong is bad","time":"2020-05-15 12:22:40","url":"http://www.baidu.com"},
+                    {"title":"jinrong is very  bad","time":"2020-05-12 12:32:50","url":"http://www.qq.com"},
+                    {"title":"jinrong is good","time":"2020-05-10 11:51:60","url":"http://www.taobao.com"}
                 ],
                 "itemGenerator":function(data,idx){
                     let re='';
-                    re='<li data-id="'+idx+'">'+data.title+'<span class="title">'+data.time+'</span></li>';
+                    re='<li data-id="'+idx+'"><a href="'+data.url+'">'+data.title+'<span class="title">'+data.time+'</span></a></li>';
                     return re;
                 }
             }

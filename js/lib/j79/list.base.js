@@ -67,7 +67,7 @@ class ListBase{
 
             this.page=this.pageTotal>=this.page ? this.page : this.pageTotal;
 
-            let lastItemIndex=this.page*this.perPage>=listLen ? listLen-1:this.page*this.perPage-1;
+            let lastItemIndex=this.page*this.perPage>listLen ? listLen:this.page*this.perPage;
 
 
             for(let i=(this.page-1)*this.perPage;i<lastItemIndex;i++){
@@ -105,10 +105,6 @@ class ListBase{
         //overwrite in subclass.
         this.data=this.dataOriginal;
     }//-/
-
-
-
-
 
 
 }//=/ListBase
