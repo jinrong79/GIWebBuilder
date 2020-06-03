@@ -1,4 +1,4 @@
-class dataTransporter {
+class dataTransporterBase{
 
 
     constructor(params) {
@@ -20,9 +20,11 @@ class dataTransporter {
         //keyName in requestHeader for token
         this.requestHeaderTokenName=params.requestHeaderTokenName || 'token';
 
-        this.HandleFailed=params.HandleFailed || this.defaultHandleFailed;
+        this.handlerFailed=params.failed || this.defaultHandlerFailed;
+        this.handlerSuccess=params.handlerSuccess || this.defaultHandlerSuccess;
 
         this.resultParser=params.resultParser || this.defaultResultParser;
+
 
     }//-/
 
@@ -72,15 +74,18 @@ class dataTransporter {
         let dataType=params.dataType || this.dataType;
         let contentType=params.contentType || this.contentType;
 
-        let isSetRequestHeader=params.isSetRequestHeader!==false;
+        let isSetRequestHeader=!params.isSetRequestHeader===false;
 
 
         let localStorageTokenName=params.localStorageTokenName || this.localStorageTokenName;
         let requestHeaderTokenName=params.requestHeaderTokenName || this.requestHeaderTokenName;
 
-        let handleSuccess=params.success || null;
 
-        let handlerFailed=params.failed || null;
+        this.onSuccess=params.success || null;
+        this.onFailed=params.failed || null;
+
+        //calling object:
+        this.caller=params.caller || this;
 
         let data=params.data || {};
 
@@ -109,68 +114,91 @@ class dataTransporter {
 
             "success": function(data, txtStatus, jqXHR) {
 
-                console.log(data);
+                //console.log(data);
                 //console.log(txtStatus);
                 //console.log(jqXHR);
 
-                let resultData=SELF.resultParser(data,txtStatus,jqXHR)
-                if(resultData!==false){
-                    if(typeof handleSuccess == 'function'){
-                        handleSuccess(resultData);
-                        return true;
-                    }
-                }else{
-                    if(typeof handlerFailed == 'function'){
-                        handlerFailed(1, txtStatus,data);
-                    }else{
-                        SELF.HandleFailed(1,txtStatus,data);
-                        console.log("failed parsing data!");
-                    }
-                    return false;
+                let resultData=SELF.resultParser(data,txtStatus,jqXHR);
+                SELF.handlerSuccess(resultData);
 
-                }
+
+
             },//-/success
             "error":function(xmlHR, txtStatus, errThrown){
-                if (typeof handlerFailed == 'function') {
-                    handlerFailed(2,txtStatus);
+                if (typeof SELF.onFailed == 'function') {
+                    SELF.onFailed(2,txtStatus);
                 } else {
-                    SELF.HandleFailed(2,txtStatus);
+                    SELF.handlerFailed(2,txtStatus);
                     console.log('failed connecting server!');
                 }
-                return false;
+
             },//-/error
 
         };
 
 
         //set RequestHeader:
+        /*console.log("isSetRequestHeader");
+        console.log(isSetRequestHeader);*/
         if(isSetRequestHeader){
             let token=params.token || null;
             if(!token){
                 token=localStorage.getItem(localStorageTokenName);
             }
 
-            optionData.beforeSend=function (XMLHttpRequest) {
+            console.log(token);
 
-                //XMLHttpRequest.setRequestHeader("access-control-allow-headers", "Authorization, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, X-Requested-By, If-Modified-Since, X-File-Name, X-File-Type, Cache-Control, Origin");
-                //XMLHttpRequest.setRequestHeader("access-control-allow-methods", "GET, POST, OPTIONS, PUT, DELETE");
-                //XMLHttpRequest.setRequestHeader("access-control-allow-origin", "*");
-                //XMLHttpRequest.setRequestHeader("access-control-expose-headers", "Authorization");
-                //XMLHttpRequest.setRequestHeader("Access-Control-Allow-Origin", "*");
-                if(token){
-                    XMLHttpRequest.setRequestHeader(requestHeaderTokenName, token);
-                }
-            };
+            if(token){
+
+                optionData.beforeSend=function (XMLHttpRequest) {
+
+                    //XMLHttpRequest.setRequestHeader("access-control-allow-headers", "Authorization, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, X-Requested-By, If-Modified-Since, X-File-Name, X-File-Type, Cache-Control, Origin");
+                    //XMLHttpRequest.setRequestHeader("access-control-allow-methods", "GET, POST, OPTIONS, PUT, DELETE");
+                    //XMLHttpRequest.setRequestHeader("access-control-allow-origin", "*");
+                    //XMLHttpRequest.setRequestHeader("access-control-expose-headers", "Authorization");
+                    //XMLHttpRequest.setRequestHeader("Access-Control-Allow-Origin", "*");
+                    if(token){
+                        XMLHttpRequest.setRequestHeader(requestHeaderTokenName, token);
+                    }
+                };
+            }
 
 
 
         }
+
+        //console.log(optionData);
 
         //ajax load:
         $.ajax(url,optionData);
 
 
     }//-/dataGetter
+
+    /**
+     * defaultHandlerSuccess
+     * @param data
+     * @returns {boolean}
+     */
+    defaultHandlerSuccess(data){
+
+        if(data!==false){
+            if(typeof this.onSuccess == 'function'){
+                this.onSuccess(this.caller,data);
+                return true;
+            }
+        }else{
+            if(typeof this.onFailed == 'function'){
+                this.onFailed(this.caller,1, txtStatus,data);
+            }else{
+                this.handlerFailed(this.caller,1,txtStatus,data);
+                console.log("failed parsing data!");
+            }
+            return false;
+
+        }
+
+    }//-/
 
     /**
      * defaultResultParser
@@ -222,12 +250,12 @@ class dataTransporter {
     }//-/
 
     /**
-     * defaultHandleFailed
+     * defaultHandlerFailed
      * @param failType
      * @param txtStatus
      * @param data
      */
-    defaultHandleFailed(failType, txtStatus, data){
+    defaultHandlerFailed(caller,failType, txtStatus, data){
         alert("failed loading data!");
     }//-/
 
