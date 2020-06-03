@@ -50,6 +50,8 @@ class dataTransporter {
      *        .localStorageTokenName : token keyname in localStorage, default="token";
      *        .token: token value, if provide this, then do not read from localStorage.
      *
+     *
+     *        .data   : data to transport to remote.
      *        .success: handler when success.
      *                  success(resultData)
      *                  -resultData: loaded data in correct type indicated by dataType.
@@ -80,6 +82,8 @@ class dataTransporter {
 
         let handlerFailed=params.failed || null;
 
+        let data=params.data || {};
+
 
 
 
@@ -88,13 +92,26 @@ class dataTransporter {
             return false;
         }
 
+        //save current options:
+        this.current={};
+        this.current.dataType=dataType;
+        this.current.contentType=contentType;
+        this.current.type=requestType;
+        this.current.data=data;
+
         let optionData={
 
             "type":requestType,
-            "data":params,
             "dataType":dataType,
             "contentType":contentType,
+            "crossDomain":true,
+            "data":data,
+
             "success": function(data, txtStatus, jqXHR) {
+
+                console.log(data);
+                //console.log(txtStatus);
+                //console.log(jqXHR);
 
                 let resultData=SELF.resultParser(data,txtStatus,jqXHR)
                 if(resultData!==false){
@@ -132,9 +149,21 @@ class dataTransporter {
             if(!token){
                 token=localStorage.getItem(localStorageTokenName);
             }
+
             optionData.beforeSend=function (XMLHttpRequest) {
-                XMLHttpRequest.setRequestHeader(requestHeaderTokenName, token);
+
+                //XMLHttpRequest.setRequestHeader("access-control-allow-headers", "Authorization, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, X-Requested-By, If-Modified-Since, X-File-Name, X-File-Type, Cache-Control, Origin");
+                //XMLHttpRequest.setRequestHeader("access-control-allow-methods", "GET, POST, OPTIONS, PUT, DELETE");
+                //XMLHttpRequest.setRequestHeader("access-control-allow-origin", "*");
+                //XMLHttpRequest.setRequestHeader("access-control-expose-headers", "Authorization");
+                //XMLHttpRequest.setRequestHeader("Access-Control-Allow-Origin", "*");
+                if(token){
+                    XMLHttpRequest.setRequestHeader(requestHeaderTokenName, token);
+                }
             };
+
+
+
         }
 
         //ajax load:
@@ -152,15 +181,19 @@ class dataTransporter {
      */
     defaultResultParser(data,txtStatus,jqXHR){
 
-        if(jqXHR.dataType==='json'){
+        if(this.current.dataType==='json'){
             let jsonData;
 
             //try to parse result into json format
             try {
 
-                console.log(data);
-                jsonData = JSON.parse(data);
-                console.log(jsonData);
+                if(typeof data=='object'){
+                    jsonData=data;
+                }else{
+                    //console.log(data);
+                    jsonData = JSON.parse(data);
+                    //console.log(jsonData);
+                }
 
             } catch (err) { //result format is not json
                 console.log("parse json result error!")
@@ -170,7 +203,7 @@ class dataTransporter {
             }
             return jsonData;
 
-        }else if(jqXHR.dataType==='xml'){
+        }else if(this.current.dataType==='xml'){
             let xmlResult;
             try {
 

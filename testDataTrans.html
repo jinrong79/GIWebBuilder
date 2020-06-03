@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>data transporter</title>
+</head>
+<body>
+<script src="/js/jquery/1.11.3/jquery.min.js"></script>
+<script src="/js/plugin/jquery.json.js"></script>
+<script src="/js/lib/j79/basic.js"></script>
+<script src="/js/lib/j79/data.transporter.js"></script>
+<script>
+    $(document).ready(function (e) {
+
+        let dataT=new dataTransporter();
+
+        dataT.dataPost({
+            "url":"https://apps.kbitc.com:8443/api/auth/login",
+            "data":{
+                "username":"jinrong",
+                "password":"123456"
+            },
+            "success":function(data){
+                console.log("load success!");
+                if(data.code!=0){
+                    console.log("result failed!");
+                }else{
+                    console.log("result success!");
+                }
+                //console.log(data);
+            }
+
+        })
+
+
+    });
+</script>
+</body>
+</html>

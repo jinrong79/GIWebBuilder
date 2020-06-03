@@ -33,6 +33,9 @@ class ListAjaX extends ListBase{
         //handleErr
         this.handleErr=params.handleErr || null;
 
+        //token key name in localStorage.
+        this.tokenKeyName=params.tokenKeyName || "token";
+
 
 
     }//-/
@@ -51,14 +54,14 @@ class ListAjaX extends ListBase{
         try {
 
             jsonData = JSON.parse(resultData);
-            console.log("Result-Data ["+postData.target+"]: ");
+            //console.log("Result-Data ["+postData.target+"]: ");
             console.log(jsonData);
 
 
         } catch (err) { //result format is not json
 
             console.log("Result raw data: ");
-            console.log(data);
+            console.log(resultData);
 
             alert('发生错误，返回错误格式！');
             return false;
@@ -77,9 +80,11 @@ class ListAjaX extends ListBase{
      * @param params
      * @returns {boolean}
      */
-    load(params){
+    load(params,requestType){
 
         let SELF = this;
+
+
 
 
         if(!this.url){
@@ -90,13 +95,58 @@ class ListAjaX extends ListBase{
 
         SELF.page=params.page || SELF.page;
 
+        requestType=requestType || 'POST';
+
 
         //j79.viewLoading(SELF.ui.list);
         console.log('list post data:');
         console.log(params);
 
         //communicating with server:
-        $.post(SELF.url, params,
+        $.ajax({
+            "url":SELF.url,
+            "type":requestType,
+            "data":params,
+            "dataType":"json",
+            "contentType":"application/x-www-form-urlencoded",
+            "beforeSend":function (XMLHttpRequest) {
+                XMLHttpRequest.setRequestHeader("token", localStorage.getItem(SELF.tokenKeyName));
+            },
+            "success":function(data, txtStatus){
+                let jsonData=SELF.resultParser(data,txtStatus)
+                if(jsonData!==false){
+                    if(SELF.funcView){
+                        SELF.funcView(jsonData);
+                    }
+                }else{
+                    if(SELF.handleFailed){
+                        SELF.handleFailed(data,txtStatus);
+                    }else{
+                        console.log("failed loading data!");
+                        alert("failed loading data!");
+                    }
+
+                }
+            },
+
+            "error":function(xmlHR, txtStatus, errThrown){
+                if (typeof SELF.handleErr == 'function') {
+
+                    SELF.handleErr(txtStatus,errThrown);
+
+                } else {
+                    alert('failed connecting server!');
+
+                }
+            }
+
+
+
+
+        });
+
+
+        /*$.post(SELF.url, params,
 
             function(data, status) {
 
@@ -118,12 +168,12 @@ class ListAjaX extends ListBase{
             }) //-/post
             .error(function(data, status, e) { //error when communicating with server
 
-                /*console.log(uiTitle + '时，连接服务器出错，请稍后再试');
+                /!*console.log(uiTitle + '时，连接服务器出错，请稍后再试');
                 console.log('status:'+status);
                 console.log('data:');
                 console.log(data);
                 console.log("error:")
-                console.log(e);*/
+                console.log(e);*!/
 
                 if (typeof SELF.handleErr == 'function') {
 
@@ -133,7 +183,7 @@ class ListAjaX extends ListBase{
                     alert('failed connecting server!');
 
                 }
-            });
+            });*/
 
     }//-/
 
