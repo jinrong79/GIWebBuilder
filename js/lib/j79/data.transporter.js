@@ -17,13 +17,18 @@ class dataTransporterBase{
         this.contentType=params.contentType || 'application/x-www-form-urlencoded';
         //keyName in localStorage for token.
         this.localStorageTokenName=params.localStorageTokenName || 'token';
-        //keyName in requestHeader for token
-        this.requestHeaderTokenName=params.requestHeaderTokenName || 'token';
+
 
         this.handlerFailed=params.failed || this.defaultHandlerFailed;
         this.handlerSuccess=params.handlerSuccess || this.defaultHandlerSuccess;
 
         this.resultParser=params.resultParser || this.defaultResultParser;
+
+        //url prefix like domain address.
+        this.urlPrefix=params.urlPrefix || '';
+
+        //global set request header option.
+        this.isSetRequestHeader=typeof params.isSetRequestHeader=="undefined" ? true :params.isSetRequestHeader;
 
 
     }//-/
@@ -74,11 +79,11 @@ class dataTransporterBase{
         let dataType=params.dataType || this.dataType;
         let contentType=params.contentType || this.contentType;
 
-        let isSetRequestHeader=!params.isSetRequestHeader===false;
+        let isSetRequestHeader=typeof params.isSetRequestHeader=="undefined" ? this.isSetRequestHeader :params.isSetRequestHeader;
 
 
         let localStorageTokenName=params.localStorageTokenName || this.localStorageTokenName;
-        let requestHeaderTokenName=params.requestHeaderTokenName || this.requestHeaderTokenName;
+
 
 
         this.onSuccess=params.success || null;
@@ -96,6 +101,9 @@ class dataTransporterBase{
             console.log("empty url when getting data from remote");
             return false;
         }
+
+        //add url prefix.
+        url=this.urlPrefix+url;
 
         //save current options:
         this.current={};
@@ -137,16 +145,16 @@ class dataTransporterBase{
         };
 
 
-        //set RequestHeader:
-        /*console.log("isSetRequestHeader");
+        /*//set RequestHeader:
+        console.log("isSetRequestHeader");
         console.log(isSetRequestHeader);*/
         if(isSetRequestHeader){
             let token=params.token || null;
             if(!token){
                 token=localStorage.getItem(localStorageTokenName);
             }
-
-            console.log(token);
+            /*console.log("token add to head:");
+            console.log(token);*/
 
             if(token){
 
@@ -158,7 +166,7 @@ class dataTransporterBase{
                     //XMLHttpRequest.setRequestHeader("access-control-expose-headers", "Authorization");
                     //XMLHttpRequest.setRequestHeader("Access-Control-Allow-Origin", "*");
                     if(token){
-                        XMLHttpRequest.setRequestHeader(requestHeaderTokenName, token);
+                        XMLHttpRequest.setRequestHeader("Authorization", "Bearer " +token);
                     }
                 };
             }
@@ -184,7 +192,9 @@ class dataTransporterBase{
 
         if(data!==false){
             if(typeof this.onSuccess == 'function'){
-                this.onSuccess(this.caller,data);
+
+                this.onSuccess(data,this.caller);
+
                 return true;
             }
         }else{

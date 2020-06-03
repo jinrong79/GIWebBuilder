@@ -10,7 +10,7 @@ class loginManager extends loginManagerBase{
         this.storagePrivilege=params.storagePrivilege || 'privileges';
         this.dataKeyPrivilege=params.dataKeyPrivilege || 'privileges';
 
-        this.url="https://apps.kbitc.com:8443/api/auth/login";
+        this.url="/api/auth/login";
         this.dataTransporter=new dataTransporter();
     }//
 
@@ -32,7 +32,7 @@ class loginManager extends loginManagerBase{
         if(!privilege){
             console.log("no privileges");
         }else{
-            localStorage.setItem(this.storagePrivilege,privilege);
+            localStorage.setItem(this.storagePrivilege,JSON.stringify(privilege));
         }
     }//-/
 

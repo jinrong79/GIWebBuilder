@@ -97,7 +97,7 @@ class loginManagerBase{
 
 
     }//-/
-    handleLoginFailed(failType,txtStatus,data,loginManager){
+    handleLoginFailed(loginManager,failType,txtStatus,data){
         console.log("login connect failed.")
         if(typeof loginManager.failed=='function'){
             loginManager.failed(failType,txtStatus);
@@ -110,14 +110,16 @@ class loginManagerBase{
             console.log("no sid");
         }else{
             console.log(sid);
-            localStorage.setItem(this.storageSID,data[this.dataKeySID]);
+            localStorage.setItem(this.storageSID,sid);
         }
+
+
 
         let profile=data[this.dataKeyProfile];
         if(!profile){
             console.log("no profile");
         }else{
-            localStorage.setItem(this.storageSID,data[this.dataKeyProfile]);
+            localStorage.setItem(this.storageProfile,JSON.stringify(data[this.dataKeyProfile]));
         }
     }//-/
 

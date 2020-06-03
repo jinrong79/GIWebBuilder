@@ -1,0 +1,13 @@
+@charset "utf-8";
+/* CSS Document */
+
+.navbar{ background:url(../images/topbar_bg.png) top left no-repeat #092c68;}
+
+.navbar-inverse .navbar-brand { color:#4bffdb}
+
+
+.nav-sidebar > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus { background-color:#777;}
+
+.nav A{ color:#333;}
+
+.toolbar-title-r{ display:inline-block; float:right;}
