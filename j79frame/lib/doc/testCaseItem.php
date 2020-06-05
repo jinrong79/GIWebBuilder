@@ -25,12 +25,20 @@ class testCaseItem{
     public $bugRate=0; //bug rate;
     public $records=array(); //test record
 
+    public $titlePrefix='';
+
     public $curIdx=0; //item idx in current
 
     public $totalBugAmount=0; //current item total bug amount
     public $totalAmount=0; //current item total test case amount
 
     public $curTextSet=array();// current text set
+
+    public $flagBug=false; //if current item has bug.
+
+    public $result=''; //current result string.
+
+    public $bugResult=''; //current bug result;
 
     public $recordSample='<tr>
       <td width="236" colspan="2" valign="top">##act##</td>
@@ -1243,8 +1251,10 @@ class testCaseItem{
         $itemHtmlSample=$f->readFile($this->modelFileUrl);
 
 
+        $this->flagBug=false;
 
 
+        $this->bugResult='';
 
 
 
@@ -1252,6 +1262,8 @@ class testCaseItem{
             $this->curIdx++;
             $this->totalAmount++;
             $curResult=$itemHtmlSample;
+
+            $curRecFlagBug=false;
 
             $des=\GF::getKey("des",$this->curTextSet[$i]);
             $goal=\GF::getKey("goal",$this->curTextSet[$i]);
@@ -1264,29 +1276,55 @@ class testCaseItem{
             foreach($records as $key=>$recordItem){
                 $curRecord=$this->recordSample;
 
-                $curRecord=str_replace("##act##",\GF::getKey("act",$recordItem), $curRecord);
-                $curRecord=str_replace("##expect##",\GF::getKey("expect",$recordItem), $curRecord);
+                $curAct=\GF::getKey("act",$recordItem);
+                $curAct=str_replace("<p>","<p><span>",$curAct);
+                $curAct=str_replace("</p>","</span></p>",$curAct);
+
+                $curRecord=str_replace("##act##",$curAct, $curRecord);
+
+                $curExp=\GF::getKey("expect",$recordItem);
+                $curExp=str_replace("<p>","<p><span>",$curExp);
+                $curExp=str_replace("</p>","</span></p>",$curExp);
+
+                $curRecord=str_replace("##expect##",$curExp, $curRecord);
                 $curRecordBlank=$curRecord;
 
                 //make bug
                 if(mt_rand(1,100)<= round($this->bugRate*100)){
+                    $curRecFlagBug=true;
                     $this->totalBugAmount++;
+                    $this->flagBug=true;
                     $curErrorRecList=\GF::getKey("resultFail",$recordItem);
-                    $curRecord=str_replace("##real##",$curErrorRecList[mt_rand(0,count($curErrorRecList)-1)], $curRecordBlank);
 
-                    if(mt_rand(1,5)<= 2){
+                    $curErr=$curErrorRecList[mt_rand(0,count($curErrorRecList)-1)];
+                    $curErr=str_replace("<p>","<p><span>",$curErr);
+                    $curErr=str_replace("</p>","</span></p>",$curErr);
+
+                    $curRecord=str_replace("##real##",$curErr, $curRecordBlank);
+
+                    /*if(mt_rand(1,5)<= 2){
                         $this->totalBugAmount++;
                         $curRecord.=str_replace("##real##",$curErrorRecList[mt_rand(0,count($curErrorRecList)-1)], $curRecordBlank);
                     }
                     if(mt_rand(1,5)<= 2){
                         $this->totalBugAmount++;
                         $curRecord.=str_replace("##real##",$curErrorRecList[mt_rand(0,count($curErrorRecList)-1)], $curRecordBlank);
-                    }
+                    }*/
 
-                    $curRecord.=str_replace("##real##",\GF::getKey("resultSuccess",$recordItem), $curRecordBlank);
+                    $curReal=\GF::getKey("resultSuccess",$recordItem);
+                    $curReal=str_replace("<p>","<p><span>",$curReal);
+                    $curReal=str_replace("</p>","</span></p>",$curReal);
+
+                    $curRecord.=str_replace("##real##",$curReal, $curRecordBlank);
+
+
 
                 }else{
-                    $curRecord=str_replace("##real##",\GF::getKey("resultSuccess",$recordItem), $curRecord);
+                    $curReal=\GF::getKey("resultSuccess",$recordItem);
+                    $curReal=str_replace("<p>","<p><span>",$curReal);
+                    $curReal=str_replace("</p>","</span></p>",$curReal);
+                    $curRecord=str_replace("##real##",$curReal, $curRecord);
+
                 }
                 $recordResult.=$curRecord;
             }
@@ -1304,14 +1342,23 @@ class testCaseItem{
 
             $result.=$curResult;
 
+            if($curRecFlagBug){
+                $this->bugResult.=$curResult;
+            }
+
         }
 
+        $this->result=$result;
 
         return $result;
     }//-/
 
     public function view(){
-        echo '<h5 style="text-align: left;">'.$this->terminalName." - ".$this->name.'</h5>'.$this->generate();
+        $curStr=$this->generate();
+        echo '<h3 style="text-align: left;">'.$this->titlePrefix.$this->terminalName." - ".$this->name.'</h3>'.$curStr;
+        /*if($this->flagBug){
+
+        }*/
     }//-/
 
 }//==/class:testCaseItem

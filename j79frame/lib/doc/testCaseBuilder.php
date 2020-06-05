@@ -1,6 +1,8 @@
 <?php
 namespace j79frame\lib\doc;
 
+use j79frame\lib\util\File;
+
 /**
  * Class testCaseBuilder
  * build test case doc in html format.
@@ -9,13 +11,22 @@ class testCaseBuilder{
 
     public $totalBugRate=0.12;
 
+    public $bugResultList=''; //bug list string.
+
+    public $flagSaveFile=false; //save final html when view.
+
+    public $titleFrontNoPrefix="2.5.";
+
     //style for html view
     public $styleCode= '<style>
   table{border-collapse:collapse}
-  table td{font-size:9.0pt;mso-bidi-font-size:12.0pt;
+  table td{font-size:10.5pt;mso-bidi-font-size:12.0pt;
   font-family:宋体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
-  "Times New Roman";color:black; padding:1pt 4pt;}
-    table td>p{ padding:1pt 0;}
+  "Times New Roman";color:black; padding:6pt 4.0pt 6pt 4.0pt}
+    table td>p{ padding:5pt 0;line-height:150%; vertical-align: center;}
+    table td>p>span{ line-height: 150%; display: inline-block;vertical-align: center; }
+    h3{font-size:12pt; font-family: "宋体"}
+    
 </style>';
 
 
@@ -242,8 +253,9 @@ class testCaseBuilder{
         $totalCase=0;
         $totalBugRate=$this->totalBugRate;
 
-        echo $this->styleCode;
 
+        $this->bugResultList='';
+        $sumList='<table><tbody>';
         for($i=0;$i<count($this->itemList);$i++){
 
             $curSet=$this->itemList[$i];
@@ -251,14 +263,56 @@ class testCaseBuilder{
             $curSet['startIdx']=$curIdx;
 
             $t=new testCaseItem($curSet);
+            $t->titlePrefix='<a name="_Toc'.(42005496+$i).'"><span lang="EN-US" style="font-size:12.0pt;mso-bidi-font-size:
+20.0pt;font-family:宋体">'.$this->titleFrontNoPrefix.($i+1).'</span></a> ';
             $t->view();
+
             $curIdx=$t->curIdx;
             $totalB+=$t->totalBugAmount;
             $totalCase+=$t->totalAmount;
+            if($t->flagBug){
+                $this->bugResultList.=$t->bugResult;
+            }
+
+            $sumList.="<tr><td>".$t->channel."-".$t->name."</td><td>".$t->totalAmount."</td></tr>";
+
+            //echo $sumList;
+
+
+
         }
-        echo '<hr/>';
+
+        $sumList.='</tbody></table>';
+
+        $finalHTML=$this->styleCode;
+        $finalHTML.='<hr/>'.PHP_EOL;
+        $finalHTML.="<p>bug total:$totalB</p>".PHP_EOL;
+        $finalHTML.="<p>case total:$totalCase</p>".PHP_EOL;
+        $finalHTML.='<hr/>'.PHP_EOL;
+        $finalHTML.="<H2>SUM LIST</H2>".PHP_EOL;
+        $finalHTML.=$sumList;
+        $finalHTML.='<hr/>'.PHP_EOL;
+        $finalHTML.="<H2>BUG RESULT LIST</H2>".PHP_EOL;
+        $finalHTML.='<hr/>'.PHP_EOL;
+        $finalHTML.= $this->bugResultList.PHP_EOL;
+
+        echo $finalHTML;
+        if($this->flagSaveFile){
+            $fn=File::getRandomFileName('html');
+            echo $fn;
+            File::saveFile($fn, $finalHTML);
+
+
+        }
+
+        /*echo '<hr/>';
         echo "<p>bug total:$totalB</p>";
         echo "<p>case total:$totalCase</p>";
+        echo '<hr/>';
+        echo "<H2>BUG RESULT LIST</H2>";
+        echo '<hr/>';
+        echo $this->bugResultList;*/
+
     }//-/
 
     /**
@@ -267,11 +321,15 @@ class testCaseBuilder{
      * @return string
      */
     public function generate(){
+
+        $bugResultList='';
+
         $resultStr='';
         $curIdx=0;
         $totalB=0;
         $totalCase=0;
         $totalBugRate=$this->totalBugRate;
+        $this->bugResultList='';
         for($i=0;$i<count($this->itemList);$i++){
 
             $curSet=$this->itemList[$i];
@@ -279,10 +337,14 @@ class testCaseBuilder{
             $curSet['startIdx']=$curIdx;
 
             $t=new testCaseItem($curSet);
-            $resultStr.=$t->generate();
+            $curResult=$t->generate();
+            $resultStr.=$curResult;
             $curIdx=$t->curIdx;
             $totalB+=$t->totalBugAmount;
             $totalCase+=$t->totalAmount;
+            if($t->flagBug){
+                $this->bugResultList.=$curResult;
+            }
         }
 
 

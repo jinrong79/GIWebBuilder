@@ -193,6 +193,8 @@ $setting1=array(
 );
 
 $tcb=new testCaseBuilder();
+$tcb->totalBugRate=0.08;
+$tcb->flagSaveFile=true;
 $tcb->itemList=$setting1;
 $tcb->view();
 
