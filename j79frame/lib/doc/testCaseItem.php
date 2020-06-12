@@ -40,6 +40,14 @@ class testCaseItem{
 
     public $bugResult=''; //current bug result;
 
+    public $bugRetestItem='';//current bug retest item;
+
+    public $bugRetestAmount=0;
+
+    public $bugModifiedRec='';
+
+    public $phase=1;
+
     public $recordSample='<tr>
       <td width="236" colspan="2" valign="top">##act##</td>
       <td width="236" valign="top">##expect##</td>
@@ -1217,6 +1225,8 @@ class testCaseItem{
 
             $this->terminalName=\GF::getKey("terminal",$params,"终端");
 
+            $this->phase=\GF::getKey("phase",$params,1);
+
             //if custom type,then load text from params.
             if($this->type==99){
 
@@ -1263,18 +1273,27 @@ class testCaseItem{
             $this->totalAmount++;
             $curResult=$itemHtmlSample;
 
+
+
             $curRecFlagBug=false;
 
             $des=\GF::getKey("des",$this->curTextSet[$i]);
             $goal=\GF::getKey("goal",$this->curTextSet[$i]);
             $cond=\GF::getKey("cond",$this->curTextSet[$i]);
 
+
             $records=\GF::getKey("records",$this->curTextSet[$i]);
 
             $recordResult='';
 
+            $recordRetestResult='';
+
+            $curRetestRecord='';
+
             foreach($records as $key=>$recordItem){
                 $curRecord=$this->recordSample;
+
+
 
                 $curAct=\GF::getKey("act",$recordItem);
                 $curAct=str_replace("<p>","<p><span>",$curAct);
@@ -1287,6 +1306,8 @@ class testCaseItem{
                 $curExp=str_replace("</p>","</span></p>",$curExp);
 
                 $curRecord=str_replace("##expect##",$curExp, $curRecord);
+
+                $curRetestRecord=$curRecord;
                 $curRecordBlank=$curRecord;
 
                 //make bug
@@ -1315,7 +1336,16 @@ class testCaseItem{
                     $curReal=str_replace("<p>","<p><span>",$curReal);
                     $curReal=str_replace("</p>","</span></p>",$curReal);
 
-                    $curRecord.=str_replace("##real##",$curReal, $curRecordBlank);
+                    $curRetestRecord=str_replace("##real##",$curReal, $curRecordBlank);
+
+                    $this->bugRetestAmount++;
+
+
+                    $curMRec="<tr><td>$this->phase</td><td>$this->channel - $this->name</td><td>$curExp</td><td>$curErr</td><td>BUG修改</td><td>2020/4/20</td><td>已完成</td></tr>";
+                    $curMRec=str_replace('##name##',$this->name,$curMRec);
+                    $curMRec=str_replace('##channel##',$this->name,$curMRec);
+
+                    $this->bugModifiedRec.=$curMRec;
 
 
 
@@ -1334,16 +1364,28 @@ class testCaseItem{
             $curResult=str_replace('##des##',$des,$curResult);
             $curResult=str_replace('##goal##',$goal,$curResult);
             $curResult=str_replace('##cond##',$cond,$curResult);
+
+
+            $curResultRetest=$curResult;
+
             $curResult=str_replace('<!--records-->',$recordResult,$curResult);
             $curResult=str_replace('##name##',$this->name,$curResult);
             $curResult=str_replace('##channel##',$this->channel,$curResult);
 
+            $curResultRetest=str_replace('<!--records-->',$curRetestRecord,$curResultRetest);
+            $curResultRetest=str_replace('##name##',$this->name,$curResultRetest);
+            $curResultRetest=str_replace('##channel##',$this->channel,$curResultRetest);
 
 
             $result.=$curResult;
 
+
+
             if($curRecFlagBug){
                 $this->bugResult.=$curResult;
+
+                $this->bugRetestItem.=$curResultRetest;
+
             }
 
         }
@@ -1355,7 +1397,10 @@ class testCaseItem{
 
     public function view(){
         $curStr=$this->generate();
-        echo '<h3 style="text-align: left;">'.$this->titlePrefix.$this->terminalName." - ".$this->name.'</h3>'.$curStr;
+        //$curStr='<h3 style="text-align: left;">'.$this->titlePrefix.$this->terminalName." - ".$this->name.'</h3>'.$curStr;
+        $curStr='<h4 style="text-align: left;">'.$this->terminalName." - ".$this->name.'</h4>'.$curStr;
+        echo $curStr;// '<h3 style="text-align: left;">'.$this->titlePrefix.$this->terminalName." - ".$this->name.'</h3>'.$curStr;
+        return $curStr;
         /*if($this->flagBug){
 
         }*/

@@ -99,6 +99,7 @@ $setting1=array(
     ),
 
     array(
+        "phase"=>2,
         'name'=>"应急预案_视频监控",
         "channel"=>"应急预案",
     ),
@@ -151,6 +152,7 @@ $setting1=array(
     ),
 
     array(
+        "phase"=>3,
         'name'=>"管理员登录",
         "terminal"=>'后台',
         "channel"=>"后台",
