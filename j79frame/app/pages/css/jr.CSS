@@ -11,3 +11,34 @@
 .nav A{ color:#333;}
 
 .toolbar-title-r{ display:inline-block; float:right;}
+
+
+/* pager */
+.pager-bar {
+    margin: 0px;
+    text-align: center;
+}
+
+.pager-bar .pager {
+    margin: 0px;
+}
+
+.pager-bar .pager li {
+    margin: 0px 3px;
+}
+
+.pager-bar .pager li>A {
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 5px;
+    padding: 2.5px 10px;
+}
+
+.pager-bar .pager li.active > A {
+    background: #900;
+    color: #fff;
+}
+
+.pager-bar .pager .go-page-no {
+    width: 40px;
+}

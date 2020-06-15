@@ -994,6 +994,15 @@
             $ui.appendTo(containerSelector);
 
 
+            var setCurrentPageClass=function(curPage){
+                $(containerSelector).find('.pager').children('li').each(function (idx,item) {
+                    if($(this).text()==curPage){
+                        $(this).addClass("active");
+                    }else{
+                        $(this).removeClass("active");
+                    }
+                })
+            }
 
             //attach action handler:
             //page prev			 
@@ -1005,6 +1014,9 @@
 
                     if (pageCur > 1) {
                         listObj.setPage(--pageCur);
+                        //set current page in pager
+                        setCurrentPageClass(pageCur);
+
                     }
                 }
 
@@ -1014,9 +1026,11 @@
 
                 if (listObj) {
                     if (pageCur + 1 <= pageTotal) {
-                        console.log('listObj:');
-                        console.log(listObj);
+                        /*console.log('listObj:');
+                        console.log(listObj);*/
                         listObj.setPage(++pageCur);
+                        //set current page in pager
+                        setCurrentPageClass(pageCur);
                     }
                 }
 
@@ -1032,6 +1046,8 @@
                     if (Number($(this).text()) >= 1) {
                         pageCur = Number($(this).text());
                         listObj.setPage(pageCur);
+                        //set current page in pager
+                        setCurrentPageClass(pageCur);
                     }
                 }
 
@@ -1046,6 +1062,8 @@
                     if (goPageNo >= 1 && goPageNo <= pageTotal) {
                         pageCur = goPageNo;
                         listObj.setPage(goPageNo);
+                        //set current page in pager
+                        setCurrentPageClass(goPageNo);
                     }
                 }
 

@@ -6,6 +6,8 @@ class listUsers extends ListDynamic{
 
         //set paged by self.
         this.pageType=0;
+
+
     }//-/
 
 
