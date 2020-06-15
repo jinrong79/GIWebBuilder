@@ -1,0 +1,43 @@
+.combo-editor{}
+
+.combo-editor .combo-list-part{ display:inline-block; float: left; width: 50%; padding: 0px 10px;}
+.combo-editor .combo-list-part h3{margin: 0px 0px 10px 0px;  padding: 7.5px 0px;}
+.combo-editor .combo-list-part .list-selected{
+    border:1px solid #ddd; background-color: #fff; height: 45em; overflow-y: scroll; }
+.combo-editor .combo-list-part .list-selected li{
+    margin:5px 0px; border: 1px solid #ddd; background-color: #fff; padding: 5px 5px;}
+
+.combo-editor .combo-list-part .list-selected li textarea{ width: 100%; height: 5em; border: 1px dotted #eee; border-top-color: #aaa;}
+
+.combo-editor .combo-list-part .list-selected  .img-part{ display: inline-block;
+    width: 30%; margin-bottom:5px;}
+.combo-editor .combo-list-part .list-selected  .img-part img{ width: 100%;
+    border:1px solid #ccc;}
+.combo-editor .combo-list-part .list-selected .menu-part{ display: block;
+     width: 100%; border-top:1px dotted #ccc;  padding: 5px 10px;}
+.combo-editor .combo-list-part .list-selected .title-part{ }
+
+.combo-editor .combo-list-part P{ margin-bottom: 5px;}
+
+.combo-editor .combo-list-part .list-selected .active{ border: 1px solid #eea236; background-color:#ffefbf;}
+
+.combo-editor >.combo-edit-panel{
+    background-color: #fff;
+    border: 2px solid #C00; padding: 10px;
+    width: 100%; position: absolute;left:0px; top:40px;
+    z-index: 999;
+    display: none;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.2);
+}
+
+.combo-editor >.combo-edit-panel>h3{ margin: 0px 0px 15px 0px; border-bottom: 1px solid #ddd; padding: 5px 5px;
+   }
+
+.combo-editor > .combo-edit-panel .input-item{ margin-bottom: 5px;}
+.combo-editor > .combo-edit-panel .input-item input{ width: 100%;}
+.combo-editor > .combo-edit-panel .edit-panel-btn-bar{ border-top:1px solid #ddd; padding: 10px 15px 10px 15px; clear: both; background-color: #eee;}
+
+
+
+.combo-editor > .description{ padding:10px;
+    color: #999;}

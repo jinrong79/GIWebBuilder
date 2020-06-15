@@ -1,0 +1,12 @@
+.choice-box{}
+.choice-box ul{ padding-left: 0px;
+    margin:0px;}
+.choice-box li{ display: inline-block; padding: 0px 15px; border: 1px solid #ccc;
+    color: #aaa; cursor: pointer; line-height: 32px; background-color: #eee; margin-right: -1px;}
+.choice-box li.active{
+    background-color: #00CCFF;
+    border: 1px solid #00CCFF;
+    color:#fff;}
+
+.choice-box.view-static li{display: none;}
+.choice-box.view-static li.active{ border: none; background-color: transparent; color:#333; display:inline-block; padding: 0px; }

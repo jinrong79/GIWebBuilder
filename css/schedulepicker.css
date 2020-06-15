@@ -1,0 +1,62 @@
+@charset "utf-8";
+/* CSS Document */
+.schedule-picker {
+    position: relative;
+    width: 100%;
+}
+
+.has-error .schedule-picker {
+    border: 1px solid #C00;
+}
+.schedule-picker .schedule-items{
+    margin: 0px;
+    padding: 10px;
+    border:1px solid #ccc;
+    border-bottom: none;
+
+}
+.schedule-picker .schedule-items li{
+    border:1px solid #dccaa5;
+    list-style-type: none;
+    padding:5px 10px;
+    margin: 2px 0px;
+    background-color: #fffae5;
+}
+.schedule-picker .schedule-items li .btn-del{ border: 1px solid #ccc; background-color: #fff; display: inline-block; padding: 2px 10px;
+    margin:0px 10px;
+    cursor: pointer;
+    color: #000;
+}
+
+
+.schedule-picker .time-start,
+.schedule-picker .end-start{
+    padding:0px 5px;
+}
+
+.schedule-picker .time-start input,
+.schedule-picker .time-end input{ width: 60px;
+    height:34px;
+    line-height:24px;
+    margin:0px 5px;
+vertical-align: middle;
+    font-size: 1.2em;
+}
+
+.schedule-picker .btn-add{
+    cursor: pointer;
+}
+.schedule-picker .day select{
+    height:34px;}
+
+.schedule-picker .edit-panel{
+    padding:10px;
+    border:1px solid #ccc;
+background:#f5f5f5; }
+
+.schedule-picker .title{
+    border:1px solid #ccc;
+    background-color: #f3f3f3;
+    padding:3px 10px;
+color:#999;
+border-bottom: none;}

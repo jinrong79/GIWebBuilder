@@ -1,0 +1,24 @@
+@charset "utf-8";
+/* CSS Document */
+.express-fee-setter{ border: 1px solid #ccc;
+    padding:10px 25px 0px 25px;}
+.express-fee-setter .exp-input-set{ border: 1px solid #ddd; margin-bottom: 15px; background-color: #fff;}
+.express-fee-setter .exp-input-set input[type='number'],
+.express-fee-setter .exp-input-set input[type='text']{ width: 100%; text-align: center; line-height: 1.5em; vertical-align: middle;}
+.express-fee-setter .exp-input-set div{
+    margin:0px 0px;
+    padding:0px 5px;line-height: 2.5em;}
+.express-fee-setter .city-list{ border-bottom: 1px solid #ddd;}
+.express-fee-setter .exp-input-set .title{ font-size: 1.25em; font-weight:bold; color:#111; margin: 0px;
+    padding:10px 10px; line-height: 1.5em;}
+.express-fee-setter .exp-input-set.disabled .setting-detail{ background-color: #eee;}
+.express-fee-setter .exp-input-set.disabled .setting-detail input[type=input]{border-color: #eee;}
+.express-fee-setter .exp-input-set.disabled .setting-detail  div{ color:#ccc;}
+.express-fee-setter .exp-input-set.disabled label{ color:#111;}
+.express-fee-setter .exp-input-set.disabled .title{ color:#111;}
+.express-fee-setter .chkbox-free-ship{ width: 25px; height: auto;}
+.express-fee-setter .free-ship-check{ border-top:1px dashed #ddd; font-size: 1.5em;color: #111;}
+.express-fee-setter .exp-input-set.disabled .free-ship-check label{ color: #ff6600;}
+
+.express-fee-setter  .exp-input-set .sub-title{ border-bottom: 1px dotted #ddd; padding-left: 15px; }
+.express-fee-setter .cal-type{ padding: 5px 10px; text-align: left; border-bottom:2px solid #ddd;}

@@ -1,0 +1,30 @@
+@charset "utf-8";
+/* CSS Document */
+.navbar-backend {
+    background: #194185;
+    border: none;
+    border-radius: 0px;
+    margin-bottom: 20px;
+}
+.navbar-backend .navbar-nav > li > a {
+    color: #cfe1ff;
+}
+.navbar-backend .navbar-nav > .active > a, .navbar-backend .navbar-nav > .active > a:hover, .navbar-backend .navbar-nav > .active > a:focus {
+    color: #fff;
+    background-color: #005fff;
+}
+.navbar-backend .navbar-nav > .open > a, .navbar-backend .navbar-nav > .open > a:hover, .navbar-backend .navbar-nav > .open > a:focus {
+    color: #fff;
+    background-color: #005fff;
+}
+.navbar-backend .dropdown-menu > .active > a, .navbar-backend .dropdown-menu > .active > a:hover, .navbar-backend .dropdown-menu > .active > a:focus {
+    color: #005fff;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #fff;
+    outline: 0;
+}
+.navbar-backend .head-logo{ background-image:url(../images/logo_w_head.png)}
+
+.list-group-item>A>i{
+    color: #084dc1;}

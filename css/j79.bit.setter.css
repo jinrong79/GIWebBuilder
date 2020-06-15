@@ -1,0 +1,5 @@
+.bit-setter{}
+.bit-setter label,
+.bit-setter .checkbox-inline{padding: 5px 7.5px; display: inline-block; margin-left: 15px; margin-right: 10px;}
+
+.bit-setter .radio-inline + .radio-inline, .bit-setter .checkbox-inline + .checkbox-inline{margin-left: 15px;}

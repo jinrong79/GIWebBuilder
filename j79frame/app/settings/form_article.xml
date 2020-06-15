@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<formSettings> 
+
+  <item  id="name" lineEnd="yes">
+    <label class="col-md-2 control-label">文章标题</label>
+    <controls class="col-md-10">
+      <control required="yes" node="article_title"  type="text" id="article_title" placeholder="文章标题，100个字以内">
+      <validator type="regExp" msg="必须为100个字以内">
+        <![CDATA[^\s*[\S\s]{1,100}\s*$]]>
+      </validator>
+	  </control>  
+    </controls>    
+  </item>
+
+    <item  id="type" lineEnd="yes">
+        <label class="col-md-2 control-label">内容类型</label>
+        <controls class="col-md-10">
+            <control required="yes"  node="article_type" default="1"  type="select" id="article_type" placeholder="所属哪个商圈">
+                <values generator="j79.geSelectOptions(j79App.ARTICLE_TYPE);" />
+            </control>
+        </controls>
+    </item>
+
+
+
+
+    <item  id="category" lineEnd="yes">
+        <label class="col-md-2 control-label">文章分类</label>
+        <controls class="col-md-10">
+            <control type="tree-selector" id="CTR_category1_selector" data-xml="/j79frame/app/settings/cat_article.xml" data-saver="article_category"/>
+            <control node="article_category" required="yes"   type="hidden" id="article_category">
+                <validator type="regExp" msg="必须为30个字符以内"><![CDATA[^[0-9]+$]]></validator>
+            </control>
+        </controls>
+    </item>
+
+
+    <item  id="bimg" lineEnd="yes">
+        <label class="col-md-2 control-label">代表图</label>
+        <controls class="col-md-10" >
+          <control type="imgUploader" data-saver="article_simg" save-path="/data/img/article/simg/" data-compress-width="240" data-compress-height="135" thumbnail-width="80" thumbnail-height="45"  id="CTR_simg_uploader" placeholder="代表图,1张。16:9。大小240X135像素为宜。不符合比例的自动裁剪。"/>
+          <control value-type="json" node="article_simg" type="textarea" id="article_simg"/>
+        </controls>
+  </item>
+
+
+
+  
+  <item title="特殊内容" sep="hr" />
+
+    <item  id="aticle_goods_list" lineEnd="yes">
+        <label class="col-md-2 control-label">相关联商品id列表</label>
+        <controls class="col-md-10">
+            <control  node="article_goods_list" height="100"  type="textarea" id="article_goods_list" placeholder="相关联商品id列表，纯数字，逗号分开,512个字以内">
+                <validator type="regExp" msg="相关联商品id列表，纯数字，逗号分开,512个字以内">
+                    <![CDATA[^\s*[\S\s]{1,512}\s*$]]>
+                </validator>
+            </control>
+        </controls>
+    </item>
+
+    <item  id="article_ptype" lineEnd="yes">
+        <label class="col-md-2 control-label">关联商品的平台分类</label>
+        <controls class="col-md-10">
+            <control required="yes"  node="article_ptype" default="1"  type="select" id="article_ptype" placeholder="关联商品的平台分类">
+                <values generator="j79.geSelectOptions(j79App.PRODUCT_PTYPE);" />
+            </control>
+        </controls>
+    </item>
+
+
+    <item  id="flv" lineEnd="yes">
+        <label class="col-md-2 control-label">视频代码</label>
+        <controls class="col-md-10">
+            <control  node="article_video_code" height="100"  type="textarea" id="article_video_code" placeholder="优酷的视频代码,200个字以内">
+                <validator type="regExp" msg="必须为200个汉字以内">
+                    <![CDATA[^\s*[\S\s]{1,200}\s*$]]>
+                </validator>
+            </control>
+        </controls>
+    </item>
+
+    <item  id="audio" lineEnd="yes">
+        <label class="col-md-2 control-label">音频代码</label>
+        <controls class="col-md-10">
+            <control  node="article_audio_code" height="100"  type="textarea" id="article_audio_code" placeholder="音频代码,200个字以内">
+                <validator type="regExp" msg="必须为200个汉字以内">
+                    <![CDATA[^\s*[\S\s]{1,200}\s*$]]>
+                </validator>
+            </control>
+        </controls>
+    </item>
+
+    <item  id="pic" lineEnd="yes">
+        <label class="col-md-2 control-label">图片集</label>
+        <controls class="col-md-10">
+            <control type="imgUploader" data-saver="article_pic_list" file-max-count="50" save-path="/data/img/article/album" data-multi="data-multi" thumbnail-width="150" thumbnail-height="150"  id="CTR_dimg_uploader" placeholder="图片集,多图上传。最多20张"></control>
+            <control  value-type="json"  node="article_pic_list" type="textarea" id="article_pic_list">
+            </control>
+
+        </controls>
+    </item>
+
+    <item title="详细内容" sep="hr" />
+    <item  id="brief" lineEnd="yes">
+        <label class="col-md-2 control-label">摘要</label>
+        <controls class="col-md-10">
+            <control  node="article_brief" height="100"  type="textarea" id="article_brief" placeholder="文章摘要，纯文字,200个字以内">
+                <validator type="regExp" msg="必须为200个字以内">
+                    <![CDATA[^\s*[\S\s]{1,200}\s*$]]>
+                </validator>
+            </control>
+        </controls>
+    </item>
+
+    <item  id="name" lineEnd="yes">
+        <label class="col-md-2 control-label">关键字</label>
+        <controls class="col-md-10">
+            <control  node="article_keyword"  type="text" id="article_keyword" placeholder="请输入本文的关键字，便于搜索。多个请用逗号隔开，100个字以内">
+                <validator type="regExp" msg="必须为100个字以内">
+                    <![CDATA[^\s*[\S\s]{1,100}\s*$]]>
+                </validator>
+            </control>
+        </controls>
+    </item>
+  
+  
+  <item id="detail" lineEnd="yes">
+    
+    <label class="col-md-2 control-label">详细内容</label>
+    <controls class="col-md-10">
+	  <control  type="richtext-editor" id="CTR_detail_editor2" img-path="/data/img/article" img-max-size="20000" data-saver="article_detail" toolbar-set-idx="0" height="300" placeholder="详细内容，2万个字以内"></control>
+      <control  node="article_detail" type="textarea"  value-type="html" id="article_detail" placeholder="详细内容">
+        <validator type="regExp" msg="必须为2万个字以内">
+          <![CDATA[^[\s\S]{0,20000}$]]>
+        </validator>
+      </control>
+    </controls>
+  </item>
+  
+
+
+  
+  
+  
+  
+  
+  
+</formSettings>

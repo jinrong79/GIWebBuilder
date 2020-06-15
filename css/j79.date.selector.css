@@ -1,0 +1,6 @@
+.date-selector{}
+.date-selector .item{ width:12%; display: inline-block; margin-right: 1rem;}
+.date-selector .item:first-child{margin-right: 0;width:10%; }
+.date-selector .item:first-child>select{ width: 100%;}
+.date-selector .item>select{ width: 80%; display: inline-block; vertical-align: center;}
+.date-selector .item>b{ width: 20%; white-space: nowrap; }

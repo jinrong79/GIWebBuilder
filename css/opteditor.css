@@ -1,0 +1,8 @@
+@charset "utf-8";
+/* CSS Document */
+
+.option-editor{ position:relative;}
+.option-editor .input-board{ display:none;  border:1px solid #ccc; background-color:#eee; padding:15px;  width:100%;}
+.option-editor .input-board .form-group label{ font-weight:normal;}
+
+.option-editor .input-board .form-group:hover{ background-color:#FF9;}

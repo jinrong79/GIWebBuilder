@@ -1,0 +1,93 @@
+@charset "utf-8";
+
+.tree-editor {
+    border: 1px solid #ddd;
+}
+
+
+
+.tree-editor ul,
+.tree-editor ol{ padding-left: 25px;}
+/*.tree-editor ul ul .node,
+.tree-editor ol ol .node{ padding-left: 30px;}*/
+
+.tree-editor .node {
+    padding: 10px 5px;
+    border:1px solid #fff;
+}
+.tree-editor ul ul .node,
+.tree-editor ol ol .node{
+
+    border-bottom:1px solid #eee;
+}
+
+.tree-editor ul .node,
+.tree-editor ol .node{
+    background-color: #f2f2f2;
+}
+
+.tree-editor ul ul .node,
+.tree-editor ol ol .node{
+    background-color: #fff;
+}
+
+.tree-editor .node input {
+    border: 1px solid #f5f5f5;
+    background-color: transparent;
+}
+
+.tree-editor ul ul .node input,
+.tree-editor ol ol .node input{
+    border: 1px solid #fff;
+}
+
+.tree-editor .node:hover input,
+.tree-editor .node.selected input
+{
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.tree-editor .node:hover input:disabled
+{
+    border: 1px solid #f5f5f5;
+
+    background-color: transparent;
+}
+.tree-editor .node.selected input:disabled
+{
+    border: 1px solid #ffda8a;
+
+    background-color: transparent;
+}
+
+.tree-editor .node.selected {
+    background-color: #ffda8a
+}
+
+.tree-editor .tree-container {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 500px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tree-editor .toolbar {
+    padding: 5px 10px;
+    background-color: #eee;
+}
+
+
+.tree-editor .input-node-id{ width: 20em; text-align: left; padding-left: 1em; font-size: 1.2em;}
+.tree-editor .input-node-name{ width: 12em;font-size: 1.2em;padding-left: 1em;}
+
+.tree-editor .closed ol,
+.tree-editor .closed ul{ display:none !important;}
+.tree-editor .opened ol,
+.tree-editor .opened ul{ display:block;}
+
+.tree-editor .closed>.node{ background-image:url(/images/icon_tree_1.png); background-position:96% center ; background-repeat: no-repeat;}
+.tree-editor .opened>.node{ background-image:url(/images/icon_tree_2.png);  background-position: 96% center; background-repeat: no-repeat;}
+
+.tree-editor .btn-add-root{
+    margin:50px 50px; display: inline-block;}

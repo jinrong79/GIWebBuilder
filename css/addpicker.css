@@ -1,0 +1,150 @@
+@charset "utf-8";
+/* CSS Document */
+.address-picker {
+    position: relative;
+    width: 100%;
+}
+
+.has-error .address-picker {
+    border: 1px solid #C00;
+}
+
+.address-picker .selector {
+    width: 90%;
+    border: 1px solid #ccc;
+    background: #eee;
+    padding: 10px;
+    display: none;
+    position: absolute;
+    z-index: 9999;
+}
+
+.address-picker .tab {
+    height: 24px;
+    margin: 0px;
+}
+
+.address-picker .tab li {
+    float: left;
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    padding: 0px 15px;
+    margin-left: 0px;
+    margin-right: 10px;
+    cursor: pointer;
+    background: #fff;
+}
+
+.address-picker .tab .cur {
+    border: 1px solid #ccc;
+    border-bottom: 1px solid #fff;
+    margin-bottom: -1px;
+}
+
+.address-picker .tabboard {
+
+    background-color: #eee;
+    margin: 0px;
+    clear: both;
+
+}
+
+.address-picker .list {
+    padding-left: 0px;
+    margin: 0px;
+    list-style-type: none;
+
+}
+
+.address-picker .list li A {
+    margin: 7px;
+    display: inline-block;
+    float: left;
+    padding: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+    background-color: #fff;
+    border:1px solid #eee;
+    color: #555;
+}
+
+.address-picker .list li A:hover {
+    background: #777;
+    color: #fff;
+}
+
+.address-picker .selected {
+    background: #F60;
+    color: #fff;
+}
+
+.address-picker .selected:hover {
+    background: #F60;
+}
+
+.address-picker .clear {
+    clear: both;
+}
+
+.address-picker .value-view {
+    display: table;
+    width: 100%;
+    height: 34px;
+    line-height: 30px;
+    font-size: 14px;
+    padding: 2px  0px;
+    background: url(../images/addeditor/icon_16_select.png) 99% 50% no-repeat;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    color: #aaa;
+}
+.address-picker .value-view .label-placeholder{
+    padding:0px 10px;}
+.address-picker .value-view .view-item{
+    border:1px solid #ddd; display: inline-block;
+    background:url(../images/icon_18_x.png) 99% 50% no-repeat #eee ;
+    padding:0px 20px 0px 5px;
+    margin:0px 5px;
+vertical-align: middle;
+line-height: 30px;
+color: #000;
+}
+.address-picker .value-view .view-item.locked{
+    background: none #fff;
+    border: none;
+}
+
+    /* .address-picker .input_region{ height:34px; width:45%; font-size:12px; padding:0px 5px; background:url(../images/addeditor/icon_16_select.png) 99% 50% no-repeat; border:1px solid #ccc; cursor:pointer; display:table-cell;}
+    */
+.address-picker .input_address {
+    height: 34px;
+    width: 55%;
+    display: table-cell;
+    font-size: 12px;
+    padding: 0px 5px;
+    border: 1px solid #ccc;
+    border-left: none;
+}
+
+.address-picker .bu_close {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-family:arial;
+    cursor: pointer;
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    background-color: #0d58c8;
+    color: #fff;
+}
+
+
+.address-picker.view-static .value-view .view-item{ border: none; background: none;}
+
+.address-picker.view-static .value-view{
+    border:none; background: none;}

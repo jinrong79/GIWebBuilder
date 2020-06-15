@@ -1,0 +1,87 @@
+@charset "utf-8";
+/* CSS Document   666*/
+
+
+.calendar{ display: table; width: 100%;}
+
+.calendar .day-head,
+.calendar .day-body{ padding-left: 0px;}
+.calendar .day-head li,
+.calendar .day-body li{ width: 14.285%;
+    float: left; display: inline-block; border: 1px solid #fff; margin: 0px; padding: 5px 0px; text-align: center; font-size: 0.75em;}
+
+.calendar .day-head li{ color: #999; background-color:rgba(0,0,0,0.2); color: #fff; }
+
+.calendar .day-head li.day-off{ background-color: #f1aa83;}
+.calendar .day-head li.day-off2{ background-color: #f1cc83;}
+
+.calendar .day-body li{ color: #333; cursor: pointer;}
+.calendar .day-body li:hover{ background-color: rgba(0,0,0,0.05);}
+
+.calendar .day-body li.active{ border: 1px solid #ff7d36; }
+.calendar .day-body li.selected{ background-color: #00b7ee;color: #fff;}
+
+.date-picker{  position: relative;}
+.date-picker .cal-nav-head{ text-align: center; background-color: rgba(0,0,0,0.3); padding: 2px 5px; color: #fff;}
+.date-picker .cal-nav-head .year{
+    margin:0px 5px; font-size: 1.5em; height: 2em; line-height: 2em; display: inline-block;}
+.date-picker .cal-nav-head .month{
+    margin:0px 5px; font-size: 1.5em; height: 2em; line-height: 2em;display: inline-block;}
+.date-picker .cal-nav-head .btn-prev-y,
+.date-picker .cal-nav-head .btn-next-y{
+    display: inline-block;
+    float: left;
+    color: #fff;
+    cursor: pointer;
+    padding: 0px 8px;
+    font-size: 1.5em; height: 2em; line-height: 2em;
+}
+.date-picker .cal-nav-head .btn-next-y{
+    float: right;}
+
+.date-picker .cal-nav-head .btn-prev-y:Hover,
+.date-picker .cal-nav-head .btn-next-y:hover{
+    text-decoration: none;
+    background-color: #00b7ee;
+}
+
+
+.date-picker .cal-nav-head .year,
+.date-picker .cal-nav-head .month{
+    position: relative;cursor: pointer; padding: 0px 10px; }
+.date-picker .cal-nav-head .year:hover,
+.date-picker .cal-nav-head .month:hover{
+    background-color: rgba(0,0,0,0.3);
+}
+
+.date-picker .cal-nav-head .year-list,
+.date-picker .cal-nav-head .month-list
+{ position: absolute;  z-index: 999; background-color: rgba(255,255,255,0.8); padding-left: 0px; border: 1px solid #ddd;}
+
+
+.date-picker .cal-nav-head .year-list li,
+.date-picker .cal-nav-head .month-list li
+{ font-size: 0.8em; line-height:normal; color: #333; list-style-type: none; padding: 3px 5px; cursor: pointer;}
+
+.date-picker .cal-nav-head .year-list li:hover,
+.date-picker .cal-nav-head .month-list li:hover
+{ background-color: rgba(0,0,0,0.3); color: #fff;}
+
+.date-picker .cal-nav-head .year-list li.active,
+.date-picker .cal-nav-head .month-list li.active{ background-color: #00b7ee; color: #fff;}
+.date-picker .view-part{ padding: 5px;border: 1px solid #ddd; cursor: pointer;}
+.date-picker .view-part >i{
+    float: right; color: #00b7ee; font-size: 1.2em;}
+
+
+.calendar-box{
+    position: absolute; z-index: 999; display: none;
+    border: 1px solid #ddd;
+    width: 50%;
+    min-width: 25rem;
+    background-color: #fff;
+}
+
+
+.date-picker.view-static .view-part{ padding: 5px;border: none; cursor: auto;}
+.date-picker.view-static .view-part>i{ display: none;}

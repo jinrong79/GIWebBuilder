@@ -1,0 +1,47 @@
+@charset "utf-8";
+/* CSS Document */
+
+.db-selector{ position:relative;}
+.db-selector .selector{ width:100%; border:1px solid #ccc; background:#fafafa; padding:10px 50px 10px 10px; display:none; position:absolute; box-shadow:2px 2px 3px rgba(0,0,0,0.2);}
+.db-selector .view-board{   border:1px solid #ccc; background:#fff; margin:0 0 0 0; clear:both; overflow-y:scroll; max-height:500px;}
+
+.db-selector .view-board ul{ padding:0px; margin:0px;}
+.db-selector .view-board li{ padding:0px; list-style-type:none;}
+
+.db-selector .view-board li A{ display:block; padding:5px 10px; cursor:pointer; text-decoration:none; font-size:16px;}
+.db-selector .view-board li:hover{ background:#eee;}
+.db-selector .view-board li.selected>A{ background-color:#FEEDD1;}
+
+.db-selector .clear{ clear:both;}
+.db-selector .input_region{ height:34px; width:100%; font-size:1em; padding:0px 10px; background:url(../images/addeditor/icon_16_select.png) 99% 50% no-repeat; border:1px solid #ccc; cursor:pointer;}
+
+.db-selector .bu_close{ position:absolute; right:0px; bottom:0px; font-family:Verdana; cursor:pointer; display:inline-block;  height:30px; line-height:30px; white-space:nowrap; background-color:#333; color:#fff; padding:0px 5px; border-radius:10px 0px 0px 0px;}
+.db-selector .bu_close:hover{ text-decoration:none; background-color:#C00;}
+
+.db-selector  .keyword{ height:32px; vertical-align:middle;}
+
+.db-selector .loading{ background:url(../images/ajax-loader_b.gif) center no-repeat; width:50px; height:50px; display:inline-block;}
+.db-selector .tip-board{ padding:10px 0px; font-size:12px; color:#888;}
+.db-selector .tip-board p{ margin:5px 0px;}
+.db-selector .search-area{ padding-bottom:10px;}
+
+.db-selector .addnew-board{ border-top:1px dotted #ccc; padding:10px 0px 0px 0px; }
+
+.db-selector .search-area{ position:relative;}
+.db-selector .search-area .keyword{ width:100%;height:34px; vertical-align:middle;}
+.db-selector .search-area .btn{ position:absolute; top:0px;}
+.db-selector .search-area #btnSearch{ position:absolute; right:84px;}
+.db-selector .search-area #btnSearchAll{ position:absolute; right:0px;}
+.db-selector .view-summary{ padding:10px 10px; background:#eee; margin:0px;}
+
+.db-selector .view-summary>p{ margin:0px;}
+
+.db-selector .view-summary .keywoard-view{ display:inline-block; float:left;}
+
+.db-selector.disabled{ border:1px solid #ccc; background-color:#eee;}
+.db-selector.disabled .value-view{  background-color:#eee;}
+
+
+.db-selector.view-static{}
+.db-selector.view-static .input_region{
+    border:none; background: none;}

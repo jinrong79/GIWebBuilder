@@ -1,0 +1,169 @@
+/* tree navi*/
+
+.tree-navi {
+    position: relative;
+}
+
+.tree-navi ul, .tree-navi li {
+    list-style-type: none;
+    padding-left: 0px;
+}
+
+.tree-navi .node {
+    display: block;
+    font-weight: normal;
+    padding: 6px 0px;
+}
+
+.tree-navi .node:hover {
+    background: url(/images/mask_orange1.png);
+}
+
+.tree-navi b > a {
+    display: block;
+    vertical-align: middle;
+    line-height: 16px;
+    padding-left: 20px;
+    color: #545e69;
+    width: auto;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.tree-navi b > a:hover {
+    text-decoration: none;
+}
+
+.tree-navi A {
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.tree-navi li {
+    margin: 0px 0px 0px 0px;
+    background: url(/images/icon_tree_3.png) 0px 6px no-repeat;
+}
+
+.tree-navi ul .node {
+    padding-left: 10px;
+}
+
+.tree-navi ul ul .node {
+    padding-left: 31px;
+}
+
+.tree-navi ul ul ul .node {
+    padding-left: 52px;
+}
+
+.tree-navi ul ul ul ul .node {
+    padding-left: 73px;
+}
+
+.tree-navi ul ul ul ul ul .node {
+    padding-left: 94px;
+}
+
+.tree-navi ul ul ul ul ul ul .node {
+    padding-left: 115px;
+}
+
+.tree-navi ul li {
+    background-position: 10px 6px;
+}
+
+.tree-navi ul ul li {
+    background-position: 31px 6px;
+}
+
+.tree-navi ul ul ul li {
+    background-position: 53px 6px;
+}
+
+.tree-navi ul ul ul ul li {
+    background-position: 74px 6px;
+}
+
+.tree-navi ul ul ul ul ul li {
+    background-position: 95px 6px;
+}
+
+.tree-navi ul ul ul ul ul ul li {
+    background-position: 116px 6px;
+}
+
+.tree-navi .closed ul {
+    display: none !important;
+}
+
+.tree-navi .opened ul {
+    display: block;
+}
+
+.tree-navi .closed {
+    background-image: url(/images/icon_tree_1.png);
+}
+
+.tree-navi .opened {
+    background-image: url(/images/icon_tree_2.png);
+}
+
+.tree-navi .cur > .node {
+    background: url(/images/mask_blue1.png);
+}
+
+.tree-navi .cur > .node > A {
+    color: #000;
+    font-weight: bold;
+}
+
+.tree-navi .checked {
+    background: url(/images/icon_checked.png) center no-repeat;
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.tree-navi .selector {
+    width: 400px;
+    border: 1px solid #ccc;
+    background: #fafafa;
+    padding: 30px 10px 10px 10px;
+    display: none;
+    position: absolute;
+}
+
+.tree-navi .tree-board {
+    border: 1px solid #ccc;
+    background: #fff;
+    margin: 0px;
+    clear: both;
+}
+
+.tree-navi .clear {
+    clear: both;
+}
+
+.tree-navi .input_region {
+    height: 34px;
+    width: 100%;
+    font-size: 12px;
+    padding: 0px 5px;
+    background: url(/images/addeditor/icon_16_select.png) 99% 50% no-repeat;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.tree-navi .bu_close {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-family: Arial;
+    cursor: pointer;
+    display: inline-block;
+    height: 30px;
+    white-space: nowrap;
+}

@@ -1,0 +1,64 @@
+@charset "utf-8";
+/* CSS Document   666*/
+
+.tree-selector{ position:relative;}
+.has-error .tree-selector{ border:1px solid #C00;}
+.tree-selector ul, .tree-selector li{ list-style-type:none; padding-left:0px; text-align: left;}
+.tree-selector .node{ display:block; font-weight:normal; padding:6px 0px;}
+.tree-selector .node:hover{ background:url(/images/treeselector/mask_blue1.png);}
+.tree-selector b>a{ display:block; vertical-align:middle; height:16px; line-height:16px; padding-left:20px; color:#545e69; width:auto; text-decoration:none; cursor:pointer;text-align: left;}
+.tree-selector b>a:hover{ text-decoration:none;}
+.tree-selector A{ vertical-align:middle; display:inline-block;}
+
+.tree-selector li{ margin:0px 0px 0px 0px; background:url(/images/treeselector/icon_tree_3.png) 0px 6px no-repeat;}
+
+.tree-selector ul .node{ padding-left:10px;}
+.tree-selector ul ul .node{ padding-left:31px;}
+.tree-selector ul ul ul .node{ padding-left:52px;}
+.tree-selector ul ul ul ul .node{ padding-left:73px;}
+.tree-selector ul ul ul ul ul .node{ padding-left:94px;}
+.tree-selector ul ul ul ul ul ul .node{ padding-left:115px;}
+
+.tree-selector ul li{ background-position:10px 6px;}
+.tree-selector ul ul li{ background-position:31px 6px;}
+.tree-selector ul ul ul li{ background-position:53px 6px;}
+.tree-selector ul ul ul ul li{ background-position:74px 6px;}
+.tree-selector ul ul ul ul ul li{ background-position:95px 6px;}
+.tree-selector ul ul ul ul ul ul li{ background-position:116px 6px;}
+
+.tree-selector .closed ul{ display:none !important;}
+.tree-selector .opened ul{ display:block;}
+.tree-selector .closed{ background-image:url(/images/treeselector/icon_tree_1.png);}
+.tree-selector .opened{ background-image:url(/images/treeselector/icon_tree_2.png);}
+
+.tree-selector .cur>.node{background:url(/images/treeselector/mask_orange1.png);} 
+.tree-selector .checked{ background:url(/images/treeselector/icon_checked.png) center no-repeat; width:18px; height:18px; display:inline-block; vertical-align:middle;  margin-left:10px;cursor:pointer;}
+
+
+.tree-selector .selector{ width:100%; border:1px solid #ccc; background:#eee; padding:30px 10px 10px 10px; display:none; position:absolute;opacity: 0.9;}
+.tree-selector .tree-board{ border:1px solid #ccc; background:#fff; margin:0px; clear:both; }
+
+.tree-selector .clear{ clear:both;}
+.tree-selector .input_region{ height:34px; width:100%; font-size:12px; padding:0px 5px; background:url(/images/addeditor/icon_16_select.png) 99% 50% no-repeat; border:1px solid #ccc; cursor:pointer;}
+
+.tree-selector .bu_close{ position:absolute; right:5px; top:5px; font-family:Verdana; cursor:pointer; display:inline-block;  height:24px; line-height: 24px; white-space:nowrap; background: url('/images/icon_18_x.png') center left no-repeat; padding-left: 20px;}
+
+.tree-selector.disabled{ border:1px solid #ccc; background-color:#eee;}
+
+.tree-selector.disabled .value-view{  background-color:#eee;}
+.tree-selector.disabled .input_region{ background-color:#eee;}
+
+
+
+.tree-selector .bu_refresh{ position:absolute; right:65px; top:5px; font-family:Verdana; cursor:pointer; display:inline-block;  height:24px; line-height: 24px; white-space:nowrap;background: url('/images/icon_18_refresh.png') center left no-repeat; padding-left: 20px;}
+
+.tree-selector .link-tree-editor{position:absolute; right:130px; top:5px; font-family:Verdana; cursor:pointer; display:inline-block;  height:24px; line-height: 24px; white-space:nowrap;}
+.tree-selector .link-tree-editor i{
+    color: #999;}
+
+.tree-selector.view-static{ border: none;}
+.tree-selector.view-static .input_region{ border: none; background: none;}
+.tree-selector.view-static  input{
+    border:none;}
+
+

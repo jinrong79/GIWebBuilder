@@ -1,0 +1,11 @@
+@charset "utf-8";
+/* CSS Document */
+
+.item-editor{ position:relative;}
+
+.item-editor .list-part{ background-color:#eee; padding:10px; border:1px solid #ccc; border-top:none;}
+.item-editor .list-part .opt-item{ display:inline-block; padding:5px 10px; border:1px solid #ccc; margin:0px 5px 5px 0px; background-color:#fff; position:relative;}
+
+.item-editor .list-part .opt-item .btn-del{ display:inline-block; color:#fff; background-color:#000; padding:0px 3px; cursor:pointer; font-family:Verdana, Geneva, sans-serif; margin-left:10px; vertical-align:middle;}
+.item-editor .list-part .opt-item .btn-del:hover{ text-decoration:none; background-color:#F60;}
+

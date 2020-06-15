@@ -89,7 +89,7 @@ class ListDynamic extends ListBase{
     getDataTransporter(params){
         //need overwrite in subclass
         return new dataTransporterBase(params);
-    }
+    }//-/
 
     /**
      * load
@@ -169,7 +169,7 @@ class ListDynamic extends ListBase{
                 console.log(msg);
                 console.log(xmlHR);*/
             }
-        })
+        });
 
     }//-/
 

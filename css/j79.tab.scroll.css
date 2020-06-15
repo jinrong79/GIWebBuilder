@@ -1,0 +1,7 @@
+.tab-scroll { overflow: hidden;}
+.tab-scroll>.nav{ }
+.tab-scroll .scroll-arrow-up,
+.tab-scroll .scroll-arrow-down{ position: absolute; right:0px; display: inline-block; background-color: #fff; color: #333; border-left: 1px solid #ddd; border-bottom: 1px solid #ddd; cursor: pointer;
+    padding:0px 17.5px; height: 20px; width: 40px; background: url(../images/tabscroll/arrow_r.png) center no-repeat #fff; background-size: 40% 40%;}
+.tab-scroll .scroll-arrow-up{ right:40px;background-image:url(../images/tabscroll/arrow_l.png);}
+

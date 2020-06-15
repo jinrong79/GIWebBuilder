@@ -1,0 +1,227 @@
+@charset "utf-8";
+/* CSS Document */
+
+ul,li{ list-style-type:none; padding-left:0px; margin-left:0px;}
+
+.carousel-control.left,
+.carousel-control.right{ background:none;}
+
+
+.content-home{ padding-left:0px; padding-right:0px;}
+
+.mall-head{ padding-top:10px;}
+
+
+
+.mall-head .cart-part{ padding-top:30px;}
+
+
+.mall-head .logo{ background-image:url(../images/logo_web.png); width:240px; height:55px; background-position:center top;
+background-repeat:no-repeat;
+-moz-background-size: auto 100%;
+    background-size: auto 100%;; display:inline-block; margin-top:10px; margin-bottom:0px; margin-left:-15px;}
+
+
+.row{ margin-left:-5px; margin-right:-5px;}
+
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+  padding-left:5px;
+  padding-right:5px;	
+}
+
+.home-cat{ background-color:#b5141a; padding-bottom:15px; height:439px;}
+.home-cat hr{ margin:10px 10px; border:none; border-bottom:1px solid #cc5d61;}
+.home-cat .nav-pro-cat>li{ color:#FFA2B5; text-align:left; padding-left:10px;}
+.home-cat .nav-pro-cat>li>A{ padding:8px 3px; display:inline-block;}
+.home-cat .nav-pro-cat>li>A:hover{ background-color:transparent; color:#FF6;}
+
+
+.title-xsc{ font-size:18px; text-align:center; color:#fff; padding:10px 25px 10px 0px; }
+.title-xsc i{background:url(../images/home/home_img.png) 0px -212px no-repeat; display:inline-block; width:32px; height:32px; vertical-align:middle; margin-top:-4px; margin-right:8px;}
+.title-xsc A{ color:#fff;}
+.title-xsc A:hover{ text-decoration:none;}
+
+.home-ad-main{ margin-top:10px;}
+
+.content-home{ padding-top:0px;}
+.content-home .login-box{ background-color:#ebeff1; margin-top:10px; height:163px; width:100%; margin-bottom:0px; float:none;}
+.content-home .login-box .default{ text-align:center; padding-top:15px;}
+.content-home .login-box .default .simg{background:url(../images/home/home_img.png) 0px -285px no-repeat; display:inline-block; margin:0px auto; width:68px; height:68px;}
+.content-home .login-box .btn-area{ background-color:transparent;}
+
+.content-home .login-box .btn{ background-color:#9b0a0f; height:25px; line-height:25px; color:#fff; font-family:Arial, "宋体"; padding:0px;}
+.content-home .login-box .btn:hover{ background-color:#F30;}
+.content-home .login-box .btn-main{ background-color:#d11010;}
+
+
+.content-home .login-box.logined{ border-bottom:3px solid #d11010;}
+.content-home .login-box .head{ height:100px; padding:20px 0px 0px 40px;}
+.content-home .login-box .head .simg{ float:left; margin-right:20px;}
+.content-home .login-box .head .simg img{ border-radius:37px;}
+.content-home .login-box .head .nickname{ color:#333; font-size:14px; margin-bottom:0px; display:block; padding-top:15px; }
+.content-home .login-box .head .user-level{ font-size:12px; color:#666; color:#d11010}
+
+.content-home .login-box  .statistic{ padding-left:0px; margin-left:0px;}
+.content-home .login-box  .statistic li{ list-style-type:none; float:left; display:inline-block; width:25%; text-align:center;}
+.content-home .login-box  .statistic li A{ color:#333; font-size:12px; font-family:Arial, "宋体";}
+
+.content-home .login-box  .statistic li A .title{ color:#333; font-weight:normal;}
+.content-home .login-box  .statistic li .no{ display:block; color:#d11010; font-weight:bold;}
+.content-home .login-box  .statistic li A:hover{ text-decoration:none;}
+.content-home .login-box  .statistic li A:hover .title{ color:#d11010;}
+
+
+.notice{ background:#fff; border:1px solid #ddd; padding:10px 20px; height:66px; }
+.notice li A{ font-family:Arial, "宋体"; font-size:12px; color:#777;}
+
+
+.conv{border:1px solid #ddd; border-top:none; height:201px;}
+
+
+.sales-ms{ padding-top:10px;}
+.sales-ms a{ border:1px solid #ddd; display:block;}
+.sales-ms img{ width:100%;}
+
+.sales-rec-main{ padding-top:10px; margin-right:0px; padding-left:5px;}
+.sales-rec-main A{ border-right:1px solid #fff;  }
+.sales-rec-main>div:last-child>A{ border-right:none;}
+.sales-rec-main .col-md-4{ padding:0px;}
+.sales-rec-main A img{ width:100%;}
+
+.home-weather{margin-top:10px; height:190px; border:1px solid #ddd; padding-top:5px;}
+
+
+
+
+
+.pro-list-home{}
+.pro-list-home .list-heading{ border-bottom:2px solid #ddd;  display:table; width:100%;}
+.pro-list-home .list-heading .title{ font-size:24px; color:#000; display:inline-block; vertical-align:middle; float:left;line-height:60px; margin-right:20px;}
+.pro-list-home .list-heading .slogon{ background:url(../images/home/home_img.png) no-repeat -69px -285px; display:inline-block; width:250px; height:20px; vertical-align:middle; float:left; margin-top:20px;}
+.pro-list-home .list-heading .slogon-mall{ background-position: -69px -285px; width:234px;}
+.pro-list-home .list-heading .slogon-platform{ background-position: -69px -319px; width:234px;}
+.pro-list-home .list-heading .slogon-bm{ background-position: -69px -353px; width:234px;}
+
+.pro-list-home .list-heading .link-more{ float:right;margin-top:20px; margin-right:20px;}
+
+.pro-list-home .list{ display:block; border-left:1px solid #eee; margin-left:0px; margin-right:0px;}
+.pro-list-home .list li{ float:left; display:inline-block;  border-right:1px solid #eee;border-bottom:1px solid #eee; padding:0px; background-color: #fff;}
+.pro-list-home .list li>A>img{ width:100%; height:auto;}
+.pro-list-home .list li .name{ display:block; padding:10px; height:66px;}
+.pro-list-home .list li A{ color:#777;}
+.pro-list-home .list li .name strong{ color:#000;}
+
+
+#homeProListMall .list-heading{ border-bottom-color:#ddd}
+
+#homeProListXSC .list-heading{ border-bottom-color:#ff8a00}
+
+#homeProListCBDS .list-heading{ border-bottom-color:#89ba20}
+
+
+#homeProListWY .list-heading{ border-bottom-color:#317ff4}
+
+#homeProListBM .list-heading{ border-bottom-color:#b5141a}
+
+#homeShopList .list-heading{ border-bottom-color:#7042a4}
+
+
+#homeRightBlocks{ padding-top:10px;}
+
+
+/*#homeSalesMs img{ width:100%;}*/
+
+.block{ margin-top:10px; }
+
+.block-heading{ border-bottom:1px solid #ddd;  display:table; width:100%;}
+.block-heading .title{ font-size:20px; color:#000; display:inline-block; vertical-align:middle; float:left;line-height:40px; margin-right:20px; padding-left:15px;}
+.block-heading .link-more{ float:right;margin-top:8px;}
+
+.block-body{ padding:10px;border:1px solid #eee;
+    background-color: #fff;}
+.block-body>h3{ font-size:16px; margin:0px; line-height:24px; background:#eee; padding:5px 10px;}
+
+
+.currency-list{ padding:0px;}
+.currency-list li{ line-height:27px;}
+.currency-list li span{ display:inline-block; vertical-align:middle;}
+.currency-list li .title{ font-size:12px; color:#000; font-family:Arial, "宋体"; width:70px; padding-left:10px;}
+.currency-list li .code{  font-size:12px; color:#555; width:50px;}
+.currency-list li .no{ padding-left:0px; font-size:14px; color:#C00;width:140px; text-align:right; font-weight:bold;}
+ 
+ .currency-list li:hover{ background-color:#eee; }
+ 
+.uptime{ font-size:12px; color:#888; text-align:right; border-top:1px dotted #ddd; padding-top:5px;}
+
+
+
+.carousel .carousel-caption{ margin:0px 0px 0px 0px;background-color:rgba(0,0,0,0.7); padding:5px 10px; line-height:100%;left:0;right:0;}
+.carousel .carousel-caption:hover{ background-color:rgba(0,0,0,0.7);}
+.carousel  .item a img{ width:100%; height:auto;}
+
+.mall-menu{ margin-left:-15px;}
+.mall-menu .mall-all-cat{ width:190px; background:#9b0a0f; margin-right:15px; border-bottom:1px solid #7e0c0d;}
+
+
+.mall-menu li{ background:url(../images/dot.png) center right no-repeat; }
+.mall-menu li>A{ padding-right:13px;padding-left:13px; font-size:17px; height:45px; line-height:25px;	}
+.mall-menu>li.sep{ height:45px; line-height:45px; vertical-align:middle; padding:0px 10px; background:none;}
+.mall-menu li.nod{ background:none;}
+
+.news-list{}
+.news-list li A{ color:#555; font-family:Arial, "宋体"; font-size:12px; line-height:20px;}
+
+#homeTTNews{ margin-bottom:10px;}
+
+
+.home-link-list{ margin-right:-10px;}
+.home-link-list A{ color:#333; margin-right:15px;}
+.home-link-list hr{ margin:5px 0px;}
+.home-link-list p{ text-align: left;}
+
+.home-link-icon{ background:url(../images/home/defaultIcon1229.png) no-repeat ; display:inline-block; width:20px; height:20px; vertical-align:middle;}
+.home-link-icon.icon-bd{ background-position:0px -198px;}
+.home-link-icon.icon-xl{ background-position:0px -278px;}
+.home-link-icon.icon-wb{ background-position:0px -118px;}
+.home-link-icon.icon-yk{ background-position:0px -398px;}
+.home-link-icon.icon-tx{ background-position:0px -38px;}
+
+.home-link-list-v h4{ margin:10px 0px; font-size:14px; color:#000;font-family:Arial, "宋体"; font-weight:bold;}
+
+.home-link-list-v A{ display:block; margin:5px 0px;color:#333; font-size:12px; font-family:Arial, "宋体"; }
+
+.home-news-blocks{}
+.home-news-blocks h3{ background:url(../images/icon_arrowr_g.png) left center no-repeat; padding-left:20px;}
+
+.search-part .nav-tabs{ border-bottom:none;}
+.search-part .nav-tabs>li>A{ line-height:20px; padding:5px 10px; color:#777; border:none; cursor:pointer;}
+.search-part .nav-tabs>li.active>A{ color:#000; font-weight:bold;}
+.search-part .nav-tabs>li>A:hover{ border:none;}
+
+.keyword_list{ padding:5px 0px;}
+
+#searchPart2 .btn-search{ background-color:#2453a2; border-color:#143d82;}
+
+.mall-head .cart-part{ margin-top:0px; padding-top:20px;}
+
+.home-banner{
+    margin:10px 0 0 0;}
+.home-banner img{ width: 100%;}
+
+/* promotion 2016-12-09  */
+/*.content-head{ background-color: transparent; border-color: transparent; }*/
+.content-head{ width: 1210px;
+    margin:391px auto 0px auto;background: url("../images/home/promotion_head2.jpg") center top no-repeat #fff; padding-top: 60px;}
+.promotion-bg{ background: url("../images/home/promotion_bg.jpg") center top repeat-x #fff; text-align: center;}
+.promotion-pattern{ background: url("../images/home/promotion_head1.jpg") center top no-repeat; text-align: center;}
+.container.content-home{ background: #fff;padding:0px 10px; width: 1210px; }
+.mall-menu .mall-all-cat{ border-bottom-color: transparent;}
+
+
+#pageHeadBar{ position: fixed; top:0px; width: 100%; z-index: 99}
+
+.top-navbar-front{ border-radius: 0px;}
+
+
+.home-channel-list{}
+.home-channel-list li{ float:left ; display: inline-block; width: 123px; height: 67px; border: 1px solid #ddd; margin: 0px -1px -1px 0px;}

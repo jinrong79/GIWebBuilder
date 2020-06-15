@@ -136,6 +136,9 @@ j79FormBuilder.prototype = {
         //console.log("get here");
 
 
+        $(this.uiForm).empty();
+
+
         //console.log(startXML);
         $(startXML).children(this.nodeName).each(function (i) {
 
@@ -437,6 +440,23 @@ j79FormBuilder.prototype = {
 
                         //preload js
                         j79.addUnique(preLoadJs, '/js/plugin/j79.choice.box.js');
+
+                        break;
+
+
+                    case 'date-selector':
+
+                        //var strDefault= curValue !='' ? ' value="'+curValue+'" ' : ' value="'+valueDefault+'" ';
+
+
+                        ctrItemStr = '<div class="date-selector '+viewClass+'" ' +  strDisalbed + ctrTitle + dataSaver + '" id="' + ctrId +'">';
+
+
+                        ctrItemStr +='</div>';
+                        $ctrItem = $(ctrItemStr);
+
+                        //preload js
+                        j79.addUnique(preLoadJs, '/js/plugin/j79.date.selector.js');
 
                         break;
 

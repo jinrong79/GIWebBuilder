@@ -1,0 +1,36 @@
+.tree-link-selector{}
+
+.tree-link-selector .list-part{ display:inline-block; float: left; width: 50%; padding: 0px 10px;}
+.tree-link-selector .list-part h3{margin: 0px 0px 10px 0px;  padding: 7.5px 0px;}
+.tree-link-selector .list-part .item-list{
+    border:1px solid #ddd; background-color: #fff; height: 35em; overflow-y: scroll; }
+.tree-link-selector .list-part .item-list li{
+    margin:5px 0px; border: 1px solid #ddd; background-color: #fff; padding: 5px 5px;}
+
+.tree-link-selector .list-part .item-list  .img-part{ display: inline-block;
+    width: 30%; margin-bottom:5px;}
+.tree-link-selector .list-part .item-list  .img-part img{ width: 100%;
+    border:1px solid #ccc;}
+.tree-link-selector .list-part .item-list .li-menu{ display: inline-block;
+    float: right; width: 40%;}
+.tree-link-selector .list-part .item-list .title-part{ }
+
+.tree-link-selector .list-part P{ margin-bottom: 5px;}
+
+.tree-link-selector .list-part .item-list .active{ border: 1px solid #eea236; background-color:#ffefbf;}
+
+.tree-link-selector .edit-panel{
+    background-color: #fff;
+    border: 2px solid #C00; padding: 10px; float: right; width: 50%;
+    display: none;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.2);
+}
+
+.tree-link-selector .edit-panel h3{ margin: 0px 0px 15px 0px; border-bottom: 1px solid #ddd; padding: 5px 5px;
+   }
+
+.tree-link-selector .edit-panel .input-item{ margin-top: 5px;}
+.tree-link-selector .edit-panel .input-item input{ width: 100%;}
+.tree-link-selector .edit-panel .operation{ margin-top: 10px;}
+.tree-link-selector .description{ padding:10px;
+    color: #999;}

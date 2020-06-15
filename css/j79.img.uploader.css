@@ -1,0 +1,89 @@
+.j79-img-uploader{}
+.j79-img-uploader .place-holder{
+    padding:5px 0px;
+    color: #666;}
+.j79-img-uploader .img-preview-list{}
+.j79-img-uploader li{
+    position: relative;
+}
+
+.j79-img-uploader .loading-progress{ display: block; position: absolute; width: 100%; top:0px;
+    height:100%; background:  #000; opacity: 0.7; padding-left: 50%; }
+
+.j79-img-uploader .img-preview-list{ display: table; padding-left: 0px;
+    margin:0px; width: 100%;}
+.j79-img-uploader .img-preview-list li{ list-style-type: none; display:inline-block;
+    float: left; margin:0px  10px 10px 0px; border: 1px solid #ccc; width: 8em;
+    height:8em;  overflow: hidden; cursor: pointer;}
+
+.j79-img-uploader .img-preview-list li .img{vertical-align: middle; display: block;
+    height:100%; width: 100%;  }
+.j79-img-uploader .img-preview-list li .img img{ vertical-align: middle; display: inline-block; }
+
+.j79-img-uploader .loading-progress.error{ background-color: #9b0a0f;}
+.j79-img-uploader .loading-progress.error .spinner{ display: none;}
+
+.j79-img-uploader .img-preview-list .img-menu{ position: absolute; right:0px; bottom:0px; display: none; background-color:rgba(0,0,0,0.3); padding: 5px; width: 100%;}
+.j79-img-uploader .img-preview-list li:hover .img-menu{ display: block;}
+.j79-img-uploader .img-preview-list .img-menu A{ display: block;
+    padding:0px 10px; background-color: #333; color: #fff; text-align: center; margin: 1px 0px; opacity: 0.8;}
+.j79-img-uploader .img-preview-list .img-menu A:hover{ background-color: #9b0a0f;}
+
+
+.j79-img-uploader .button-face{ display: inline-block; padding: 0px; background-color: #fff;
+    color: #0d58c8;  text-align: center;
+    margin:0px  10px 10px 0px;float: left; border: 1px solid #0d58c8; line-height: 2em; font-size: 4em; width: 2em;
+    height:2em; font-family: Arial; cursor: pointer;}
+
+.j79-img-uploader .button-face:hover{ border-color:#bb0113;
+    color: #bb0113;}
+
+.j79-img-uploader.view-static{ min-height: 2em;}
+.j79-img-uploader.view-static .place-holder,
+.j79-img-uploader.view-static .button-face{ display: none;}
+
+
+.j79-img-uploader .spinner {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -20px;
+    margin-left:-20px;
+
+}
+
+.j79-img-uploader .double-bounce1, .double-bounce2 {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #67CF22;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    -webkit-animation: bounce 2.0s infinite ease-in-out;
+    animation: bounce 2.0s infinite ease-in-out;
+}
+
+.j79-img-uploader .double-bounce2 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+@-webkit-keyframes bounce {
+    0%, 100% { -webkit-transform: scale(0.0) }
+    50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+    } 50% {
+          transform: scale(1.0);
+          -webkit-transform: scale(1.0);
+      }
+}

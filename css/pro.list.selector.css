@@ -1,0 +1,49 @@
+@charset "utf-8";
+
+.pro-list-selector{
+    position: relative;}
+.pro-list-selector .pro-list-select{ padding-left: 0px;}
+.pro-list-selector .pro-list-select li{ list-style-type: none;
+    padding:0px 5px;}
+.pro-list-selector .pro-list-select li .thumb-img { padding: 5px;}
+.pro-list-selector .pro-list-select li .thumb-img A{ cursor: pointer;}
+.pro-list-selector .pro-list-select li .thumb-img img{ width: 100%;
+    border:1px solid #ddd; }
+.pro-list-selector h3{ font-size: 1em; font-weight: bold;}
+.pro-list-selector h3 span{ font-weight: normal;}
+
+.pro-list-selector .pro-list-select li.selected{
+    border:1px solid #acca63; background-color: #f5fce3;}
+.pro-list-selector .pro-list-select .select-part{ position:absolute; left:5px; top:5px; width: 40px;}
+.pro-list-selector .pro-list-select .select-part input{ width: 40px; height: 40px;}
+.pro-list-selector .pro-list-select li .title{ padding: 0px; text-align: center;}
+.pro-list-selector .pro-list-select .title h3{ height: 1em;  overflow: hidden; margin: 5px 0px;}
+
+.pro-list-selector .pro-list-part{ box-shadow:0px 0px 8px rgba(0,0,0,0.2); border: 1px solid #ddd; background-color: #fff;display: none;
+    margin:0px;
+    padding:0px;
+    width:100%;
+}
+
+.pro-list-selector .pro-list-part .pro-list-buttonbar{
+    padding:10px 0px; text-align:center;border-top: 1px solid #ddd;}
+
+.pro-list-selector .pro-list-container{ overflow-x: hidden; overflow-y: scroll; height:600px;}
+.pro-list-selector .pro-list-toolbar{ background-color: #eee; padding: 5px; border-bottom: 1px solid #ddd;}
+.pro-list-selector .pro-list-toolbar .btn{
+    padding:0px 5px; font-size:0.8em;}
+.pro-list-selector .pro-list-toolbar .btn.active{ padding: 0px 5px;}
+
+
+.pro-list-selector .pro-list-selected{ padding-left: 0px; }
+.pro-list-selector .pro-list-selected li{ list-style-type: none;position: relative; padding:10px 10px; background-color: #fff;}
+.pro-list-selector .pro-list-selected li.active{  background-color:#ffdb7a;}
+.pro-list-selector .pro-list-selected li:after{ content: ""; clear: both;}
+
+.pro-list-selector .pro-list-selected li .thumb-img{
+    float: left; width: 100%; margin: 0px 0px 10px 0px;}
+.pro-list-selector .pro-list-selected li h3{ margin: 0px 0px 10px 0px;}
+.pro-list-selector .pro-list-selected li .thumb-img img{ width: 100%;
+    border:1px solid #ddd; }
+.pro-list-selector .pro-list-selected .btn-part{ padding-top: 6px;}
+.pro-list-selector  .pro-list-selected-container{ border: 1px solid #ddd; background-color: #fff; height: 600px; overflow-x: hidden; overflow-y: scroll; padding-left: 0px;  }

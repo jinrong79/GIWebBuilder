@@ -1,0 +1,35 @@
+.banner-editor{}
+
+.banner-editor .list-part{ display:inline-block; float: left; width: 50%; padding: 0px 10px;}
+.banner-editor .list-part h3{margin: 0px 0px 10px 0px;  padding: 7.5px 0px;}
+.banner-editor .list-part .ad-list{
+    border:1px solid #ddd; background-color: #fff; height: 35em; overflow-y: scroll; }
+.banner-editor .list-part .ad-list li{
+    margin:5px 0px; border: 1px solid #ddd; background-color: #fff; padding: 5px 5px;}
+
+.banner-editor .list-part .ad-list  .img-part{ display: inline-block;
+    width: 30%; margin-bottom:5px;}
+.banner-editor .list-part .ad-list  .img-part img{ width: 100%;
+    border:1px solid #ccc;}
+.banner-editor .list-part .ad-list .img-menu{ display: inline-block;
+    float: right; width: 40%;}
+.banner-editor .list-part .ad-list .title-part{ }
+
+.banner-editor .list-part P{ margin-bottom: 5px;}
+
+.banner-editor .list-part .ad-list .active{ border: 1px solid #eea236; background-color:#ffefbf;}
+
+.banner-editor .edit-panel{
+    background-color: #fff;
+    border: 2px solid #C00; padding: 10px; float: right; width: 50%;
+    display: none;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.2);
+}
+
+.banner-editor .edit-panel h3{ margin: 0px 0px 15px 0px; border-bottom: 1px solid #ddd; padding: 5px 5px;
+   }
+
+.banner-editor .edit-panel .input-item{ margin-bottom: 5px;}
+.banner-editor .edit-panel .input-item input{ width: 100%;}
+.banner-editor .description{ padding:10px;
+    color: #999;}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>data transporter</title>
+</head>
+<body>
+<script src="/js/jquery/1.11.3/jquery.min.js"></script>
+<script src="/js/plugin/jquery.json.js"></script>
+<script src="/js/lib/j79/basic.js"></script>
+<script src="/js/lib/j79/data.transporter.js"></script>
+<script src="/js/app/data.transporter.js"></script>
+<script src="/js/lib/j79/login.manager.js"></script>
+<script src="/js/app/login.manager.js"></script>
+<script>
+    $(document).ready(function (e) {
+
+        let loginM=new loginManager({
+            "success":function(data){
+                console.log("login success");
+                console.log(data)
+            },
+            "failed":function(code,msg){
+                console.log("login failed");
+                console.log(code);
+                console.log(msg);
+            }
+        })
+
+        loginM.login({
+            "username":"jinrong",
+            "password":"123456"
+        })
+
+        /*let dataT=new dataTransporter();
+
+        dataT.dataPost({
+            "url":"https://apps.kbitc.com:8443/api/auth/login",
+            "data":{
+                "username":"jinrong",
+                "password":"123456"
+            },
+            "success":function(data){
+                console.log("result success");
+                console.log(data);
+
+                /!*console.log("load success!");
+                if(data.code!=0){
+                    console.log("result failed!");
+                }else{
+                    console.log("result success!");
+                }*!/
+                //console.log(data);
+            },
+            "failed":function(code,msg){
+                console.log("result failed!");
+                console.log(code);
+                console.log(msg);
+            }
+
+        })*/
+
+
+    });
+</script>
+</body>
+</html>

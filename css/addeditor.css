@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* CSS Document */
+.address-editor{ position:relative;}
+.has-error .address-editor{ border:1px solid #C00;}
+.address-editor .selector{ width:400px; border:1px solid #ccc; background:#fafafa; padding:10px; display:none; position:absolute;}
+.address-editor .tab{ height:24px;  margin:0px; }
+.address-editor .tab li{float:left; display:inline-block; height:24px; line-height:24px; padding:0px 15px; margin-left:0px;  margin-right:10px; cursor:pointer; background:#fff;}
+.address-editor .tab .cur{ border:1px solid #ccc; border-bottom:1px solid #fff; margin-bottom:-1px;}
+.address-editor .tabboard{ border:1px solid #ccc; background:#fff; margin:0px; clear:both;}
+.address-editor .list{ padding-left:0px; margin:0px; list-style-type:none; }
+.address-editor .item{  margin:7px; display:inline-block; float:left; padding:4px; cursor:pointer; font-size:14px;}
+.address-editor .item:hover{ background:#777;color:#fff;}
+.address-editor .selected{ background:#F60; color:#fff;}
+.address-editor .selected:hover{background:#F60;}
+.address-editor .clear{ clear:both;}
+.address-editor .value-view{ display:table; width:100%;}
+.address-editor .input_region{ height:34px; width:45%; font-size:12px; padding:0px 5px; background:url(../images/addeditor/icon_16_select.png) 99% 50% no-repeat; border:1px solid #ccc; cursor:pointer; display:table-cell;}
+.address-editor .input_address{ height:34px; width:55%;  display:table-cell;font-size:12px;padding:0px 5px;border:1px solid #ccc; border-left:none;}
+.address-editor .bu_close{ position:absolute; right:5px; top:5px; font-family:Verdana; cursor:pointer; display:inline-block; width:20px; height:30px;}
+
+
