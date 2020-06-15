@@ -12,22 +12,35 @@ class loginManager extends loginManagerBase{
 
         this.url="/api/auth/login";
         this.dataTransporter=new dataTransporter();
+
+        this.dataKeySID=params.dataKeySID || 'sid';
+
     }//
 
-    handleLoginSuccess(data,loginManager){
+    handleLoginSuccess(resultData){
 
-        //console.log(loginManager);
-        loginManager.setLocalStorage(data);
-        if(typeof loginManager.success=='function'){
+        console.log(resultData);
+        this.setLocalStorage(resultData);
+
+        //loginManager.setLocalStorage(data);
+        if(typeof this.success=='function'){
             console.log("call onSuccess")
-            loginManager.success(data);
+            this.success(resultData);
         }
         return true;
         //super.handleLoginSuccess(data);
     }//-/
 
-    setLocalStorage(data){
-        super.setLocalStorage(data);
+    /**
+     * setLocalStorage
+     * @param resultData
+     */
+    setLocalStorage(resultData){
+
+        super.setLocalStorage(resultData);
+
+        let data=resultData.data;
+        //set privilege data into localStorage.
         let privilege=data[this.dataKeyPrivilege];
         if(!privilege){
             console.log("no privileges");
@@ -35,6 +48,8 @@ class loginManager extends loginManagerBase{
             localStorage.setItem(this.storagePrivilege,JSON.stringify(privilege));
         }
     }//-/
+
+
 
 
 

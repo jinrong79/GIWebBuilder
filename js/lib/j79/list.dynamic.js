@@ -1,4 +1,4 @@
-class ListAjaX extends ListBase{
+class ListDynamic extends ListBase{
 
     parseParam(params) {
         super.parseParam(params);
@@ -6,18 +6,23 @@ class ListAjaX extends ListBase{
         //ajax url:
         this.url=params.url || null;
 
-        //ui:
-        this.ui=params.ui || null;
+
+
+        //page type:
+        //          0- set paged by self. 1- set paged by server;
+        this.pageType=params.pageType || 0;
+
 
 
         //dataKeyName
         //key-name of list data in result from server by ajax
         //if empty, then get all object attributes and saved in array.
-        //   attribute key-name save as element[this.itemKeyName] in array.
-        this.dataKeyName=params.dataKeyName || '';
+        //   attribute key-name save as element[this.itemSavingKeyName] in array.
+        //if not empty, then get resultData[this.dataKeyName] as listData.
+        this.dataKeyName=params.dataKeyName || 'data';
 
 
-        //itemSavingKeyName: when parse result data in non-array format, data attribute name save in element object by this.itemKeyName.
+        //itemSavingKeyName: when parse result data in non-array format, data attribute name save in element object by this.itemSavingKeyName.
         this.itemSavingKeyName=params.itemSavingKeyName || 'id';
 
 
@@ -28,10 +33,12 @@ class ListAjaX extends ListBase{
         this.funcView=params.funcView || this.viewDefault;
 
         //handleFailed Loading
-        this.handleFailed=params.handleFailed || null;
+        this.handleFailed=params.failed || null;
 
-        //handleErr
-        this.handleErr=params.handleErr || null;
+        //call when load and view list finished.
+        this.callAfterLoad=null;
+
+
 
         //token key name in localStorage.
         this.tokenKeyName=params.tokenKeyName || "token";
@@ -75,8 +82,18 @@ class ListAjaX extends ListBase{
     }//-/
 
     /**
+     * getDataTransporter
+     * should overwrite in subclass to set correct dataTransporter class.
+     * @param params
+     */
+    getDataTransporter(params){
+        //need overwrite in subclass
+        return new dataTransporterBase(params);
+    }
+
+    /**
      * load
-     * load data by ajax
+     * load data by dataTransporter
      * @param params
      * @returns {boolean}
      */
@@ -84,8 +101,7 @@ class ListAjaX extends ListBase{
 
         let SELF = this;
 
-
-
+        params=params || {};
 
         if(!this.url){
             console.log("no url provided!");
@@ -93,97 +109,67 @@ class ListAjaX extends ListBase{
         }
 
 
-        SELF.page=params.page || SELF.page;
 
-        requestType=requestType || 'POST';
+        requestType=requestType || 'GET';
+        SELF.callAfterLoad=params.callAfterLoad || null;
+
+        let loadPage=params.page || SELF.page;
 
 
         //j79.viewLoading(SELF.ui.list);
         console.log('list post data:');
         console.log(params);
 
-        //communicating with server:
-        $.ajax({
+        let requestData={};
+
+        if(SELF.pageType==1){
+            requestData.page=loadPage;
+        }else{
+            SELF.page=1;
+        }
+
+
+        let dataTranporter=this.getDataTransporter();
+        dataTranporter.dataGet({
             "url":SELF.url,
-            "type":requestType,
-            "data":params,
-            "dataType":"json",
-            "contentType":"application/x-www-form-urlencoded",
-            "beforeSend":function (XMLHttpRequest) {
-                XMLHttpRequest.setRequestHeader("token", localStorage.getItem(SELF.tokenKeyName));
-            },
-            "success":function(data, txtStatus){
-                let jsonData=SELF.resultParser(data,txtStatus)
-                if(jsonData!==false){
-                    if(SELF.funcView){
-                        SELF.funcView(jsonData);
-                    }
-                }else{
-                    if(SELF.handleFailed){
-                        SELF.handleFailed(data,txtStatus);
-                    }else{
-                        console.log("failed loading data!");
-                        alert("failed loading data!");
-                    }
+            "requestType":requestType,
+            "success":function(data){
 
+
+
+
+                //set current page when load success.
+                if(SELF.pageType==1){
+                    SELF.page=loadPage;
                 }
+
+                //view list
+                if(SELF.funcView){
+                    SELF.funcView(data);
+                }
+                //call after load and view list:
+                if(SELF.callAfterLoad){
+                    SELF.callAfterLoad(SELF);
+                }
+
+
             },
+            "failed":function(code,msg,xmlHR){
 
-            "error":function(xmlHR, txtStatus, errThrown){
-                if (typeof SELF.handleErr == 'function') {
+                if (typeof SELF.handleFailed == 'function') {
 
-                    SELF.handleErr(txtStatus,errThrown);
+                    SELF.handleFailed(code,msg,xmlHR);
 
                 } else {
                     alert('failed connecting server!');
 
                 }
+
+                /*console.log(code);
+                console.log(msg);
+                console.log(xmlHR);*/
             }
-
-
-
-
-        });
-
-
-        /*$.post(SELF.url, params,
-
-            function(data, status) {
-
-                let jsonData=SELF.resultParser(data,status)
-                if(jsonData!==false){
-                    if(SELF.funcView){
-                       SELF.funcView(jsonData);
-                    }
-                }else{
-                    if(SELF.handleFailed){
-                        SELF.handleFailed(data,status);
-                    }else{
-                        console.log("failed loading data!");
-                        alert("failed loading data!");
-                    }
-
-                }
-
-            }) //-/post
-            .error(function(data, status, e) { //error when communicating with server
-
-                /!*console.log(uiTitle + '时，连接服务器出错，请稍后再试');
-                console.log('status:'+status);
-                console.log('data:');
-                console.log(data);
-                console.log("error:")
-                console.log(e);*!/
-
-                if (typeof SELF.handleErr == 'function') {
-
-                    SELF.handleErr(data,status,e);
-
-                } else {
-                    alert('failed connecting server!');
-
-                }
-            });*/
+        })
 
     }//-/
 
@@ -211,38 +197,71 @@ class ListAjaX extends ListBase{
             dataArray=jsonData[this.dataKeyName];
         }
 
-
+        //set data:
         this.data=dataArray;
-        let resultHtml=this.generate(this.page);
 
+        //view:
+        this.view(this.page);
+
+        //view pager:
+        if(this.ui && this.ui.pager){
+            j79.viewPager(this.pageTotal, this.page, this.ui.pager, this, this.itemAmount);
+        }
+
+
+
+
+
+
+
+
+
+    }//-/
+
+    /**
+     * view
+     * view list by page.
+     * @param curPage
+     * @returns {boolean}
+     */
+    view(curPage){
 
         if(!this.ui || !this.ui.list){
             return false;
         }
 
+
+        curPage=curPage<=0 ? 1: curPage;
+        if(this.pageType==0){
+            this.pageTotal= Math.ceil(this.data.length / this.perPage);
+            curPage=curPage>this.pageTotal ? this.pageTotal : curPage;
+            this.page=curPage;
+        }
+
+
+        //generate list html.
+        let resultHtml=this.generate(this.page);
+
         //clear list:
         $(this.ui.list).children().remove();
 
-
-
         //if list is empty
-        if (dataArray.length == 0) {
+        if (this.data.length <= 0) {
 
             $('<div class="list-none"><i class="glyphicon glyphicon-info-sign"></i> 没有结果</div>').appendTo($(this.ui.list));
             if(this.ui.pager){
                 $(this.ui.pager).find('.pager-bar').remove();
                 return;
             }
+        }else{
+            console.log(resultHtml);
+            $(resultHtml).appendTo($(this.ui.list));
         }
 
-        //view list
-        for (let i = 0; i < dataArray.length; i++) {
+    }//-/
 
-            //append new item to list.
-            $(this.itemGenerator(dataArray[i],i)).appendTo($(this.ui.list));
-
-        }
-
+    setPage(curPage){
+        this.view(curPage);
     }//-/
 
 

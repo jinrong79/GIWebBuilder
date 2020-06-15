@@ -18,11 +18,25 @@ class ListBase{
             params={};
         }
 
+
+
+
+        //ui:
+        this.ui=params.ui || null;
+
         //dataOriginal: original list data, not sorted.
         this.dataOriginal=params.listData || null;
 
         //data:data to generate current list. (after sorting or filtering)
         this.data=this.dataOriginal;
+
+        //itemAmount: all item amount.
+        this.itemAmount=this.data ? this.data.length : 0;
+
+
+        //page type:
+        //          0- set paged by self. 1- set paged by server;
+        this.pageType=0;
 
         //perPage: item amount per page. default=10;
         this.perPage=params.perPage || 10;
@@ -49,7 +63,7 @@ class ListBase{
      */
     generate(page){
         page= page || 1;
-        this.page=page;
+        //this.page=page;
         let result='';
         console.log("here");
         if(!this.itemGenerator){
@@ -60,19 +74,27 @@ class ListBase{
             return result;
         }else{
 
-
+            let startIdx=0;
             let listLen=this.data.length;
+            let endIdx=listLen-1;
 
-            this.pageTotal=Math.ceil(listLen / this.perPage);
-
-            this.page=this.pageTotal>=this.page ? this.page : this.pageTotal;
-
-            let lastItemIndex=this.page*this.perPage>listLen ? listLen:this.page*this.perPage;
+            if(this.pageType==0){
 
 
-            for(let i=(this.page-1)*this.perPage;i<lastItemIndex;i++){
 
-                result+=this.itemGenerator(this.data[i],i-(this.page-1)*this.perPage);
+                this.pageTotal=Math.ceil(listLen / this.perPage);
+                this.itemAmount=listLen;
+                this.page=this.pageTotal>=this.page ? this.page : this.pageTotal;
+
+                endIdx=this.page*this.perPage>listLen ? listLen-1:this.page*this.perPage-1;
+                startIdx=(this.page-1)*this.perPage;
+
+            }
+
+
+            for(let i=startIdx;i<=endIdx;i++){
+
+                result+=this.itemGenerator(this.data[i],i);
 
             }
 

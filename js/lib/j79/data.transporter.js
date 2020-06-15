@@ -1,3 +1,14 @@
+/**
+ * CLASS
+ * dataTransporterBase
+ * load data by ajax.
+ * error code:
+ *           10000 : can not connect url.
+ *           20000 : get result, but failed parsing result format.
+ *           other : connect and get result, but result indicates failed loading data,
+ *                   in this case, this error_code is provided by server.
+ *
+ */
 class dataTransporterBase{
 
 
@@ -53,7 +64,6 @@ class dataTransporterBase{
      *        .dataType: default=json.
      *        .contentType: default="application/x-www-form-urlencoded"
      *        .isSetRequestHeader: bool. [default]true-- add RequestHeader ; false-- no;
-     *        .requestHeaderTokenName: token keyname in RequestHeader, default="token";
      *        .localStorageTokenName : token keyname in localStorage, default="token";
      *        .token: token value, if provide this, then do not read from localStorage.
      *
@@ -80,10 +90,7 @@ class dataTransporterBase{
         let contentType=params.contentType || this.contentType;
 
         let isSetRequestHeader=typeof params.isSetRequestHeader=="undefined" ? this.isSetRequestHeader :params.isSetRequestHeader;
-
-
         let localStorageTokenName=params.localStorageTokenName || this.localStorageTokenName;
-
 
 
         this.onSuccess=params.success || null;
@@ -133,11 +140,18 @@ class dataTransporterBase{
 
             },//-/success
             "error":function(xmlHR, txtStatus, errThrown){
+
+                console.log(xmlHR);
+                console.log(txtStatus);
+                console.log(errThrown);
+
                 if (typeof SELF.onFailed == 'function') {
-                    SELF.onFailed(2,txtStatus);
+                    SELF.onFailed(10000,xmlHR.statusText,xmlHR);
                 } else {
-                    SELF.handlerFailed(2,txtStatus);
+                    SELF.handlerFailed(10000,xmlHR.statusText,xmlHR);
                     console.log('failed connecting server!');
+
+
                 }
 
             },//-/error
@@ -153,8 +167,8 @@ class dataTransporterBase{
             if(!token){
                 token=localStorage.getItem(localStorageTokenName);
             }
-            /*console.log("token add to head:");
-            console.log(token);*/
+            console.log("token add to head:");
+            console.log(token);
 
             if(token){
 
@@ -165,17 +179,18 @@ class dataTransporterBase{
                     //XMLHttpRequest.setRequestHeader("access-control-allow-origin", "*");
                     //XMLHttpRequest.setRequestHeader("access-control-expose-headers", "Authorization");
                     //XMLHttpRequest.setRequestHeader("Access-Control-Allow-Origin", "*");
-                    if(token){
-                        XMLHttpRequest.setRequestHeader("Authorization", "Bearer " +token);
-                    }
+                    XMLHttpRequest.setRequestHeader("Accept", "*/*");
+                    XMLHttpRequest.setRequestHeader("Authorization", "Bearer " +token);
+                    //XMLHttpRequest.setRequestHeader("Connection", "keep-alive");
+
                 };
             }
 
 
 
         }
-
-        //console.log(optionData);
+        console.log("dataTransporter request data:");
+        console.log(optionData);
 
         //ajax load:
         $.ajax(url,optionData);
@@ -199,9 +214,9 @@ class dataTransporterBase{
             }
         }else{
             if(typeof this.onFailed == 'function'){
-                this.onFailed(this.caller,1, txtStatus,data);
+                this.onFailed(20000, txtStatus,data);
             }else{
-                this.handlerFailed(this.caller,1,txtStatus,data);
+                this.handlerFailed(20000,txtStatus,data);
                 console.log("failed parsing data!");
             }
             return false;
@@ -261,11 +276,11 @@ class dataTransporterBase{
 
     /**
      * defaultHandlerFailed
-     * @param failType
+     * @param failCode
      * @param txtStatus
-     * @param data
+     * @param xmlHR: when connect error, it carry xmlHR data.
      */
-    defaultHandlerFailed(caller,failType, txtStatus, data){
+    defaultHandlerFailed(failCode, txtStatus, xmlHR){
         alert("failed loading data!");
     }//-/
 

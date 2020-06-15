@@ -259,6 +259,12 @@
         return true;
     }; //-/post
 
+
+    /**
+     *
+     * @param strContet
+     * @returns {*}
+     */
     _NS.prototype.trim=function(strContet){
         return strContet.replace(/(^\s*)|(\s*$)/g,"");
     };//-/trim
@@ -943,7 +949,7 @@
      *  viewPager
      *  view pager bar.
      */
-    _NS.prototype.viewPager = function(pageTotal, pageCur, containerSelector, listObj) {
+    _NS.prototype.viewPager = function(pageTotal, pageCur, containerSelector, listObj, totalAmount) {
 
         if ($(containerSelector) && pageTotal && listObj) {
 
@@ -952,6 +958,7 @@
             pageCur = pageCur || 1;
 
             var pageList = '';
+            var totalAmount=totalAmount || 1;
 
 
 
@@ -975,7 +982,7 @@
             var $ui = $(
                 '<nav class="pager-bar">' +
                 '  <ul class="pager">' +
-                '    <li class="total-amount">共<b class="total-amount-no"></b>条结果</li>' +
+                '    <li class="total-amount">共<b class="total-amount-no">'+totalAmount+'</b>条结果</li>' +
                 '    <li ><a class="previous"  aria-label="Previous">&lt;&lt; Prev</a></li>' +
 
                 pageList +

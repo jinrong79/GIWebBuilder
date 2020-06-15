@@ -37,6 +37,8 @@ class loginManagerBase{
 
     login(params){
 
+        let SELF=this;
+
         if(!params || typeof params.username=='undefined'){
             console.log("login data is invalid in key username.")
             return false;
@@ -50,8 +52,12 @@ class loginManagerBase{
        let requestData={};
        requestData.data=data;
        requestData.url=this.url;
-       requestData.success=this.handleLoginSuccess;
-       requestData.failed=this.handleLoginFailed;
+       requestData.success=function(data){
+           SELF.handleLoginSuccess(data);
+       };
+       requestData.failed=function(errorCode,txtStatus,xmlHR){
+           SELF.handleLoginFailed(errorCode,txtStatus,xmlHR);
+       }
        requestData.caller=this;
        requestData.isSetRequestHeader=false;
 
@@ -68,28 +74,33 @@ class loginManagerBase{
 
     }//-/
 
-    handleLoginSuccess(resultData,loginManager){
+    handleLoginSuccess(resultData){
 
         if(resultData && resultData.code==0){//login success.
             localStorage.clear();
-            loginManager.setLocalStorage(resultData.data);
+
+            //save data into localStorage
+            this.setLocalStorage(resultData);
             if(typeof loginManager.success=='function'){
                 loginManager.success(resultData);
             }
             return true;
 
         }else{//login failed
+
+            //empty resultData:
             if(!resultData){
                 console.log("login return empty data!");
-                if(typeof loginManager.failed=='function'){
-                    loginManager.failed(10000,'empty result data');
+                if(typeof this.failed=='function'){
+                    this.failed(10000,'empty result data');
                 }
                 return false;
             }
 
-            console.log("login failed!");
-            if(typeof loginManager.failed=='function'){
-                loginManager.failed(resultData.code,resultData.message);
+            //result exists, but server tells error:
+            console.log("server return login failure.");
+            if(typeof this.failed=='function'){
+                this.failed(1,"server return login failure.",resultData);
             }
             return false;
         }
@@ -97,14 +108,21 @@ class loginManagerBase{
 
 
     }//-/
-    handleLoginFailed(loginManager,failType,txtStatus,data){
+    handleLoginFailed(failType,txtStatus,data){
         console.log("login connect failed.")
-        if(typeof loginManager.failed=='function'){
-            loginManager.failed(failType,txtStatus);
+        if(typeof this.failed=='function'){
+            this.failed(failType,txtStatus,data);
         }
     }//-/
 
-    setLocalStorage(data){
+    /**
+     * setLocalStorage
+     * @param resultData
+     */
+    setLocalStorage(resultData){
+
+
+        let data=resultData.data;
         let sid=data[this.dataKeySID];
         if(!sid){
             console.log("no sid");
@@ -113,15 +131,15 @@ class loginManagerBase{
             localStorage.setItem(this.storageSID,sid);
         }
 
-
-
         let profile=data[this.dataKeyProfile];
         if(!profile){
             console.log("no profile");
         }else{
             localStorage.setItem(this.storageProfile,JSON.stringify(data[this.dataKeyProfile]));
         }
-    }//-/
+    }
+
+
 
 
 

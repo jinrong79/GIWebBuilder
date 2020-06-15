@@ -1,8 +1,8 @@
 class dataTransporter extends dataTransporterBase{
 
-    constructor() {
-        super();
-    }
+    constructor(params) {
+        super(params);
+    }//-
 
     parseParams(params) {
         super.parseParams(params);
@@ -13,28 +13,28 @@ class dataTransporter extends dataTransporterBase{
 
         this.urlPrefix="https://apps.kbitc.com:8443";
         this.isSetRequestHeader=typeof params.isSetRequestHeader=="undefined" ? true :params.isSetRequestHeader;
-    }
+    }//-/
 
     defaultHandlerSuccess(data){
-
-
 
         if(data!==false){
             if(data.code==0){
                 //console.log(data)
-                console.log("here")
+                console.log("dataTransporter:")
                 console.log(data);
-                this.onSuccess(data.data,this.caller);
+                this.onSuccess(data,this.caller);
                 return true;
             }else{
-                this.onFailed(this.caller,data.code,data.message,data,);
-
+                //load result, but failed
+                this.onFailed(this.caller,data.code,data.message,data);
                 return false;
             }
         }else{
-            this.onFailed(this.caller,10000,'parse result data failed!'); //10000 for parsing error-code.
+
+            this.onFailed(this.caller,20000,'parse result data failed!'); //10000 for parsing error-code.
             return false;
+
         }
-    }
+    }//-/
 
 }//==/
