@@ -192,10 +192,28 @@ class editBase{
 
         let dataT=SELF.getDataTransporter({"url":SELF.url});
 
+        let dataTmp={
+            "id":"11111111222",
+            "password": "123456",
+            "active": 1,
+            "disabled": 0,
+            "loginid": "test23",
+            "email": "test23@test.com",
+            "mobile": "123456789233",
+            "name": "Wayne King",
+            "gender": 1,
+            "nickname": "Wayne King",
+            "avatar": "https://wx.qlogo.cn/mmopen/vi_32/cnAez0H7ZAuugCkb4AP0Jn0np1AW6yZ4cl13Etgf55nHf7omO7UtBYxNooLn5M0MLyL6rlv1iaM3ibMwDSwtfKnA/132",
+            "birthday": "1979-07-01"
+        };
+
+
+
         dataT.dataPost({
             "url":SELF.url,
             "requestType":SELF.requestType,
-            "data":formData,
+            //"contentType":"application/json",
+            "data":formData, //dataTmp,//
             "success":function(data){
                 $('#mw1').modal('hide');
 

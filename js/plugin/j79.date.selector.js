@@ -66,7 +66,7 @@ j79.loadCSS("/css/j79.date.selector.css");
             curDay=curDay<10? '0'+curDay : ''+curDay;
             result=$(SELF).find('#'+SELF_ID+'_value_century_year').val()+''+
                 $(SELF).find('#'+SELF_ID+'_value_year').val()+'-'+
-                curM+'-'+curDay +'T00:00:00.000Z';
+                curM+'-'+curDay; // +'T00:00:00.000Z';
 
 
 
