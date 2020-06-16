@@ -25,6 +25,18 @@
         </controls>
     </item>
 
+    <item  id="password2" lineEnd="yes">
+        <label class="col-md-2 control-label">密码</label>
+        <controls class="col-md-10">
+            <control required="yes" node="password2"  type="password" id="password2" placeholder="重复输入，确认密码">
+                <validator type="regExp" msg="必须为6个字及以上25个字以下,英文，数字，横线，下划线">
+                    <![CDATA[^\s*[a-zA-Z0-9\-_]{6,25}\s*$]]>
+                </validator>
+            </control>
+
+        </controls>
+    </item>
+
     <item  id="mobile" lineEnd="yes">
         <label class="col-md-2 control-label">手机号</label>
         <controls class="col-md-10">

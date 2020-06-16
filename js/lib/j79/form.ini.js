@@ -16,6 +16,8 @@
    **
    **/
    $.fn.validate = function(){
+
+   	   var test_result;
 	   
 	   //bind change to check validation
 	   var bindChange=function(objInput){
@@ -107,34 +109,42 @@
 	  }
 	  
 	  //test regExp formula 正则表达式验证
-	  if(typeof($(this).attr('validator'))!='undefined'){//如果有validator属性， 取其值为正则表达式。
+	  if(typeof($(this).attr('validator'))!='undefined') {//如果有validator属性， 取其值为正则表达式。
+
+		  errorMsg = $(this).attr('validator-msg');
+
+		  var regStr = $(this).attr('validator');
+		  var reg = new RegExp(regStr);
+		  var test_result = reg.test($(this).val());
+
+		  if (!test_result) {//正则表达式验证有误： 显示tooltip，添加错误class：has-error
+
+			  setError(this, errorMsg);
+
+		  } else {//正则表达式验证无误， 去掉tooltip和错误class：has-error
+
+			  removeError(this);
+
+		  }
+		  return test_result; //返回验证结果 true/false
+
+	  }else if(typeof($(this).attr('tester-func'))!='undefined'){//如果，有tester-func，需要检查
+
+		  errorMsg = $(this).attr('tester-msg');
 		
-		errorMsg=$(this).attr('validator-msg');
-		
-		var regStr=$(this).attr('validator');
-		var reg=new RegExp(regStr);
-		var test_result=reg.test( $(this).val());		
-		
-		if(!test_result){//正则表达式验证有误： 显示tooltip，添加错误class：has-error	
-		
-		  setError(this,errorMsg);		 
-			
-		 
-		  
-		}else{//正则表达式验证无误， 去掉tooltip和错误class：has-error
-		
-		   removeError(this);
-		
-		}
-		return test_result; //返回验证结果 true/false
-		
-	  }else{
+	  }else{//其他不需要验证和检查
 		  
 		return true;//如果不需要验证，则返回true  
-	  }//------------/method: validate();	  
+	  }
+
+	  //测试特别规则
+
+
+
+
 	   
 	  
-   }
+   }//------------/method: validate();
 })(jQuery)//-----------------------------------------
 
 

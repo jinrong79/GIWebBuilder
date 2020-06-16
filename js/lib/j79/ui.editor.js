@@ -200,7 +200,7 @@ function j79UIEditor(params, iniData){
 		//append form data to postData
 		var formData={};
 		$(settings.ui.form+" [form-input]").each(function(){
-			  var singleResult=$(this).validate();
+			var singleResult=$(this).validate();
 			console.log('form item:');
 			console.log($(this));
 
