@@ -82,7 +82,7 @@ class editBase{
             "actionFinished":function () {
 
 
-                console.log("form build finished!");
+                //console.log("form build finished!");
 
 
 
@@ -145,8 +145,8 @@ class editBase{
         let formData={};
         $(SELF.ui.form+" [form-input]").each(function(){
             let singleResult=$(this).validate();
-            console.log('form item:');
-            console.log($(this));
+            /*console.log('form item:');
+            console.log($(this));*/
 
             if(singleResult==true){
 

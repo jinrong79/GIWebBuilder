@@ -165,7 +165,7 @@ j79.loadCSS("/css/j79.choice.box.css");
                 if(data){
 
                     data=parseInt(data);
-                    console.log('data='+data);
+                    //console.log('data='+data);
                     $(SELF).find('li').each(function(idx){
                         $(this).removeClass('active');
                         var curValue=parseInt($(this).attr('value'));

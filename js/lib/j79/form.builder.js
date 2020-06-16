@@ -105,8 +105,9 @@ j79FormBuilder.prototype = {
 
         //读取xml，初始化
         $.get(this.urlXML, function (data) {
-            console.log('FORM-XML=========');
-            console.log(data);
+            console.log('got xml file');
+            /*console.log('FORM-XML=========');
+            console.log(data);*/
 
             selfObj.viewForm(data, selfObj.data, selfObj.flagEdit, flagViewOrNot);
         });

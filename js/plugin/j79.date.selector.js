@@ -307,7 +307,7 @@ j79.loadCSS("/css/j79.date.selector.css");
                 if(data){
 
                     var dataTime=new Date(data);
-                    console.log(dataTime);
+                    //console.log(dataTime);
 
                     var centYear= Math.floor( dataTime.getFullYear()/100);
                     var tenYear=dataTime.getFullYear() % 100;
