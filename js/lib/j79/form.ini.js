@@ -128,9 +128,20 @@
 		  }
 		  return test_result; //返回验证结果 true/false
 
-	  }else if(typeof($(this).attr('tester-func'))!='undefined'){//如果，有tester-func，需要检查
+	  }else if(typeof($(this).attr('validator-expression'))!='undefined'){//如果有validator-expression，需要检查
 
-		  errorMsg = $(this).attr('tester-msg');
+			var validExpression=$(this).attr('validator-expression');
+			errorMsg = $(this).attr('validator-msg');
+
+			test_result=eval(validExpression);
+
+			if (!test_result) {//tester-expression计算结果为false： 显示tooltip，添加错误class：has-error
+				  setError(this, errorMsg);
+			} else {//tester-expression计算结果为true， 去掉tooltip和错误class：has-error
+				  removeError(this);
+			}
+			return test_result; //返回验证结果 true/false
+
 		
 	  }else{//其他不需要验证和检查
 		  

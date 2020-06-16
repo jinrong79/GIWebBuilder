@@ -11,6 +11,39 @@
 *                              flagView       : define static-view  without any edit control.
 *                             )
 *
+ *  xml文件格式：
+     每一项样例：
+         <item  id="password" lineEnd="yes">
+                // id: 每个item的id，仅仅是用来区分在xml文件里的item； lineEnd: 输入项，是否独立成行。
+            <label class="col-md-2 control-label">密码</label>
+                   // 输入项的标题文字。 class会赋值给标题文字的div上。
+            <controls class="col-md-10">
+                      // 输入控件组部分，里面可以多个控件，class会赋值给控件部分的div上。
+                <control required="yes" node="password"  type="password" id="password" placeholder="密码，6个字及以上">
+                            // 单个控件的设定：
+                            // require： 是否必填项
+                            // node:  编辑时，读取现有值的键名
+                            // id:  form中输入控件的id
+                            // type: 控件类型：
+                                     text ，hidden ， password ，select，checkbox，textarea， imguploader，richtext-editor，
+                                     choice-box，date-selector， bit-setter，tree-link-selector， tree-editor，address-picker，
+                                     db-selector，item-list-selector，item-editor 。。。
+                            // placeholder: 控件提示文字
+
+                    <validator type="regExp" msg="必须为6个字及以上25个字以下,英文，数字，横线，下划线">
+                        //验证器：
+                        //type： regExp | expression  -- 正则验证 | 表达式直接执行验证
+                        <![CDATA[^\s*[a-zA-Z0-9\-_]{6,25}\s*$]]>
+                             //cdata里面的文字，就是验证用的正则代码或者逻辑表达式js代码
+                             //如果是表达式验证：里面就是 逻辑结果表达式。
+                                             比如: $('#text1').val()==5
+                                             注意：请使用单引号。
+                    </validator>
+                </control>
+
+            </controls>
+         </item>
+
 */
 function j79FormBuilder(params) {
 
@@ -225,14 +258,30 @@ j79FormBuilder.prototype = {
                 var ctrTitle = ' title="' + desText + '" ';
 
 
+                //validator
                 var ctrValidtor = $(this).children('validator')[0];
 
                 strValidtor = ctrValidtor ? $(ctrValidtor).text() : '';
                 strValidtor = strValidtor.replace(/\s/g, '');
 
 
-                strValidtor = strValidtor == '' ? '' : 'validator="' + strValidtor + '"';
+
+
+
+                if(ctrValidtor && $(ctrValidtor).attr('type')=='regExp'){
+                    strValidtor = strValidtor == '' ? '' : 'validator="' + strValidtor + '"';
+
+                }else if(ctrValidtor && $(ctrValidtor).attr('type')=='expression'){
+                    strValidtor = strValidtor == '' ? '' : 'validator-expression="' + strValidtor + '"';
+
+                }
                 strValidtorMsg = $(ctrValidtor).attr('msg') ? 'validator-msg="' + $(ctrValidtor).attr('msg') + '"' : '';
+
+
+
+
+
+                //data-saver:
                 var dataSaverId = ($(this).attr('data-saver') || '') == '' ? '' : $(this).attr('data-saver');
 
                 var dataSaver = dataSaverId == '' ? '' : 'data-saver="' + dataSaverId + '"';
@@ -277,6 +326,12 @@ j79FormBuilder.prototype = {
 
                 var strDisalbed = ''; //用于设置控件disabled
                 var strFormInput = ' form-input '; //用于控件属性，表示submit的时候读取。
+
+                //如果存在submit-ignore，那么不设置“form-input”
+                if(typeof $(this).attr('submit-ignore')!=='undefined'){
+                    strFormInput=' ';
+                }
+
 
                 if ((flagEdit && flagStatic) || flagLocked) {
                     strDisalbed = ' disabled="disabled" ';
