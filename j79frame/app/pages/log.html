@@ -88,58 +88,23 @@
                 <thead>
                   <tr>
                     <th>编号</th>
-                    <th>时间</th>
+
                     <th>用户ID</th>
+
                     <th>模块</th>
-                    <th>操作</th>
+                    <th>动作</th>
+                    <th>信息</th>
+                    <th>时间</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>00001012</td>
-                    <td>2020-05-21</td>
-                    <td>king2020</td>
-                    <td>智慧市政</td>
-                    <td>数据查询</td>
-                  </tr>
-                  <tr>
-                    <td>00001012</td>
-                    <td>2020-05-21</td>
-                    <td>king2020</td>
-                    <td>智慧市政</td>
-                    <td>数据查询</td>
-                  </tr>
-                  <tr>
-                    <td>00001012</td>
-                    <td>2020-05-21</td>
-                    <td>king2020</td>
-                    <td>智慧市政</td>
-                    <td>数据查询</td>
-                  </tr>
-                  <tr>
-                    <td>00001012</td>
-                    <td>2020-05-21</td>
-                    <td>king2020</td>
-                    <td>智慧市政</td>
-                    <td>数据查询</td>
-                  </tr>
-                  <tr>
-                    <td>00001012</td>
-                    <td>2020-05-21</td>
-                    <td>king2020</td>
-                    <td>智慧市政</td>
-                    <td>数据查询</td>
-                  </tr>
-                  <tr>
-                    <td>00001012</td>
-                    <td>2020-05-21</td>
-                    <td>king2020</td>
-                    <td>智慧市政</td>
-                    <td>数据查询</td>
-                  </tr>
+                <tbody id="list1">
+
+
+
                 </tbody>
               </table>
             </div>
+          <div class="pager" id="pager1"></div>
             <h2 class="sub-header">&nbsp;</h2>
         </div>
       </div>
@@ -153,61 +118,34 @@
 
     <!-- j79frame js -->
     <script src="../../../js/lib/j79/basic.js"></script>
+    <script src="../../../js/app/j79.app.js"></script>
     <script src="../../../js/lib/j79/data.transporter.js"></script>
+    <script src="../../../js/lib/j79/list.base.js"></script>
+    <script src="../../../js/lib/j79/list.dynamic.js"></script>
     <script src="../../../js/app/data.transporter.js"></script>
-    <script src="../../../js/lib/j79/login.manager.js"></script>
-    <script src="../../../js/app/login.manager.js"></script>
+    <script src="../../../js/app/list.logs.js"></script>
+
   <script>
     $(document).ready(function (e) {
 
-      let t=localStorage.getItem("profile");
-      let profile=JSON.parse(t);
-      console.log(localStorage);
-      console.log(profile.email)
-      /*let loginM=new loginManager({
-        "success":function(data){
-          console.log("login success");
-          console.log(data)
-        },
-        "failed":function(code,msg){
-          console.log("login failed");
-          console.log(code);
-          console.log(msg);
+      let t=localStorage.getItem("token");
+      //let profile=JSON.parse(t);
+
+      console.log(t);
+
+      let list1=new listLogs ({
+
+        "perPage":50,
+
+        "ui":{
+          "list":"#list1",
+          "pager":"#pager1",
         }
-      })*/
+      });
+      list1.load();
 
-      /*loginM.login({
-        "username":"jinrong",
-        "password":"123456"
-      })*/
 
-      /*let dataT=new dataTransporter();
 
-      dataT.dataPost({
-          "url":"https://apps.kbitc.com:8443/api/auth/login",
-          "data":{
-              "username":"jinrong",
-              "password":"123456"
-          },
-          "success":function(data){
-              console.log("result success");
-              console.log(data);
-
-              /!*console.log("load success!");
-              if(data.code!=0){
-                  console.log("result failed!");
-              }else{
-                  console.log("result success!");
-              }*!/
-              //console.log(data);
-          },
-          "failed":function(code,msg){
-              console.log("result failed!");
-              console.log(code);
-              console.log(msg);
-          }
-
-      })*/
 
 
     });
