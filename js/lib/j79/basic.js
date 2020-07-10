@@ -965,45 +965,55 @@
 
         if ($(containerSelector) && pageTotal && listObj) {
 
-            var viewTotal = 4;
 
+            var viewTotal = 5;
             pageCur = pageCur || 1;
 
-            var pageList = '';
-            var totalAmount=totalAmount || 1;
+
+            var refreshUI=function(pageNo){
+                var pageList = '';
+                var totalAmount=totalAmount || 1;
 
 
 
-            var startPage = pageCur > viewTotal ? pageCur - viewTotal + 1 : 1;
+                var startPage = pageNo > viewTotal ? pageNo - viewTotal + 1 : 1;
 
-            var viewPageTotal = startPage + viewTotal - 1 < pageTotal ? startPage + viewTotal - 1 : pageTotal;
+                var viewPageTotal = startPage + viewTotal - 1 < pageTotal ? startPage + viewTotal - 1 : pageTotal;
 
 
-            for (var i = startPage; i <= viewPageTotal; i++) {
+                for (var i = startPage; i <= viewPageTotal; i++) {
 
-                pageList += '<li';
+                    pageList += '<li';
 
-                if (pageCur == i) {
-                    pageList += ' class="active"';
+                    if (pageNo == i) {
+                        pageList += ' class="active"';
+                    }
+                    pageList += '><a  class="page-no">' + (i) + '</a></li>';
                 }
-                pageList += '><a  class="page-no">' + (i) + '</a></li>';
-            }
-            if (viewPageTotal < pageTotal) {
-                pageList += '...<li><a  class="page-no">' + (pageTotal) + '</a></li>'
-            }
-            var $ui = $(
-                '<nav class="pager-bar">' +
-                '  <ul class="pager">' +
-                '    <li class="total-amount">共<b class="total-amount-no">'+totalAmount+'</b>条结果</li>' +
-                '    <li ><a class="previous"  aria-label="Previous">&lt;&lt; Prev</a></li>' +
+                if (viewPageTotal < pageTotal) {
+                    pageList += '...<li><a  class="page-no">' + (pageTotal) + '</a></li>'
+                }
+                if(startPage>1){
+                    pageList='<li><a  class="page-no">1</a></li>...'+pageList
+                }
+                var $ui = $(
+                    '<nav class="pager-bar">' +
+                    '  <ul class="pager">' +
+                    '    <li class="total-amount">共<b class="total-amount-no">'+totalAmount+'</b>条结果</li>' +
+                    '    <li ><a class="previous"  aria-label="Previous">&lt;&lt; Prev</a></li>' +
+                        pageList +
+                    '    <li ><a class="next"  aria-label="Previous">Next &gt;&gt;</a></li>' +
+                    '    <li ><input type="text" class="go-page-no" name="goPageNo" id="goPageNo"  value="' + pageNo + '"/><a class="go-page"  aria-label="go-page">Go <i class="glyphicon glyphicon-play"></i></a></li>' +
+                    '</ul></nav>'
 
-                pageList +
-                '    <li ><a class="next"  aria-label="Previous">Next &gt;&gt;</a></li>' +
-                '    <li ><input type="text" class="go-page-no" name="goPageNo" id="goPageNo"  value="' + pageCur + '"/><a class="go-page"  aria-label="go-page">Go <i class="glyphicon glyphicon-play"></i></a></li>' +
-                '</ul></nav>'
+                );
+                $(containerSelector).empty();
+                $ui.appendTo(containerSelector);
+            };
 
-            );
-            $ui.appendTo(containerSelector);
+            refreshUI(pageCur);
+
+
 
 
             var setCurrentPageClass=function(curPage){
@@ -1017,8 +1027,20 @@
             }
 
             //attach action handler:
-            //page prev			 
-            $(containerSelector).find('.pager-bar A.previous').click(function(e) {
+            //page prev
+            $(containerSelector).delegate('.pager-bar A.previous','click',null,function(e){
+                if (listObj) {
+
+                    if (pageCur > 1) {
+                        listObj.setPage(--pageCur);
+                        //set current page in pager
+                        setCurrentPageClass(pageCur);
+                        refreshUI(pageCur);
+
+                    }
+                }
+            });
+            /*$(containerSelector).find('.pager-bar A.previous').click(function(e) {
 
                 //console.log('preve page---------');
 
@@ -1028,14 +1050,14 @@
                         listObj.setPage(--pageCur);
                         //set current page in pager
                         setCurrentPageClass(pageCur);
+                        refreshUI(pageCur);
 
                     }
                 }
 
-            });
+            });*/
             //page next
-           $(containerSelector).find('.pager-bar A.next').click(function(e) {
-
+            $(containerSelector).delegate('.pager-bar A.next','click',null,function(e){
                 if (listObj) {
                     if (pageCur + 1 <= pageTotal) {
                         /*console.log('listObj:');
@@ -1043,30 +1065,72 @@
                         listObj.setPage(++pageCur);
                         //set current page in pager
                         setCurrentPageClass(pageCur);
+                        refreshUI(pageCur);
+                    }
+                }
+            });
+
+           /*
+           $(containerSelector).find('.pager-bar A.next').click(function(e) {
+
+                if (listObj) {
+                    if (pageCur + 1 <= pageTotal) {
+                        /!*console.log('listObj:');
+                        console.log(listObj);*!/
+                        listObj.setPage(++pageCur);
+                        //set current page in pager
+                        setCurrentPageClass(pageCur);
+                        refreshUI(pageCur);
                     }
                 }
 
-            });
+            });*/
             //detail page no click
-           $(containerSelector).find('.pager-bar A.page-no').click(function(e) {
-
+            $(containerSelector).delegate('.pager-bar A.page-no','click',null,function(e){
                 if (listObj) {
-
-                    /*console.log('pager object:');
-                    console.log(listObj);*/
 
                     if (Number($(this).text()) >= 1) {
                         pageCur = Number($(this).text());
                         listObj.setPage(pageCur);
                         //set current page in pager
                         setCurrentPageClass(pageCur);
+                        refreshUI(pageCur);
+                    }
+                }
+            });
+
+           /*$(containerSelector).find('.pager-bar A.page-no').click(function(e) {
+
+                if (listObj) {
+
+                    /!*console.log('pager object:');
+                    console.log(listObj);*!/
+
+                    if (Number($(this).text()) >= 1) {
+                        pageCur = Number($(this).text());
+                        listObj.setPage(pageCur);
+                        //set current page in pager
+                        setCurrentPageClass(pageCur);
+                        refreshUI(pageCur);
                     }
                 }
 
-            });
+            });*/
 
             //go page number click
-           $(containerSelector).find('.pager-bar A.go-page').click(function(e) {
+            $(containerSelector).delegate('.pager-bar A.go-page','click',null,function(e){
+                if (listObj) {
+                    var goPageNo = Number($ui.find('#goPageNo').val());
+                    if (goPageNo >= 1 && goPageNo <= pageTotal) {
+                        pageCur = goPageNo;
+                        listObj.setPage(goPageNo);
+                        //set current page in pager
+                        setCurrentPageClass(goPageNo);
+                        refreshUI(pageCur);
+                    }
+                }
+            });
+           /*$(containerSelector).find('.pager-bar A.go-page').click(function(e) {
 
                 console.log(listObj);
                 if (listObj) {
@@ -1076,10 +1140,11 @@
                         listObj.setPage(goPageNo);
                         //set current page in pager
                         setCurrentPageClass(goPageNo);
+                        refreshUI(pageCur);
                     }
                 }
 
-            });
+            });*/
 
         }
 

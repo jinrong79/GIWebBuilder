@@ -114,7 +114,7 @@ class ListBase{
                 startIdx=(listLen-1) * (1 - orderFactor)/2 +  (this.page-1)*this.perPage*orderFactor;
                 endIdx  =(listLen-1) * (1 - orderFactor)/2 +  (this.page*this.perPage-1)*orderFactor;
                 startIdx=j79.clamp(startIdx,1,listLen-1);
-                endIdx=j79.clamp(endIdx,1,listLen-1);
+                endIdx  =j79.clamp(endIdx,1,listLen-1);
 
 
             }
@@ -134,7 +134,8 @@ class ListBase{
 
     /**
      * itemGeneratorDefault
-     * default item generator function
+     * default item generator function.
+     * need overwrite in sub-class.
      * @param itemData
      * @param listIndex
      * @returns {string}
