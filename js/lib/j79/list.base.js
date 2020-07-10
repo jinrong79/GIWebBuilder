@@ -33,6 +33,9 @@ class ListBase{
         //itemAmount: all item amount.
         this.itemAmount=this.data ? this.data.length : 0;
 
+        //list item order by DESC:  0(false)- ASC; 1- DESC;
+        this.listOrderDESC=params.listOrderDESC ? params.listOrderDESC : 0;
+
 
         //page type:
         //          0- set paged by self. 1- set paged by server;
@@ -57,44 +60,69 @@ class ListBase{
 
     /**
      * generate
-     * generate list code.
+     * generate list html string by page.
      * @param page
      * @returns {string}
      */
     generate(page){
-        page= page || 1;
-        //this.page=page;
+
+        //page var check:
+        page= !page || page<=0 ? 1 : page;
+
+
         let result='';
-        console.log("here");
+        //return empty when itemGenerator is not exist:
         if(!this.itemGenerator){
             return '';
         }
-        if(!this.data ||  Object.prototype.toString.call(this.data) !== '[object Array]'){
+
+        //check data validation:
+        if(!this.data ||  Object.prototype.toString.call(this.data) !== '[object Array]' || this.data.length<=0){
             result='<div class="list-NA"></div>';
             return result;
-        }else{
 
-            let startIdx=0;
-            let listLen=this.data.length;
-            let endIdx=listLen-1;
+        }else{//if data is valid, then generate:
 
+
+
+            //get array of list data:
+            let listData=this.data;
+
+            //if list order is DESC:
+            let orderFactor=this.listOrderDESC ? -1 :1;
+
+            //set start idx and end idx,
+            // when page is set by server and return only current page items by server:
+            let listLen=listData.length;
+            let startIdx=(listLen-1) * (1 - orderFactor)/2 ;
+            let endIdx  =(listLen-1) * (1 + orderFactor)/2 ;
+
+
+
+            //if set page by terminal not by server:
             if(this.pageType==0){
 
+                //set page:
+                this.page=page;
 
-
+                //calculate vars for pager:
                 this.pageTotal=Math.ceil(listLen / this.perPage);
                 this.itemAmount=listLen;
                 this.page=this.pageTotal>=this.page ? this.page : this.pageTotal;
 
-                endIdx=this.page*this.perPage>listLen ? listLen-1:this.page*this.perPage-1;
-                startIdx=(this.page-1)*this.perPage;
+                //get start idx and end idx:
+                startIdx=(listLen-1) * (1 - orderFactor)/2 +  (this.page-1)*this.perPage*orderFactor;
+                endIdx  =(listLen-1) * (1 - orderFactor)/2 +  (this.page*this.perPage-1)*orderFactor;
+                startIdx=j79.clamp(startIdx,1,listLen-1);
+                endIdx=j79.clamp(endIdx,1,listLen-1);
+
 
             }
 
+            //loop to generate list html:
+            for(let i=startIdx;i*orderFactor<=endIdx*orderFactor;i+=orderFactor){
 
-            for(let i=startIdx;i<=endIdx;i++){
-
-                result+=this.itemGenerator(this.data[i],i);
+                result+=this.itemGenerator(listData[i],i);
 
             }
 

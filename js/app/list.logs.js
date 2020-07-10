@@ -7,6 +7,9 @@ class listLogs extends ListDynamic{
         //set paged by self.
         this.pageType=0;
 
+        //list order is DESC.
+        this.listOrderDESC=1;
+
 
     }//-/
 
@@ -20,8 +23,6 @@ class listLogs extends ListDynamic{
         //need overwrite in subclass
         return new dataTransporter(params);
     }
-
-
 
 
 

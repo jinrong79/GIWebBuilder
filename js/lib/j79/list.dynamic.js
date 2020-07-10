@@ -138,7 +138,7 @@ class ListDynamic extends ListBase{
 
 
 
-                //set current page when load success.
+                //set current page by request page number when paging is done by server:
                 if(SELF.pageType==1){
                     SELF.page=loadPage;
                 }
@@ -208,14 +208,6 @@ class ListDynamic extends ListBase{
             j79.viewPager(this.pageTotal, this.page, this.ui.pager, this, this.itemAmount);
         }
 
-
-
-
-
-
-
-
-
     }//-/
 
     /**
@@ -230,17 +222,13 @@ class ListDynamic extends ListBase{
             return false;
         }
 
-
+        //validate curPage:
         curPage=curPage<=0 ? 1: curPage;
-        if(this.pageType==0){
-            this.pageTotal= Math.ceil(this.data.length / this.perPage);
-            curPage=curPage>this.pageTotal ? this.pageTotal : curPage;
-            this.page=curPage;
-        }
+
 
 
         //generate list html.
-        let resultHtml=this.generate(this.page);
+        let resultHtml=this.generate(curPage);
 
         //clear list:
         $(this.ui.list).children().remove();
@@ -254,12 +242,16 @@ class ListDynamic extends ListBase{
                 return;
             }
         }else{
-            console.log(resultHtml);
+            //console.log(resultHtml);
             $(resultHtml).appendTo($(this.ui.list));
         }
 
     }//-/
 
+    /**
+     * setPage
+     * @param curPage
+     */
     setPage(curPage){
         this.view(curPage);
     }//-/

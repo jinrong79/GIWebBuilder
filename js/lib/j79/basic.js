@@ -600,6 +600,18 @@
 
 
     /**
+     *  clamp
+     *  clamp value between min and max.
+     */
+    _NS.prototype.clamp = function(value, min,max) {
+        value=value<min ? min :value;
+        value=value>max? max:value;
+        return value;
+
+    }; //-/inArray
+
+
+    /**
      *  setHtml
      *  set html by replacing "[#attribute-name#]" to data[attribute-name] value.
      */
@@ -1040,8 +1052,8 @@
 
                 if (listObj) {
 
-                    console.log('pager object:');
-                    console.log(listObj);
+                    /*console.log('pager object:');
+                    console.log(listObj);*/
 
                     if (Number($(this).text()) >= 1) {
                         pageCur = Number($(this).text());
