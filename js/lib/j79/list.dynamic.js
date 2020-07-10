@@ -120,7 +120,7 @@ class ListDynamic extends ListBase{
         console.log('list post data:');
         console.log(params);
 
-        let requestData={};
+        let requestData=params.data || {};
 
         if(SELF.pageType==1){
             requestData.page=loadPage;
@@ -129,10 +129,13 @@ class ListDynamic extends ListBase{
         }
 
 
+
+
         let dataTranporter=this.getDataTransporter();
         dataTranporter.dataGet({
             "url":SELF.url,
             "requestType":requestType,
+            "data": requestData,
             "success":function(data){
 
 
@@ -199,6 +202,7 @@ class ListDynamic extends ListBase{
 
         //set data:
         this.data=dataArray;
+        this.itemAmount=this.data.length;
 
         //view:
         this.view(this.page);

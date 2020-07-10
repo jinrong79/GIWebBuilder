@@ -24,6 +24,9 @@ j79.loadCSS("/css/j79.date.selector.css");
         var FLAG_VIEW_ONLY=this.hasClass('view-static') ? true : false;
 
 
+        var FLAG_TIME_INCLUDE=$(SELF).attr('include-time') ? true : false;
+
+
 
         var DATA_SAVER = $(SELF).attr('data-saver') || '';
 
@@ -70,6 +73,9 @@ j79.loadCSS("/css/j79.date.selector.css");
 
 
 
+            if(FLAG_TIME_INCLUDE){
+                result+=' '+$(SELF).find('#'+SELF_ID+'_value_hh').val()+":"+$(SELF).find('#'+SELF_ID+'_value_mm').val()+":"+$(SELF).find('#'+SELF_ID+'_value_ss').val()
+            }
 
 
 
@@ -136,11 +142,15 @@ j79.loadCSS("/css/j79.date.selector.css");
 */
 
             var curDate=new Date;
-            var year=curDate.getFullYear()-23;
+            var year=curDate.getFullYear();
             var cent=Math.floor(year/100);
             var yearTen=year % 100 ;
             var month=curDate.getMonth()+1;
             var day=curDate.getDate();
+
+            var hh=0;
+            var mm=0;
+            var ss=0;
 
 
 
@@ -200,6 +210,45 @@ j79.loadCSS("/css/j79.date.selector.css");
 
 
 
+            var htmlHH,htmlMM,htmlSS;
+            htmlHH='';
+            htmlMM='';
+            htmlSS='';
+
+
+            var viewT='';
+            for(i=0;i<24;i++){
+
+                selected='';
+                if(i==hh){
+                    selected='selected';
+                }
+                viewT=i>10? i: '0'+i;
+                htmlHH+='<option value="'+(viewT)+'" '+selected+'>'+(viewT)+'</option>';
+            }
+
+            for(i=0;i<60;i++){
+
+                selected='';
+                if(i==mm){
+                    selected='selected';
+                }
+                viewT=i>10? i: '0'+i;
+
+                htmlMM+='<option value="'+(viewT)+'" '+selected+'>'+(viewT)+'</option>';
+            }
+
+            for(i=0;i<60;i++){
+
+                selected='';
+                if(i==ss){
+                    selected='selected';
+                }
+                viewT=i>10? i: '0'+i;
+                htmlSS+='<option value="'+(viewT)+'" '+selected+'>'+(viewT)+'</option>';
+            }
+
+
 
 
             if(FLAG_VIEW_ONLY==false){
@@ -211,11 +260,19 @@ j79.loadCSS("/css/j79.date.selector.css");
                     saveData();
                 });*/
 
-                HTML_UI='<div class="date-selector">' +
+                var timeHtml='';
+                if(FLAG_TIME_INCLUDE){
+                    timeHtml='<span class="item"><select class="form-control"  name="'+SELF_ID+'_value_hh" id="'+SELF_ID+'_value_hh">'+htmlHH+'</select></span><b>:</b>'+
+                        '<span class="item"><select class="form-control"  name="'+SELF_ID+'_value_mm" id="'+SELF_ID+'_value_mm">'+htmlMM+'</select></span><b>:</b>'+
+                        '<span class="item"><select class="form-control"  name="'+SELF_ID+'_value_ss" id="'+SELF_ID+'_value_ss">'+htmlSS+'</select><b></b></span>';
+                }
+
+                HTML_UI='<div class="date-selector-container">' +
                     '<span class="item"><select class="form-control"  name="'+SELF_ID+'_value_century_year" id="'+SELF_ID+'_value_century_year">'+htmlCentury+'</select></span>'+
-                    '<span class="item"><select class="form-control"  name="'+SELF_ID+'_value_year" id="'+SELF_ID+'_value_year">'+htmlYear+'</select><b>年</b></span>'+
-                    '<span class="item"><select class="form-control"  name="'+SELF_ID+'_value_month" id="'+SELF_ID+'_value_month">'+htmlMonth+'</select><b>月</b></span>'+
-                    '<span class="item"><select class="form-control"  name="'+SELF_ID+'_value_day" id="'+SELF_ID+'_value_day">'+htmlDay+'</select><b>日</b></span>'+
+                    '<span class="item"><select class="form-control"  name="'+SELF_ID+'_value_year" id="'+SELF_ID+'_value_year">'+htmlYear+'</select></span><b>年</b>'+
+                    '<span class="item"><select class="form-control"  name="'+SELF_ID+'_value_month" id="'+SELF_ID+'_value_month">'+htmlMonth+'</select></span><b>月</b>'+
+                    '<span class="item"><select class="form-control"  name="'+SELF_ID+'_value_day" id="'+SELF_ID+'_value_day">'+htmlDay+'</select></span><b>日</b><b></b>'+
+                    timeHtml+
                     '</div>';
 
             }else{
@@ -351,6 +408,7 @@ j79.loadCSS("/css/j79.date.selector.css");
 
         //读取预设值
         readData();
+        saveData();
 
 
     }

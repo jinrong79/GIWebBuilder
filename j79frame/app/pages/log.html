@@ -42,12 +42,7 @@
           <a class="navbar-brand" href="#">良乡大学城3D沙盘指挥系统管理后台</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">首页</a></li>
-            <li><a href="#">用户</a></li>
-            <li><a href="#">权限</a></li>
-            <li><a href="#">角色</a></li>
-            <li><a href="#"><i class="glyphicon glyphicon-off"></i> 退出</a></li>
+          <ul id="topNaviContainer" class="nav navbar-nav navbar-right">
           </ul>
           
         </div>
@@ -79,8 +74,19 @@
        
        
          <h2 class="sub-header">日志列表</h2>
-          
-        
+
+          <div class="row">
+            <div class="col-sm-5 col-md-5"><div id="dateSel01" class="date-selector" data-saver="startTime" include-time="include-time"></div></div>
+            <div class="col-sm-1 col-md-1"> ~ </div>
+            <div class="col-sm-5 col-md-5"><div id="dateSel02" class="date-selector" data-saver="endTime" include-time="include-time"></div></div>
+            <div class="col-sm-1 col-md-1"> <a id="searchByTime" class="btn btn-primary" target="_top">查询</a> </div>
+            <input id="startTime" name="startTime" type="hidden" value="2020-01-01 00:00:00" />
+            <input id="endTime" name="endTime" type="hidden" value="" />
+          </div>
+          <hr/>
+
+
+
          
           
             <div class="table-responsive">
@@ -119,6 +125,7 @@
     <!-- j79frame js -->
     <script src="../../../js/lib/j79/basic.js"></script>
     <script src="../../../js/app/j79.app.js"></script>
+    <script src="../../../js/plugin/j79.date.selector.js"></script>
     <script src="../../../js/lib/j79/data.transporter.js"></script>
     <script src="../../../js/lib/j79/list.base.js"></script>
     <script src="../../../js/lib/j79/list.dynamic.js"></script>
@@ -128,6 +135,8 @@
   <script>
     $(document).ready(function (e) {
 
+
+
       let t=localStorage.getItem("token");
       //let profile=JSON.parse(t);
 
@@ -135,7 +144,7 @@
 
       let list1=new listLogs ({
 
-        "perPage":50,
+        "perPage":20,
 
         "ui":{
           "list":"#list1",
@@ -143,6 +152,20 @@
         }
       });
       list1.load();
+
+      $('#searchByTime').click(function(e){
+          let startT=$('#startTime').val();
+          let endT=$('#endTime').val();
+          if(startT && endT){
+            list1.load({
+              "data":{
+                "from": startT,
+                "to": endT
+              }
+            },'GET');
+          }
+
+      });
 
 
 

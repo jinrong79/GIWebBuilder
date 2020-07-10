@@ -504,8 +504,11 @@ j79FormBuilder.prototype = {
 
                         //var strDefault= curValue !='' ? ' value="'+curValue+'" ' : ' value="'+valueDefault+'" ';
 
+                        var flagIncludeTime = $(this).attr('include-time') ? ' include-time="include-time" ':'';
 
-                        ctrItemStr = '<div class="date-selector '+viewClass+'" ' +  strDisalbed + ctrTitle + dataSaver + '" id="' + ctrId +'">';
+
+
+                        ctrItemStr = '<div class="date-selector '+viewClass+'" ' +  strDisalbed + ctrTitle + flagIncludeTime + dataSaver + '" id="' + ctrId +'">';
 
 
                         ctrItemStr +='</div>';

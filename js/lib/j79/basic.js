@@ -965,20 +965,24 @@
 
         if ($(containerSelector) && pageTotal && listObj) {
 
-
-            var viewTotal = 5;
+            //amount of displayed page numbers:
+            var displayedAmount = 5;
             pageCur = pageCur || 1;
 
 
             var refreshUI=function(pageNo){
                 var pageList = '';
-                var totalAmount=totalAmount || 1;
+                var totalAmountView=totalAmount || 1;
 
 
 
-                var startPage = pageNo > viewTotal ? pageNo - viewTotal + 1 : 1;
+                var startPage = pageNo > Math.ceil(displayedAmount/2) ? pageNo - Math.floor(displayedAmount/2) : 1;
+                var viewPageTotal = startPage + displayedAmount - 1 ;
 
-                var viewPageTotal = startPage + viewTotal - 1 < pageTotal ? startPage + viewTotal - 1 : pageTotal;
+                if(viewPageTotal>pageTotal){
+                    viewPageTotal=pageTotal;
+                    startPage=pageTotal-displayedAmount+1;
+                }
 
 
                 for (var i = startPage; i <= viewPageTotal; i++) {
@@ -999,7 +1003,7 @@
                 var $ui = $(
                     '<nav class="pager-bar">' +
                     '  <ul class="pager">' +
-                    '    <li class="total-amount">共<b class="total-amount-no">'+totalAmount+'</b>条结果</li>' +
+                    '    <li class="total-amount">共<b class="total-amount-no">'+totalAmountView+'</b>条结果</li>' +
                     '    <li ><a class="previous"  aria-label="Previous">&lt;&lt; Prev</a></li>' +
                         pageList +
                     '    <li ><a class="next"  aria-label="Previous">Next &gt;&gt;</a></li>' +

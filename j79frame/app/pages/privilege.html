@@ -42,7 +42,7 @@
           <a class="navbar-brand" href="#">良乡大学城3D沙盘指挥系统管理后台</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
+          <ul id="topNaviContainer" class="nav navbar-nav navbar-right">
             <li><a href="#">首页</a></li>
             <li><a href="#">用户</a></li>
             <li><a href="#">权限</a></li>
@@ -60,8 +60,8 @@
           <ul class="nav nav-sidebar">
             <li ><a href="#">首页 <span class="sr-only">(current)</span></a></li>
             <li ><a href="#"><i class="glyphicon glyphicon-user"></i> 用户管理</a></li>            
-            <li class="active"><a href="#"><i class="glyphicon glyphicon-knight"></i> 角色管理</a></li>
-            <li><a href="#"><i class="glyphicon glyphicon-lock"></i> 权限管理</a></li>
+            <li ><a href="#"><i class="glyphicon glyphicon-knight"></i> 角色管理</a></li>
+            <li class="active"><a href="#"><i class="glyphicon glyphicon-lock"></i> 权限管理</a></li>
           </ul>
           <hr/>
           <ul class="nav nav-sidebar">
@@ -78,7 +78,7 @@
         
         <span class="toolbar-title-r"><button type="button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 添加</button></span>
        
-         <h2 class="sub-header">角色列表</h2>
+         <h2 class="sub-header">权限列表</h2>
           
         
          
@@ -88,21 +88,51 @@
                 <thead>
                   <tr>
                     <th>编号</th>
-                    <th>角色名称</th>
-                    <th>权限列表</th>
+                    <th>权限名称</th>
+                    <th>所属模块</th>
                     
                     <th>操作</th>
                   </tr>
                 </thead>
                 <tbody>
+                 
+                  
+                  
                   <tr>
                     <td>00001012</td>
-                    <td>终端用户</td>
+                    <td>楼宇-查看</td>
                     <td>
-                    <p><span class="label label-warning">智慧市政-智能路灯</span></p>
+                    <p><span class="label label-warning">智慧市政</span></p>
                     
-                    <p><span class="label label-warning">智慧市政-智能楼宇</span></p>
-                    <p><span class="label label-warning">智慧市政-智能水质</span></p>
+                    
+                    </td>
+                   
+                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
+                    
+                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>00001012</td>
+                    <td>路灯-查看</td>
+                    <td>
+                    <p><span class="label label-warning">智慧市政</span></p>
+                    
+                    
+                    </td>
+                   
+                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
+                    
+                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>00001012</td>
+                    <td>烟感-查看</td>
+                    <td>
+                    <p><span class="label label-warning">智慧市政</span></p>
+                    
+                    
                     </td>
                    
                     <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
@@ -113,12 +143,81 @@
                   
                   <tr>
                     <td>00001012</td>
-                    <td>沙盘用户</td>
+                    <td>楼宇-查看</td>
                     <td>
-                    <p><span class="label label-warning">智慧市政-智能路灯</span></p>
+                    <p><span class="label label-warning">智慧市政</span></p>
                     
-                    <p><span class="label label-warning">智慧市政-智能楼宇</span></p>
-                    <p><span class="label label-warning">智慧市政-智能水质</span></p>
+                    
+                    </td>
+                   
+                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
+                    
+                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>00001012</td>
+                    <td>路灯-查看</td>
+                    <td>
+                    <p><span class="label label-warning">智慧市政</span></p>
+                    
+                    
+                    </td>
+                   
+                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
+                    
+                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>00001012</td>
+                    <td>烟感-查看</td>
+                    <td>
+                    <p><span class="label label-warning">智慧市政</span></p>
+                    
+                    
+                    </td>
+                   
+                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
+                    
+                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>00001012</td>
+                    <td>楼宇-查看</td>
+                    <td>
+                    <p><span class="label label-warning">智慧市政</span></p>
+                    
+                    
+                    </td>
+                   
+                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
+                    
+                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>00001012</td>
+                    <td>路灯-查看</td>
+                    <td>
+                    <p><span class="label label-warning">智慧市政</span></p>
+                    
+                    
+                    </td>
+                   
+                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
+                    
+                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>00001012</td>
+                    <td>烟感-查看</td>
+                    <td>
+                    <p><span class="label label-warning">智慧市政</span></p>
+                    
+                    
                     </td>
                    
                     <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
@@ -127,53 +226,6 @@
                     </td>
                   </tr>
                   
-                  <tr>
-                    <td>00001012</td>
-                    <td>管理员用户</td>
-                    <td>
-                    <p><span class="label label-warning">智慧市政-智能路灯</span></p>
-                    
-                    <p><span class="label label-warning">智慧市政-智能楼宇</span></p>
-                    <p><span class="label label-warning">智慧市政-智能水质</span></p>
-                    </td>
-                   
-                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
-                    
-                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>
-                    </td>
-                  </tr>
-                  
-                  <tr>
-                    <td>00001012</td>
-                    <td>终端用户</td>
-                    <td>
-                    <p><span class="label label-warning">智慧市政-智能路灯</span></p>
-                    
-                    <p><span class="label label-warning">智慧市政-智能楼宇</span></p>
-                    <p><span class="label label-warning">智慧市政-智能水质</span></p>
-                    </td>
-                   
-                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
-                    
-                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>
-                    </td>
-                  </tr>
-                  
-                  <tr>
-                    <td>00001012</td>
-                    <td>终端用户</td>
-                    <td>
-                    <p><span class="label label-warning">智慧市政-智能路灯</span></p>
-                    
-                    <p><span class="label label-warning">智慧市政-智能楼宇</span></p>
-                    <p><span class="label label-warning">智慧市政-智能水质</span></p>
-                    </td>
-                   
-                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
-                    
-                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>
-                    </td>
-                  </tr>
                   
                   
                  
