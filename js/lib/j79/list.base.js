@@ -113,8 +113,8 @@ class ListBase{
                 //get start idx and end idx:
                 startIdx=(listLen-1) * (1 - orderFactor)/2 +  (this.page-1)*this.perPage*orderFactor;
                 endIdx  =(listLen-1) * (1 - orderFactor)/2 +  (this.page*this.perPage-1)*orderFactor;
-                startIdx=j79.clamp(startIdx,1,listLen-1);
-                endIdx  =j79.clamp(endIdx,1,listLen-1);
+                startIdx=j79.clamp(startIdx,0,listLen-1);
+                endIdx  =j79.clamp(endIdx,0,listLen-1);
 
 
             }

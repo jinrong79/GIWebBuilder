@@ -190,8 +190,8 @@ class dataTransporterBase{
             if(!token){
                 token=localStorage.getItem(localStorageTokenName);
             }
-            console.log("token add to head:");
-            console.log(token);
+           /* console.log("token add to head:");
+            console.log(token);*/
 
             if(token){
 

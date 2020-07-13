@@ -979,10 +979,14 @@
                 var startPage = pageNo > Math.ceil(displayedAmount/2) ? pageNo - Math.floor(displayedAmount/2) : 1;
                 var viewPageTotal = startPage + displayedAmount - 1 ;
 
+
+
                 if(viewPageTotal>pageTotal){
                     viewPageTotal=pageTotal;
                     startPage=pageTotal-displayedAmount+1;
                 }
+
+                startPage=startPage<1? 1: startPage;
 
 
                 for (var i = startPage; i <= viewPageTotal; i++) {
