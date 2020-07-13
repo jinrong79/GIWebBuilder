@@ -167,31 +167,7 @@ $(document).ready(function(){
 });
 
 
-/*
-//初始化取色器控件
-function ini_color_pic(){
-	
-	$('.ctr-color-pick').colpick({
-	  layout:'hex',
-	  submit:0,
-	  colorScheme:'dark',
-	  onChange:function(hsb,hex,rgb,el,bySetColor) {
-		  $(el).css('background-color','#'+hex);
-		  $(el).css('color','#ffffff');
-		  
-		  if(!bySetColor) $(el).val(hex);
-	  }
-	}).keyup(function(){
-	$(this).colpickSetColor(this.value);
-	});
-	
-	
-	$('.ctr-color-pick').each(function(){
-    	$(this).colpickSetColor(this.value);
-  	});
-	
-	
-}//----------*/
+
 
 //初始化onBlur验证
 function ini_onBlur_validation(){
@@ -201,25 +177,4 @@ function ini_onBlur_validation(){
 	});
 }//----------/ini_onBlur_validation
 
-/**
-* form_validate
-* 表单整体验证。
-*
-* 注：只对带有form-input属性的表单输入控件进行验证。没有此属性的输入控件，会被忽视。
-*
-* @param {string} form_selector  表单jquery选择器字符串,如果是id,需要前面带#，例如： form_selector='#form1'
-* @return {boolean} true- 验证成功; false-验证失败.
-**/
-/*
-function form_validate(form_selector){
-	var result=true;
-	$(form_selector+" [form-input]").each(function(){
-      var singleResult=$(this).validate();
-	  if(singleResult==false){
-	  	result=false;
-	  }
-  	});
 
-	return result;
-
-}//----------/form_validate*/

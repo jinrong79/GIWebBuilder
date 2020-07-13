@@ -1,5 +1,5 @@
 .date-selector{}
-.date-selector .item{ width:4rem; display: inline-block; margin-right:0rem;vertical-align: middle;}
+.date-selector .item{ width:4.5rem; display: inline-block; margin-right:0rem;vertical-align: middle;}
 
 .date-selector .item>select{ width: 100%; display: inline-block; vertical-align: center; padding:0 0.1rem;}
 .date-selector .date-selector-container >b{ width: auto; padding: 0 0.5rem; white-space: nowrap; display: inline-block; vertical-align: middle;}

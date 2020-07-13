@@ -46,18 +46,41 @@ class dataTransporterBase{
 
     /**
      * dataPost
-     * same as dataGet, except requestType is POST.
+     * same as dataTransport, except requestType is POST.
      * @param params
      */
     dataPost(params){
         params=params || {};
         params.requestType="POST";
-        this.dataGet(params);
-    }
+        this.dataTransport(params);
+    }//-/
 
+    /**
+     * dataPut
+     * same as dataTransport, except requestType is PUT.
+     * @param params
+     */
+    dataPut(params){
+        params=params || {};
+        params.requestType="PUT";
+        this.dataTransport(params);
+    }//-/
 
     /**
      * dataGet
+     * same as dataTransport, except requestType is GET.
+     * @param params
+     */
+    dataGet(params){
+        params=params || {};
+        params.requestType="GET";
+        this.dataTransport(params);
+    }//-/
+
+
+    /**
+     * dataTransport
+     * transport data between local and remote.
      * @param params
      *        .url: url for load.
      *        .requestType : GET or POST, default=GET
@@ -79,7 +102,7 @@ class dataTransporterBase{
      *                  -data: when parse data error, this data contains raw data.
      * @returns {boolean}
      */
-    dataGet(params){
+    dataTransport(params){
 
         let SELF=this;
         params=params || {};
@@ -196,7 +219,7 @@ class dataTransporterBase{
         $.ajax(url,optionData);
 
 
-    }//-/dataGetter
+    }//-/dataTransport
 
     /**
      * defaultHandlerSuccess

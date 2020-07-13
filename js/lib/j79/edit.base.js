@@ -30,7 +30,8 @@ class editBase{
         this.ui=params.ui || {"form":"form"};
 
         //form input setting xml url:
-        this.settingXML=params.settingXML || null;
+        this.addFormXMLUrl=params.addFormXMLUrl || null;
+        this.editFormXMLUrl=params.editFormXMLUrl || null;
 
         //data: detail data when edit.
         this.data=params.data || null;
@@ -38,14 +39,74 @@ class editBase{
         //mode: 0-- add new; 1-- modify; 2-- static view
         this.mode=params.mode || 0;
 
+        //remote url to communicate with:
         this.url=params.url || null;
 
+        //requestType:
         this.requestType=params.requestType || "POST";
+
+
+        //handler of success add
+        this.successSubmitAdd=params.successSubmitAdd || null;
+
+        //handler of success edit.
+        this.successSubmitEdit=params.successSubmitEdit || null;
+
+
+        //handler of failed Add
+        this.failSubmitAdd=params.failSubmitAdd || null;
+
+        //handler of failed Edit
+        this.failSubmitEdit=params.failSubmitEdit || null;
 
 
 
     }//-/
 
+    /**
+     * viewAdd
+     * view addnew ui
+     * @param params
+     */
+    viewAdd(params){
+        params=params || {};
+        params.mode=0;
+        this.view(params);
+    }//-/
+
+    /**
+     * viewEdit
+     * @param params
+     */
+    viewEdit(params){
+        params=params || {};
+        params.mode=1;
+        this.view(params);
+    }//-/
+
+    /**
+     * viewStatic
+     * @param params
+     */
+    viewStatic(params){
+        params=params || {};
+        params.mode=2;
+        this.view(params);
+    }
+
+    /**
+     * view
+     * view addNew ui or edit ui.
+     *
+     * @param params :
+     *                .data : when edit, this refer to current item detail data in object format.
+     *                .mode : 0[default]- add new; 1- modify; 2- static view.
+     *                .url  : if none then take this.url
+     *                .requestType: if none then take this.requestType
+     *                .ui  : if noe then take this.ui.
+     *                       ui.form -> form ui jQuery selector
+     *                       ui.submit -> submit button jQuery selector.
+     */
     view(params){
 
         params=params || {};
@@ -55,7 +116,12 @@ class editBase{
         //mode:
         this.mode=typeof params.mode=='undefined' ? this.mode : params.mode;
 
+        //url:
+        this.url=typeof params.url=='undefined' ? this.url : params.url;
 
+
+        //ui:
+        this.ui=typeof params.ui=='undefined' ? this.ui : params.ui;
 
         //current data:
         let curData=params.data || null;
@@ -63,6 +129,11 @@ class editBase{
             this.data=curData;
         }
 
+        //requestType:
+        this.requestType=params.requestType || this.requestType;
+
+        //current xml url:
+        let currentXMLUrl=this.mode ==0 ? this.addFormXMLUrl : this.editFormXMLUrl;
 
         /*{
         *                              uiForm         : form ui container selecotr like '#form1',
@@ -75,7 +146,7 @@ class editBase{
 
         let formBuilder=new j79FormBuilder({
             "uiForm":this.ui.form,
-            "urlXML":this.settingXML,
+            "urlXML":currentXMLUrl,
             "data":this.data,
             "flagEdit": this.mode==1,
             "flagView": this.mode==2,
@@ -93,24 +164,31 @@ class editBase{
                         return true;
                     }
 
-                    $('<div class="form-group"><div class="col-md-10 col-md-offset-2">'+
-                        '<button class="btn btn-primary btn-lg btn-submit" type="button"><i class="glyphicon glyphicon-ok"></i> 提交</button>'+
-                        '</div></div>').appendTo($(SELF.ui.form));
+                    let submitBtnSelector='';
+                    if(!SELF.ui || !SELF.ui.submit){
+                        $('<div class="form-group"><div class="col-md-10 col-md-offset-2">'+
+                            '<button class="btn btn-primary btn-lg btn-submit" type="button"><i class="glyphicon glyphicon-ok"></i> 提交</button>'+
+                            '</div></div>').appendTo($(SELF.ui.form));
+                        submitBtnSelector=SELF.ui.form+'  .btn-submit';
+                    }else{
+                        submitBtnSelector=SELF.ui.submit;
+                    }
 
 
-                    $(SELF.ui.form).find('.btn-submit').click(function(e) {
 
-                        var result=true;
+
+                    $(submitBtnSelector).click(function(e) {
+
+                        let result=true;
 
                         $(SELF.ui.form+" [form-input]").each(function(){
-                            var singleResult=$(this).validate();
-                            if(singleResult==false){
+                            let singleResult=$(this).validate();
+                            if(!singleResult){
                                 result=false;
                             }
                         });
 
-                        if(result==true){
-
+                        if(result){
                             SELF.submit();
                         }else{
                             alert("信息填写不完整，请检查~");
@@ -118,20 +196,20 @@ class editBase{
 
                     });
 
-                    ini_onBlur_validation();
+                    //ini_onBlur_validation();
 
 
             }
         });
 
-        formBuilder.ini(this.mode==2);
+        formBuilder.ini();
 
 
     }//-/
 
     submit(){
         let SELF=this;
-        var postData={};
+        let postData={};
 
         /*if(j79.getURLParam('idx') && j79.getURLParam('idx')!=''){//edit
             postData.action='UPDATE';
@@ -168,7 +246,10 @@ class editBase{
             }
         });
 
-        postData.data=formData;
+
+        //do additional operation to form data:
+        postData.data=this.additionalDataOperation(formData);
+
 
         console.log('form data:');
         console.log(formData);
@@ -192,93 +273,66 @@ class editBase{
 
         let dataT=SELF.getDataTransporter({"url":SELF.url});
 
-        let dataTmp={
-            "id":"11111111222",
-            "password": "123456",
-            "active": 1,
-            "disabled": 0,
-            "loginid": "test23",
-            "email": "test23@test.com",
-            "mobile": "123456789233",
-            "name": "Wayne King",
-            "gender": 1,
-            "nickname": "Wayne King",
-            "avatar": "https://wx.qlogo.cn/mmopen/vi_32/cnAez0H7ZAuugCkb4AP0Jn0np1AW6yZ4cl13Etgf55nHf7omO7UtBYxNooLn5M0MLyL6rlv1iaM3ibMwDSwtfKnA/132",
-            "birthday": "1979-07-01"
-        };
+
+        console.log("cur edit reT:"+SELF.requestType)
 
 
-
-        dataT.dataPost({
+        dataT.dataTransport({
             "url":SELF.url,
             "requestType":SELF.requestType,
-            //"contentType":"application/json",
-            "data":formData, //dataTmp,//
+            "data":formData,
             "success":function(data){
                 $('#mw1').modal('hide');
 
-                alert("submit data success")
                 console.log("submit data success!");
+
+                if(SELF.mode==0 && SELF.successSubmitAdd){
+                    SELF.successSubmitAdd();
+                }else if(SELF.mode==1 && SELF.successSubmitEdit){
+                    SELF.successSubmitEdit();
+                }else{
+                    alert("submit data success")
+                }
+
+
+
 
 
             },
             "failed":function(code,msg,xmlHR){
                 $('#mw1').modal('hide');
-
                 console.log(code);
                 console.log(msg);
                 console.log(xmlHR);
 
-                alert('failed connecting server!');
+                if(SELF.mode==0 && SELF.failSubmitAdd){
+                    SELF.failSubmitAdd(code,msg,xmlHR);
+                }else if(SELF.mode==1 && SELF.failSubmitEdit){
+                    SELF.failSubmitEdit(code,msg,xmlHR);
+                }else{
+                    alert('failed submitting data to remote!');
+                }
 
-                /*if (typeof SELF.handleFailed == 'function') {
 
-                    SELF.handleFailed(code,msg,xmlHR);
 
-                } else {
-                    alert('failed connecting server!');
 
-                }*/
-
-                /*console.log(code);
-                console.log(msg);
-                console.log(xmlHR);*/
             }
         });
 
 
-        /*//post data:
-        j79.post({
-
-                data          : postData,
-
-                title         : "更新"+settings.objectName+"详细信息" ,//alert window title.
-                actionSuccess : function(result){
-
-                    $('#mw1').modal('hide');
-
-                    let clickRe=window.confirm(settings.objectName+'信息提交成功，点击关闭本窗口。');
-                    if(clickRe==true){
-                        window.opener = null;
-                        window.close()
-                    }
-                    //alert(settings.objectName+'信息提交成功，点击关闭本窗口');
 
 
+    }//-/
 
-                },
-                actionFailed : function(result){
-                    console.log(result);
-                    $('#mw1').modal('hide');
-                    alert(settings.objectName+'信息提交过程中，服务器报错,出错代码：'+(result && result.error_code? result.error_code : 'N/A') +'| 提示信息：'+(result && result.msg ? result.msg :'N/A'  ));
-
-                },
-
-
-
-            }
-        );*/
-
+    /**
+     * additionalDataOperation
+     * after get data from form, do some additional operation to data and return.
+     * need overwite in sub-class.
+     * @param data
+     * @returns {*}
+     */
+    additionalDataOperation(data){
+        return data;
     }//-/
 
 

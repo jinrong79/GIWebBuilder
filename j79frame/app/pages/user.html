@@ -76,7 +76,7 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         
-        <span class="toolbar-title-r"><a href="user_add.html" type="button" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i> 添加新用户</a></span>
+        <span class="toolbar-title-r"><a href="user_add.html" target="_blank" type="button" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i> 添加新用户</a></span>
        
          <h2 class="sub-header">用户列表</h2>
           
@@ -87,6 +87,7 @@
               <table class="table table-striped" id="userList">
                 <thead>
                   <tr>
+                    <th>id</th>
                     <th>用户名</th>
                     <th>昵称</th>
                     <th>联系方式</th>
@@ -153,6 +154,12 @@
           }
         });
         list1.load();
+
+
+        /*$('#list1').delegate('.btn-edit-user','click',null,function(e){
+
+
+        });*/
 
 
 

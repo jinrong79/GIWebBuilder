@@ -1193,6 +1193,49 @@
         }
     }; //-/hideLoading
 
+    _NS.prototype.formatNumWidth=function(num, width){
+        let numComp;
+        let result='';
+        for(let i=width;i>1;i--){
+            numComp=Math.pow(10,i-1);
+            if(num<numComp){
+                result+='0';
+            }
+        }
+        return result+num;
+    };//
+
+    _NS.prototype.getTimeFormatted = function(timeValue, useUTCStamp, dateSep) {
+        if(!timeValue){
+            return '';
+        }
+
+        dateSep=dateSep || '-';
+        let dateTimeSep=' ';
+        if(useUTCStamp){
+            dateSep="-";
+            dateTimeSep="T";
+
+        }
+
+
+        let t=new Date();
+        t=timeValue;
+        let result=t.getFullYear();
+        result+=dateSep+ j79.formatNumWidth(t.getMonth()+1,2) ;
+        result+=dateSep+j79.formatNumWidth(t.getDate(),2);
+        result+=dateTimeSep+j79.formatNumWidth(t.getHours(),2);
+        result+=':'+j79.formatNumWidth(t.getMinutes(),2);
+        result+=':'+j79.formatNumWidth(t.getSeconds(),2);
+        if(useUTCStamp){
+            result+='.000Z';
+        }
+
+        return result;
+
+
+    }; //-/
+
     /**
      *  setCookie
      *  set cookie
