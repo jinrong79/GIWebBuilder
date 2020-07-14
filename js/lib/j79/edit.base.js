@@ -42,6 +42,18 @@ class editBase{
         //remote url to communicate with:
         this.url=params.url || null;
 
+        //url to get detail data, if not provided , then use this.url.
+        this.urlGetDetail=params.urlGetDetail || this.url || null;
+
+        //url to add new data, if not provided , then use this.url.
+        this.urlAdd=params.urlAdd || this.url || null;
+
+        //url to edit data, if not provided , then use this.url.
+        this.urlEdit=params.urlEdit || this.url || null;
+
+        //url to delete data,  if not provided , then use this.url.
+        this.urlDelete=params.urlDelete || this.url || null;
+
         //requestType:
         this.requestType=params.requestType || "POST";
 
@@ -64,6 +76,109 @@ class editBase{
     }//-/
 
     /**
+     * getDataTransporter
+     * @returns {dataTransporterBase}
+     */
+    getDataTransporter(){
+        //need overwrite in sub class:
+        return new dataTransporterBase();
+    }//-/
+
+
+    /**
+     * parseDetailDataFromResult
+     * parse detail data from result from server.
+     * need overwrite in subclass to meet special need.
+     * @param resultData
+     * @returns {*}
+     */
+    parseDetailDataFromResult(resultData){
+        return resultData.data && resultData.data.length>0 ? resultData.data[0]:{};
+    }
+
+
+    /**
+     * delete
+     * @param params
+     */
+    delete(params){
+
+        params=params || {};
+        let curUrl=params.url || this.urlDelete;
+        let handlerSuccess=params.success || null;
+        let handlerFailed=params.failed || null;
+        let requestData=params.data || {};
+
+
+        let dataTranporter=this.getDataTransporter();
+        dataTranporter.dataGet({
+            "url":curUrl,
+            "requestType":"DELETE",
+            "data": requestData,
+            "success":function(data){
+
+                if(handlerSuccess){
+                    handlerSuccess(detailData);
+                }
+
+            },
+            "failed":function(code,msg,xmlHR){
+
+                if(handlerFailed){
+                    handlerFailed(code,msg,xmlHR);
+                }
+
+            }
+        });
+
+    }//-/
+
+    /**
+     * getDetail
+     * @param params
+     */
+    getDetail(params){
+        let SELF=this;
+        params=params || {};
+
+        let curUrl=params.url || this.urlGetDetail;
+
+
+        //let requestData=params.data || {};
+        let curId=params.id || null;
+        let requestData=params.data || {};
+        requestData.id=curId;
+
+
+        let handlerSuccess=params.success || null;
+        let handlerFailed=params.failed || null;
+
+        let dataTranporter=this.getDataTransporter();
+        dataTranporter.dataGet({
+            "url":curUrl,
+            "requestType":"GET",
+            "data": requestData,
+            "success":function(data){
+
+                let detailData=SELF.parseDetailDataFromResult(data);
+                if(handlerSuccess){
+                    handlerSuccess(detailData);
+                }
+
+            },
+            "failed":function(code,msg,xmlHR){
+
+                if(handlerFailed){
+                    handlerFailed(code,msg,xmlHR);
+                }
+
+            }
+        });
+
+
+    }//-/
+
+    /**
      * viewAdd
      * view addnew ui
      * @param params
@@ -71,6 +186,9 @@ class editBase{
     viewAdd(params){
         params=params || {};
         params.mode=0;
+        if(!params.url){
+            params.url=this.urlAdd;
+        }
         this.view(params);
     }//-/
 
@@ -81,7 +199,35 @@ class editBase{
     viewEdit(params){
         params=params || {};
         params.mode=1;
-        this.view(params);
+        let curId=params.id || null;
+        if(!curId){
+            console.log("no id provided when try to edit");
+            return false;
+        }
+
+        if(!params.url){
+            params.url=this.urlEdit;
+        }
+        if(!params.data){
+            this.getDetail({
+                "id":curId,
+                "success":function (detailData) {
+                    if(detailData){
+                        let editor=new editUser({
+                            "data":detailData,
+                            "ui":{
+                                "form":"#formEdit",
+                                "submit":"#btnSubmit"
+                            },
+                        });
+
+                        this.view(params);
+                    }
+
+                }
+            })
+        }
+
     }//-/
 
     /**
@@ -91,6 +237,9 @@ class editBase{
     viewStatic(params){
         params=params || {};
         params.mode=2;
+        if(!params.url){
+            params.url=this.urlEdit;
+        }
         this.view(params);
     }
 

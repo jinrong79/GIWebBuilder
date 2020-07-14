@@ -77,6 +77,17 @@ class dataTransporterBase{
         this.dataTransport(params);
     }//-/
 
+    /**
+     * dataDelete
+     * same as dataTransport, except requestType is DELETE.
+     * @param params
+     */
+    dataDelete(params){
+        params=params || {};
+        params.requestType="DELETE";
+        this.dataTransport(params);
+    }
+
 
     /**
      * dataTransport

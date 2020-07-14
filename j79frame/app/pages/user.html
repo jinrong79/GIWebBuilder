@@ -155,10 +155,20 @@
         list1.load();
 
 
-        /*$('#list1').delegate('.btn-edit-user','click',null,function(e){
+        $('#list1').delegate('.btn-del-user','click',null,function(e){
+          let id=$(this).attr("item-id");
+          let timeStamp=$(this).attr("item-timeStamp");
+          let userManager=new editUser();
+          userManager.delete({
+            "id":id,
+            "timestamp":timeStamp,
+            "success":function(e){
+              console.log("delete success");
+              alert("编号"+id" 删除成功!");
+            },
+          })
 
-
-        });*/
+        });
 
 
 
