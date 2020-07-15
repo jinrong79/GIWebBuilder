@@ -41,7 +41,7 @@
     <item  id="name" lineEnd="yes">
         <label class="col-md-2 control-label">角色权限</label>
         <controls class="col-md-10">
-            <control  type="jsonValueSetter"  data-saver="privileges" json-struct-def="settings/privilege.json" sub-key-name="sub" setting-value-type="b" setting-values="true|false" id="privileges_selector" placeholder="权限设定"></control>
+            <control  type="json-value-setter"  data-saver="privileges" json-struct-def="settings/privilege.json" sub-key-name="sub" setting-value-type="b" setting-values="true|false" id="privileges_selector" placeholder="权限设定"></control>
             <control required="yes" value-type="json" node="privileges" type="textarea" id="privileges"></control>
         </controls>
     </item>

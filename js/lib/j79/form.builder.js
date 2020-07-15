@@ -449,6 +449,36 @@ j79FormBuilder.prototype = {
 
                         break;
 
+
+                    //json-value-setter
+                    case 'json-value-setter':
+
+                        //var strDefault= curValue !='' ? ' value="'+curValue+'" ' : ' value="'+valueDefault+'" ';
+
+
+
+
+
+
+                        ctrItemStr = '<div class="json-value-setter  '+viewClass+'" '+strDisalbed + ctrTitle + dataSaver+ ' id="' + ctrId +'"  ' +
+                            getAttr('json-struct-def')+
+                            getAttr('sub-key-name')+
+                            '>';
+
+
+                        ctrItemStr +='</div>';
+
+                        $ctrItem = $(ctrItemStr);
+
+
+                        //preload js
+                        j79.addUnique(preLoadJs, '/js/plugin/j79.json.value.setter.js');
+
+
+                        break;
+
+
+
                     //checkbox
                     case 'checkbox':
 

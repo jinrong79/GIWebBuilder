@@ -1,0 +1,7 @@
+.json-value-setter {}
+.json-value-setter  ul li{ border: 1px solid #ddd; padding: 1rem; display: block; margin: 0 0 0.2rem 0; background-color: #fff;}
+.json-value-setter ul{ padding-left:0;}
+.json-value-setter li>b{ display: block; padding: 0.5rem 0;}
+.json-value-setter .json-value-setter-container>ul{ border: 1px solid #ddd; padding: 0.5rem; background-color: #efefef;}
+
+.json-value-setter ul li[value="1"]{ background-color: #2b669a; color:#fff;}
