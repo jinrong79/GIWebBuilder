@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<formSettings> 
+
+  <item  id="loginid" lineEnd="yes">
+    <label class="col-md-2 control-label">角色编号</label>
+    <controls class="col-md-10">
+      <control required="yes" node="id"  type="text" id="id" placeholder="角色编号，25个以内的英文、数字">
+      <validator type="regExp" msg="必须为25个字以内,英文，数字，横线，下划线">
+        <![CDATA[^\s*[a-zA-Z0-9\-_]{1,25}\s*$]]>
+      </validator>
+	  </control>
+
+    </controls>    
+  </item>
+
+
+
+    <item  id="name" lineEnd="yes">
+        <label class="col-md-2 control-label">角色名称</label>
+        <controls class="col-md-10">
+            <control  node="name"  type="text" id="name" placeholder="角色名称，25个以内的英文、数字">
+                <validator type="regExp" msg="角色名称，25个以内的英文、数字">
+                    <![CDATA[^\s*[a-zA-Z0-9\-_]{1,25}\s*$]]>
+                </validator>
+            </control>
+        </controls>
+    </item>
+
+    <item  id="note" lineEnd="yes">
+        <label class="col-md-2 control-label">角色描述</label>
+        <controls class="col-md-10">
+            <control  node="note"  type="text" id="note" placeholder="角色描述">
+                <validator type="regExp" msg="角色描述，50个以内任意文字">
+                    <![CDATA[^\s*[\S]{1,50}\s*$]]>
+                </validator>
+
+            </control>
+        </controls>
+    </item>
+
+    <item  id="name" lineEnd="yes">
+        <label class="col-md-2 control-label">角色权限</label>
+        <controls class="col-md-10">
+            <control  type="jsonValueSetter"  data-saver="privileges" json-struct-def="settings/privilege.json" sub-key-name="sub" setting-value-type="b" setting-values="true|false" id="privileges_selector" placeholder="权限设定"></control>
+            <control required="yes" value-type="json" node="privileges" type="textarea" id="privileges"></control>
+        </controls>
+    </item>
+
+
+  
+  
+  
+</formSettings>

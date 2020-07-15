@@ -1,0 +1,168 @@
+{
+  "lamp":{
+    "label": "智能路灯",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"},
+      "turn_light": {"label": "开关路灯"}
+    }
+  },
+
+  "building":{
+    "label": "智能楼宇",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"}
+    }
+  },
+
+  "rentalHouse":{
+    "label": "智能楼宇",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"}
+    }
+  },
+
+  "wifi5G":{
+    "label": "5GWIFI",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"},
+      "thermo": {"label": "查看信号热力图"}
+    }
+  },
+
+  "water":{
+    "label": "智能水质",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"}
+    }
+  },
+
+  "manholeCover":{
+    "label": "智能井盖",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"}
+    }
+  },
+
+  "smoke":{
+    "label": "智能烟感",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"}
+    }
+  },
+
+  "trafficLight":{
+    "label": "交通灯",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"},
+      "turn_light": {"label": "切换红绿灯"}
+    }
+  },
+
+  "parking":{
+    "label": "路边停车",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"}
+    }
+  },
+
+  "bus":{
+    "label": "公交车站",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"}
+    }
+  },
+
+  "guard":{
+    "label": "保安人员",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"}
+    }
+  },
+
+  "supply":{
+    "label": "应急物资",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"}
+    }
+  },
+
+  "shuttle":{
+    "label": "无人摆渡车",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"}
+    }
+  },
+
+  "cctv":{
+    "label": "视频监控",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"}
+    }
+  },
+
+  "robot":{
+    "label": "安保机器人",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"},
+      "command": {"label": "指挥机器人"}
+    }
+  },
+
+  "terminal":{
+    "label": "智能终端",
+    "sub": {
+      "pin": {"label": "地图定位"},
+      "view": {"label": "查看详情"},
+      "thermo": {"label": "查看人口热力图"}
+    }
+  },
+
+  "emergencyPlan": {
+    "label": "应急预案",
+    "sub": {
+      "view": {"label": "查看详情"}
+    }
+  },
+  "videoPlan": {
+    "label": "视频预案",
+    "sub": {
+      "view": {"label": "查看预案"},
+      "add": {"label": "添加新预案"},
+      "delete": {"label": "删除预案"}
+    }
+  },
+
+  "setting": {
+    "label": "系统设定",
+    "sub": {
+      "time_change": {"label": "设定时间"},
+      "season_change": {"label": "设定季节"},
+      "weather_change": {"label": "设定天气"},
+      "building_light_change": {"label": "设定楼宇亮化"},
+      "remote_control": {"label": "远程控制"}
+    }
+  },
+
+  "area": {
+    "label": "地图分区",
+    "sub": {
+      "view": {"label": "展示分区"}
+    }
+  }
+
+}
