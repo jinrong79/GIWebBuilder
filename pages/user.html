@@ -126,13 +126,15 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <!-- j79frame js -->
-    <script src="../../../js/lib/j79/basic.js"></script>
-    <script src="../../../js/app/j79.app.js"></script>
-    <script src="../../../js/lib/j79/data.transporter.js"></script>
-    <script src="../../../js/lib/j79/list.base.js"></script>
-    <script src="../../../js/lib/j79/list.dynamic.js"></script>
-    <script src="../../../js/app/data.transporter.js"></script>
-    <script src="../../../js/app/list.users.js"></script>
+    <script src="../js/lib/j79/basic.js"></script>
+    <script src="../js/app/j79.app.js"></script>
+    <script src="../js/lib/j79/data.transporter.js"></script>
+    <script src="../js/lib/j79/list.base.js"></script>
+    <script src="../js/lib/j79/list.dynamic.js"></script>
+    <script src="../js/app/data.transporter.js"></script>
+    <script src="../js/app/list.users.js"></script>
+    <script src="../js/lib/j79/edit.base.js"></script>
+    <script src="../js/app/edit.user.js"></script>
 
 
     <script>
@@ -155,62 +157,39 @@
         list1.load();
 
 
-        $('#list1').delegate('.btn-del-user','click',null,function(e){
+        let userM=new editUser();
+        userM.setupDeleteLink({
+          "btn": "#list1 .btn-del-user",
+          "success": function (e) {
+            alert("删除成功!");
+            list1.refresh();
+          },
+          "failed":function (e) {
+            alert("删除失败！发生错误。")
+          }
+        })
+
+
+        /*$('#list1').delegate('.btn-del-user','click',null,function(e){
           let id=$(this).attr("item-id");
           let timeStamp=$(this).attr("item-timeStamp");
           let userManager=new editUser();
           userManager.delete({
-            "id":id,
-            "timestamp":timeStamp,
+            "data":{
+                    "id":id,
+                    "timestamp":timeStamp
+                  },
             "success":function(e){
               console.log("delete success");
-              alert("编号"+id" 删除成功!");
+
             },
           })
 
-        });
-
-
-
-        /*let dataT=new dataTransporter();
-        dataT.dataGet({
-          "url":"/api/admin/users",
-          "success":function(data1){
-            console.log("result success");
-
-            let data=data1.data
-            console.log(data);
-            let item;
-            let lineStr='';
-            for(let i=0;i<data.length;i++){
-              item=data[i];
-
-              lineStr='<tr>\n' +
-                      `<td>${item.id}</td>\\n`                     +
-                      `                    <td>${item.loginid}</td>\n` +
-                      `                    <td>${item.mobile}</td>\n` +
-                      `                    <td>${item.last_login_time}</td>\n` +
-
-                      `                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>\n` +
-                      `                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-knight"></i> 角色</button>\n` +
-                      `                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>\n` +
-                      `                    </td>\n` +
-                      `                  </tr>`;
-
-              $(lineStr).appendTo($("#userList tbody"));
-
-
-            }
-
-
-          },
-          "failed":function(caller,code,msg,xmlHR){
-            console.log("result failed!");
-            console.log(code);
-            console.log(msg);
-            console.log(xmlHR);
-          }
         });*/
+
+
+
+
 
 
       });

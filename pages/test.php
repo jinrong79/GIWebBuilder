@@ -1,6 +1,6 @@
 <?php
 //include config files.
-require_once  $_SERVER['DOCUMENT_ROOT']."/global.config.php"; //优先引入全局设置
+require_once $_SERVER['DOCUMENT_ROOT'] . "/global.config.php"; //优先引入全局设置
 
 
 

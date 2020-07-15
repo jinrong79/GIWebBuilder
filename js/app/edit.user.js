@@ -1,13 +1,16 @@
 class editUser extends editBase{
 
     parseParam(params){
+
+        params=params || {};
+
         super.parseParam(params);
 
 
 
 
-        this.addFormXMLUrl="../../../j79frame/app/settings/form_user_add.xml";
-        this.editFormXMLUrl="../../../j79frame/app/settings/form_user_edit.xml";
+        this.addFormXMLUrl="../../../pages/settings/form_user_add.xml";
+        this.editFormXMLUrl="../../../pages/settings/form_user_edit.xml";
 
 
         //remote url to communicate with:
@@ -28,6 +31,66 @@ class editUser extends editBase{
 
     }//-/
 
+
+    setupDeleteLink(params){
+        let SELF=this;
+        params=params || {};
+
+        //get btn:
+        let btnSelector=params.btn || '';
+        if(!btnSelector){
+            console.log("btn selector not provided");
+            return;
+        }
+
+
+        let attrNameForId=params.attrNameForId || 'item-id';
+        let handleSuccess=params.success || this.successSubmitDelete;
+        let handleFailed=params.failed || this.failSubmitDelete;
+
+        $('body').delegate(btnSelector,'click',null,function(e){
+            let id=$(this).attr(attrNameForId);
+            let timeStamp=$(this).attr("item-timeStamp");
+
+
+            j79.mwConfirm("mwDelConfirm","删除确认","确认删除以下项目吗?<br/>编号:"+id+"<br/>",
+                function () {
+                    SELF.delete({
+                        "data":{
+                            "id":id,
+                            "timestamp":timeStamp
+
+                        },
+                        "success":function(e){
+                            console.log("delete success");
+                            if(handleSuccess){
+                                handleSuccess(e);
+                            }else{
+                                alert("编号"+id+" 删除成功!");
+                            }
+
+                        },
+                        "failed":function (code,msg) {
+                            console.log("delete failed!!");
+                            if(handleFailed){
+                                handleFailed(code,msg);
+                            }else{
+                                alert("编号"+id+" 删除失败! 发生错误，错误编码:"+code+" | 错误信息:"+msg);
+                            }
+                        }
+                    })
+                },
+                function () {
+
+                });
+
+
+
+
+        });
+    }//-/
+
+
     /**
      * getDataTransporter
      * @returns {dataTransporter}
@@ -46,7 +109,20 @@ class editUser extends editBase{
      * @returns {*}
      */
     parseDetailDataFromResult(resultData){
-        return resultData.data && resultData.data.length>0 ? resultData.data[0]:{};
+
+        let detailData= resultData.data && resultData.data.length>0 ? resultData.data[0]:{};
+
+        if(detailData){
+            let tt=detailData.timestamp;
+            if(tt){
+                tt=tt.toString().replace('T',' ');
+                tt=tt.replace('.000Z','');
+                detailData.timestamp=tt;
+            }
+        }
+
+        return detailData;
+
     }
 
     /**
@@ -57,18 +133,36 @@ class editUser extends editBase{
         params=params || {};
         params.mode=0;
         params.requestType='POST';
-        this.view(params);
+        if(!params.success){
+            params.success=function(e){
+                j79.mwInform("mwOK","成功","添加用户成功！点击回到列表...", function () {
+                    document.location.href=j79App.naviURL.user;
+                });
+            }
+        }
+
+        super.viewAdd(params);
+
+
     }//-/
 
     /**
      * viewEdit
      * @param params
      */
-    viewEdit(params){
-        params=params || {};
-        params.mode=1;
-        params.requestType='PUT';
-        this.view(params);
-    }//-/
+    viewEdit(params) {
+        params = params || {};
+        params.mode = 1;
+        params.requestType = 'PUT';
+        if (!params.success) {
+            params.success = function (e) {
+                j79.mwInform("mwOK", "成功", "修改用户成功！点击回到列表...", function () {
+                    document.location.href = j79App.naviURL.user;
+                });
+            }
+        }
+
+        super.viewEdit(params);
+    }
 
 }//==/

@@ -2,13 +2,13 @@ class PageManager{
     constructor(params) {
 
         this.naviURL={
-            "home":"/j79frame/app/pages/home.html",
-            "user":"/j79frame/app/pages/user.html",
+            "home":"home.html",
+            "user":"user.html",
             "privilege":"/j79frame/pages/app/privilege.html",
-            "role":"/j79frame/app/pages/role.html",
-            "log":"/j79frame/app/pages/log.html",
-            "login":"/j79frame/app/pages/login.html",
-            "logout":"/j79frame/app/pages/logout.html",
+            "role":"role.html",
+            "log":"log.html",
+            "login":"login.html",
+            "logout":"logout.html",
         };
     }//-/
 

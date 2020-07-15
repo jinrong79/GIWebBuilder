@@ -109,75 +109,38 @@
     </div>
 
     <!-- fundamental js -->
-    <script src="/js/jquery/1.11.3/jquery.min.js"></script>
-    <script src="/js/plugin/jquery.json.js"></script>
+    <script src="../js/jquery/1.11.3/jquery.min.js"></script>
+    <script src="../js/plugin/jquery.json.js"></script>
     <!-- Bootstrap core JavaScript=============================================== -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <!-- j79frame js -->
-    <script src="../../../js/lib/j79/basic.js"></script>
-    <script src="../../../js/app/j79.app.js"></script>
-    <script src="../../../js/lib/j79/data.transporter.js"></script>
-    <script src="../../../js/app/data.transporter.js"></script>
-    <script src="../../../js/lib/j79/form.builder.js"></script>
-    <script src="../../../js/lib/j79/edit.base.js"></script>
-    <script src="../../../js/app/edit.user.js"></script>
+    <script src="../js/lib/j79/basic.js"></script>
+    <script src="../js/app/j79.app.js"></script>
+    <script src="../js/lib/j79/data.transporter.js"></script>
+    <script src="../js/app/data.transporter.js"></script>
+    <script src="../js/lib/j79/form.builder.js"></script>
+    <script src="../js/lib/j79/edit.base.js"></script>
+    <script src="../js/app/edit.user.js"></script>
 
     <script>
       $(document).ready(function (e) {
 
 
+          let userManger=new editUser({
+              "ui":{
+                  "form":"#formEdit",
+                  "submit":"#btnSubmit"
+              },
+
+          });
+
+
           let currentId=j79.getURLParam('id');
-          let detailData;
           if(currentId){//edit:
-
-              let dataT=new dataTransporter();
-              dataT.dataGet({
-                  "url":"/api/admin/users",
-                  "data":{
-                      "id":currentId
-                  },
-                  "success":function(data, txtStatus, jqXHR){
-
-                      detailData=data.data && data.data.length>0 ? data.data[0]:{};
-                      console.log("get user detail:");
-                      console.log(detailData);
-
-                      let tt=detailData.timestamp;
-                      if(tt){
-                          tt=tt.toString().replace('T',' ');
-                          tt=tt.replace('.000Z','');
-                          detailData.timestamp=tt;
-                      }
-
-                      console.log(detailData);
-
-                      if(detailData){
-                          let editor=new editUser({
-                              "data":detailData,
-                              "ui":{
-                                  "form":"#formEdit",
-                                  "submit":"#btnSubmit"
-                              },
-                          });
-
-                          editor.viewEdit()
-                      }
-
-
-
-                  }
-              })
-
+              userManger.viewEdit({"id":currentId});
           }else{//add new:
-              let editor=new editUser({
-                  "ui":{
-                      "form":"#formEdit",
-                      "submit":"#btnSubmit"
-                  },
-
-              });
-              editor.viewAdd()
+              userManger.viewAdd();
           }
 
 

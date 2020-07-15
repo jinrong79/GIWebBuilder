@@ -830,12 +830,12 @@
         //ini modal window element
         if ($('#' + id).length <= 0) { //if id element not exists in document, then create modal element and append it to end of body.
 
-            className=(settings && settings.className) || '';
-            sizeClass=(settings && settings.size && settings.size=='small') ? 'modal-sm' : '';
-            title = (settings && settings.title) || '提示';
-            strBodyHtml = (settings && settings.bodyHtml) || '<p>... ...</p>';
-            strBtnHtml = (settings && settings.btnHtml) || '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
-            var $uiModal = $(
+           let className=(settings && settings.className) || '';
+           let sizeClass=(settings && settings.size && settings.size=='small') ? 'modal-sm' : '';
+           let title = (settings && settings.title) || '提示';
+           let strBodyHtml = (settings && settings.bodyHtml) || '<p>... ...</p>';
+           let strBtnHtml = (settings && settings.btnHtml) || '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
+           var $uiModal = $(
                 '<div class="modal fade '+className+'" id="' + id + '" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">' +
                 '<div class="modal-dialog '+sizeClass+'" role="document">' +
                 '<div class="modal-content">' +
@@ -846,7 +846,7 @@
                 '<div class="modal-body">' + strBodyHtml + '</div>' +
                 '<div class="modal-footer">' + strBtnHtml +'</div>' +
                 '</div></div></div>');
-            $uiModal.appendTo('body');
+           $uiModal.appendTo('body');
         } else { //if exists certain id element.		  
 
             if (settings) {
@@ -887,6 +887,8 @@
         };
         j79.viewModal(settings, id);
 
+
+
         $('#'+id+' .modal-footer').find('.btn-yes').click(function (e) {
             $('#'+id).modal('hide');
             if(handleYes){
@@ -919,6 +921,13 @@
             "btnHtml":'<a class="btn btn-primary btn-ok-close">关闭 | Close</a>'
         };
         j79.viewModal(settings, id);
+
+        $('#'+id).on('hidden.bs.modal', function (e) {
+            $('#'+id).modal('hide');
+            if(handleFunc){
+                handleFunc();
+            }
+        })
 
         $('#'+id+' .modal-footer').find('.btn-ok-close').click(function (e) {
             $('#'+id).modal('hide');
@@ -1048,22 +1057,7 @@
                     }
                 }
             });
-            /*$(containerSelector).find('.pager-bar A.previous').click(function(e) {
 
-                //console.log('preve page---------');
-
-                if (listObj) {
-
-                    if (pageCur > 1) {
-                        listObj.setPage(--pageCur);
-                        //set current page in pager
-                        setCurrentPageClass(pageCur);
-                        refreshUI(pageCur);
-
-                    }
-                }
-
-            });*/
             //page next
             $(containerSelector).delegate('.pager-bar A.next','click',null,function(e){
                 if (listObj) {
@@ -1078,21 +1072,6 @@
                 }
             });
 
-           /*
-           $(containerSelector).find('.pager-bar A.next').click(function(e) {
-
-                if (listObj) {
-                    if (pageCur + 1 <= pageTotal) {
-                        /!*console.log('listObj:');
-                        console.log(listObj);*!/
-                        listObj.setPage(++pageCur);
-                        //set current page in pager
-                        setCurrentPageClass(pageCur);
-                        refreshUI(pageCur);
-                    }
-                }
-
-            });*/
             //detail page no click
             $(containerSelector).delegate('.pager-bar A.page-no','click',null,function(e){
                 if (listObj) {
@@ -1107,23 +1086,6 @@
                 }
             });
 
-           /*$(containerSelector).find('.pager-bar A.page-no').click(function(e) {
-
-                if (listObj) {
-
-                    /!*console.log('pager object:');
-                    console.log(listObj);*!/
-
-                    if (Number($(this).text()) >= 1) {
-                        pageCur = Number($(this).text());
-                        listObj.setPage(pageCur);
-                        //set current page in pager
-                        setCurrentPageClass(pageCur);
-                        refreshUI(pageCur);
-                    }
-                }
-
-            });*/
 
             //go page number click
             $(containerSelector).delegate('.pager-bar A.go-page','click',null,function(e){
@@ -1138,21 +1100,7 @@
                     }
                 }
             });
-           /*$(containerSelector).find('.pager-bar A.go-page').click(function(e) {
 
-                console.log(listObj);
-                if (listObj) {
-                    var goPageNo = Number($ui.find('#goPageNo').val());
-                    if (goPageNo >= 1 && goPageNo <= pageTotal) {
-                        pageCur = goPageNo;
-                        listObj.setPage(goPageNo);
-                        //set current page in pager
-                        setCurrentPageClass(goPageNo);
-                        refreshUI(pageCur);
-                    }
-                }
-
-            });*/
 
         }
 

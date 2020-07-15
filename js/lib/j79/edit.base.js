@@ -64,12 +64,19 @@ class editBase{
         //handler of success edit.
         this.successSubmitEdit=params.successSubmitEdit || null;
 
+        //handler of success delete.
+        this.successSubmitDelete=params.successSubmitDelete || null;
+
+
 
         //handler of failed Add
         this.failSubmitAdd=params.failSubmitAdd || null;
 
         //handler of failed Edit
         this.failSubmitEdit=params.failSubmitEdit || null;
+
+        //handler of failed delete
+        this.failSubmitDelete=params.failSubmitDelete || null;
 
 
 
@@ -97,6 +104,64 @@ class editBase{
     }
 
 
+    setupDeleteLink(params){
+        let SELF=this;
+        params=params || {};
+
+        //get btn:
+        let btnSelector=params.btn || '';
+        if(!btnSelector){
+            console.log("btn selector not provided");
+            return;
+        }
+
+
+
+        let attrNameForId=params.attrNameForId || 'item-id';
+        let handleSuccess=params.success || this.successSubmitDelete;
+        let handleFailed=params.failed || this.failSubmitDelete;
+
+        $('body').delegate(btnSelector,'click',null,function(e){
+            let id=$(this).attr(attrNameForId);
+            //let timeStamp=$(this).attr("item-timeStamp");
+
+
+            j79.mwConfirm("mwDelConfirm","删除确认","确认删除编号为"+id+"的项目吗?",
+                function () {
+                    SELF.delete({
+                        "data":{
+                            "id":id,
+
+                        },
+                        "success":function(e){
+                            console.log("delete success");
+                            if(handleSuccess){
+                                handleSuccess(e);
+                            }else{
+                                alert("编号"+id+" 删除成功!");
+                            }
+
+                        },
+                        "failed":function (code,msg) {
+                            console.log("delete failed!!");
+                            if(handleFailed){
+                                handleFailed(code,msg);
+                            }else{
+                                alert("编号"+id+" 删除失败! 发生错误，错误编码:"+code+" | 错误信息:"+msg);
+                            }
+                        }
+                    })
+                },
+                function () {
+
+                });
+
+
+
+        });
+    }//-/
+
+
     /**
      * delete
      * @param params
@@ -111,14 +176,14 @@ class editBase{
 
 
         let dataTranporter=this.getDataTransporter();
-        dataTranporter.dataGet({
+        dataTranporter.dataTransport({
             "url":curUrl,
             "requestType":"DELETE",
             "data": requestData,
             "success":function(data){
 
                 if(handlerSuccess){
-                    handlerSuccess(detailData);
+                    handlerSuccess(data);
                 }
 
             },
@@ -197,6 +262,7 @@ class editBase{
      * @param params
      */
     viewEdit(params){
+        let SELF=this;
         params=params || {};
         params.mode=1;
         let curId=params.id || null;
@@ -213,17 +279,14 @@ class editBase{
                 "id":curId,
                 "success":function (detailData) {
                     if(detailData){
-                        let editor=new editUser({
-                            "data":detailData,
-                            "ui":{
-                                "form":"#formEdit",
-                                "submit":"#btnSubmit"
-                            },
-                        });
+                        params.data=detailData;
 
-                        this.view(params);
+                        SELF.view(params);
                     }
 
+                },
+                "failed":function(code,msg){
+                    console.log("failed get detail data");
                 }
             })
         }
@@ -276,6 +339,16 @@ class editBase{
         let curData=params.data || null;
         if(curData){
             this.data=curData;
+        }
+
+        //handler:
+        if(this.mode==0){
+            this.successSubmitAdd=params.success || this.successSubmitAdd;
+            this.failSubmitAdd=params.failed || this.failSubmitAdd;
+
+        }else if(this.mode==1){
+            this.successSubmitEdit=params.success || this.successSubmitEdit;
+            this.failSubmitEdit=params.failed || this.failSubmitEdit;
         }
 
         //requestType:
@@ -356,6 +429,10 @@ class editBase{
 
     }//-/
 
+    /**
+     * submit
+     * when add or edit data, submit data to remote server.
+     */
     submit(){
         let SELF=this;
         let postData={};
@@ -435,6 +512,11 @@ class editBase{
 
                 console.log("submit data success!");
 
+                console.log(SELF.mode);
+
+                console.log(SELF.successSubmitAdd);
+                console.log(SELF.successSubmitEdit);
+
                 if(SELF.mode==0 && SELF.successSubmitAdd){
                     SELF.successSubmitAdd();
                 }else if(SELF.mode==1 && SELF.successSubmitEdit){
@@ -492,7 +574,7 @@ class editBase{
      */
     getDataTransporter(params){
         //need overwrite in subclass
-        return new dataTransporter(params);
+        return new dataTransporterBase(params);
     }//-/
 
 

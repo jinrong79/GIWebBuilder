@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<formSettings> 
+
+  <item  id="loginid" lineEnd="yes">
+    <label class="col-md-2 control-label">登录ID</label>
+    <controls class="col-md-10">
+      <control required="yes" node="loginid"  type="text" id="loginid" placeholder="用户登录ID，25个以内的英文、数字">
+      <validator type="regExp" msg="必须为25个字以内,英文，数字，横线，下划线">
+        <![CDATA[^\s*[a-zA-Z0-9\-_]{1,25}\s*$]]>
+      </validator>
+	  </control>
+
+    </controls>    
+  </item>
+
+    <item  id="password" lineEnd="yes">
+        <label class="col-md-2 control-label">密码</label>
+        <controls class="col-md-10">
+            <control required="yes" node="password"  type="password" id="password" placeholder="密码，6个字及以上">
+                <validator type="regExp" msg="必须为6个字及以上25个字以下,英文，数字，横线，下划线">
+                    <![CDATA[^\s*[a-zA-Z0-9\-_]{6,25}\s*$]]>
+                </validator>
+            </control>
+
+        </controls>
+    </item>
+
+    <item  id="password2" lineEnd="yes">
+        <label class="col-md-2 control-label">确认密码</label>
+        <controls class="col-md-10">
+            <control required="yes" submit-ignore="yes" node="password2"  type="password" id="password2" placeholder="重复输入，确认密码">
+                <validator type="expression" msg="2次密码输入不同！">
+                    <![CDATA[$('#password').val()==$('#password2').val()]]>
+                </validator>
+            </control>
+
+        </controls>
+    </item>
+
+    <item  id="mobile" lineEnd="yes">
+        <label class="col-md-2 control-label">手机号</label>
+        <controls class="col-md-10">
+            <control  node="mobile"  type="text" id="mobile" placeholder="用户手机号,纯数字">
+                <validator type="regExp" msg="必须为纯数字，11位">
+                    <![CDATA[^[0-9]{11}$]]>
+                </validator>
+            </control>
+        </controls>
+    </item>
+
+    <item  id="email" lineEnd="yes">
+        <label class="col-md-2 control-label">电子邮件</label>
+        <controls class="col-md-10">
+            <control  node="email"  type="text" id="email" placeholder="电子邮件">
+                <validator type="regExp" msg="请输入符合电子邮件格式的地址">
+                    <![CDATA[^[a-zA-Z0-9_\-\.]+@[a-zA-Z0-9_\-]+(\.[a-zA-Z0-9_\-]+)+$]]>
+                </validator>
+            </control>
+        </controls>
+    </item>
+
+    <item  id="name" lineEnd="yes">
+        <label class="col-md-2 control-label">用户名称</label>
+        <controls class="col-md-10">
+            <control  node="name"  type="text" id="name" placeholder="用户名称">
+                <validator type="regExp" msg="用户名称，50个字符以内">
+                    <![CDATA[^\s*[\S\s]{1,50}\s*$]]>
+                </validator>
+            </control>
+        </controls>
+    </item>
+
+    <item  id="nickname" lineEnd="yes">
+        <label class="col-md-2 control-label">用户昵称</label>
+        <controls class="col-md-10">
+            <control  node="nickname"  type="text" id="nickname" placeholder="用户昵称">
+                <validator type="regExp" msg="用户昵称，50个字符以内">
+                    <![CDATA[^\s*[\S\s]{1,50}\s*$]]>
+                </validator>
+            </control>
+        </controls>
+    </item>
+
+    <item  id="active" lineEnd="yes">
+        <label class="col-md-2 control-label">是否激活</label>
+        <controls class="col-md-10">
+            <control type="choice-box" data-saver="active" id="choiceBox1" placeholder="是否激活">
+                <values>
+                    <value label="未激活">0</value>
+                    <value label="已激活">1</value>
+                </values>
+            </control>
+            <control  node="active"  type="hidden" id="active" default="0"/>
+        </controls>
+    </item>
+
+    <item  id="disabled" lineEnd="yes">
+        <label class="col-md-2 control-label">是否启用</label>
+        <controls class="col-md-10">
+            <control type="choice-box" data-saver="disabled" id="choiceBox2" placeholder="是否启用">
+                <values>
+                    <value label="启用">0</value>
+                    <value label="禁用">1</value>
+                </values>
+            </control>
+            <control  node="disabled"  type="hidden" id="disabled" default="0"/>
+        </controls>
+    </item>
+
+    <item  id="gender" lineEnd="yes">
+        <label class="col-md-2 control-label">性别</label>
+        <controls class="col-md-10">
+            <control type="choice-box" data-saver="gender" id="choiceBox3" placeholder="性别">
+                <values>
+                    <value label="未知">0</value>
+                    <value label="女">2</value>
+                    <value label="男">1</value>
+
+                </values>
+            </control>
+            <control  node="gender"  type="hidden" id="gender" default="0"/>
+        </controls>
+    </item>
+
+    <item  id="birthday" lineEnd="yes">
+        <label class="col-md-2 control-label">生日</label>
+        <controls class="col-md-10">
+            <control type="date-selector" data-saver="birthday" id="date-selector1" placeholder="生日">
+            </control>
+            <control  node="birthday"  type="hidden" id="birthday" default="1979-07-01T00:00:00.000Z"/>
+        </controls>
+    </item>
+  
+  
+  
+  
+</formSettings>

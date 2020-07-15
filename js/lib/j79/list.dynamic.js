@@ -6,6 +6,9 @@ class ListDynamic extends ListBase{
         //ajax url:
         this.url=params.url || null;
 
+        //requestType:
+        this.requestType=params.requestType || 'GET';
+
 
 
         //page type:
@@ -92,35 +95,46 @@ class ListDynamic extends ListBase{
     }//-/
 
     /**
+     * refresh
+     * refresh list view.
+     */
+    refresh(){
+        this.load();
+    }//-/
+
+    /**
      * load
      * load data by dataTransporter
      * @param params
      * @returns {boolean}
      */
-    load(params,requestType){
+    load(params){
 
         let SELF = this;
 
         params=params || {};
 
+
+        //get url:
+        this.url=params.url || this.url;
         if(!this.url){
             console.log("no url provided!");
             return false;
         }
 
 
+        let requestType=params.requestType || this.requestType;
 
-        requestType=requestType || 'GET';
-        SELF.callAfterLoad=params.callAfterLoad || null;
+        //set some handler:
+        SELF.callAfterLoad=params.callAfterLoad || SELF.callAfterLoad;
+        SELF.handleFailed=params.failed || SELF.handleFailed;
 
+        //current loading page no.
         let loadPage=params.page || SELF.page;
 
-
-        //j79.viewLoading(SELF.ui.list);
-        console.log('list post data:');
-        console.log(params);
-
+        //data to send when request list.
         let requestData=params.data || {};
+
 
         if(SELF.pageType==1){
             requestData.page=loadPage;
@@ -168,9 +182,6 @@ class ListDynamic extends ListBase{
 
                 }
 
-                /*console.log(code);
-                console.log(msg);
-                console.log(xmlHR);*/
             }
         });
 
