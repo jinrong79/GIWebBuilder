@@ -54,18 +54,18 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li ><a href="#">首页 <span class="sr-only">(current)</span></a></li>
-            <li ><a href="#"><i class="glyphicon glyphicon-user"></i> 用户管理</a></li>            
-            <li><a href="#"><i class="glyphicon glyphicon-knight"></i> 角色管理</a></li>
+            <li ><a href="user.html"  target="_top"><i class="glyphicon glyphicon-user"></i> 用户管理</a></li>
+            <li><a href="#"  target="_top"><i class="glyphicon glyphicon-knight"></i> 角色管理</a></li>
             <li><a href="#"><i class="glyphicon glyphicon-lock"></i> 权限管理</a></li>
           </ul>
           <hr/>
           <ul class="nav nav-sidebar">
-            <li class="active"><a href=""><i class="glyphicon glyphicon-book"></i> 日志列表</a></li>
+            <li class="active"><a href="log.html"  target="_top"><i class="glyphicon glyphicon-book"></i> 日志列表</a></li>
            
           </ul>
           <hr/>
           <ul class="nav nav-sidebar">
-            <li><a href=""><i class="glyphicon glyphicon-user"></i> 退出系统</a></li>
+            <li><a href="login.html"  target="_top"><i class="glyphicon glyphicon-user"></i> 退出系统</a></li>
           
           </ul>
         </div>
@@ -74,16 +74,37 @@
        
        
          <h2 class="sub-header">日志列表</h2>
+          <div class="panel panel-default">
+            <div class="panel-body">
 
-          <div class="row">
-            <div class="col-sm-5 col-md-5"><div id="dateSel01" class="date-selector" data-saver="startTime" include-time="include-time"></div></div>
-            <div class="col-sm-1 col-md-1"> ~ </div>
-            <div class="col-sm-5 col-md-5"><div id="dateSel02" class="date-selector" data-saver="endTime" include-time="include-time"></div></div>
-            <div class="col-sm-1 col-md-1"> <a id="searchByTime" class="btn btn-primary" target="_top">查询</a> </div>
-            <input id="startTime" name="startTime" type="hidden" value="2020-01-01 00:00:00" />
-            <input id="endTime" name="endTime" type="hidden" value="" />
-          </div>
-          <hr/>
+              <form class="form-horizontal">
+                <div class="form-group">
+                  <label for="dateSel01" class="col-sm-2 control-label">开始时间： </label>
+                  <div class="col-sm-10">
+                    <div id="dateSel01" class="date-selector" data-saver="startTime" include-time="include-time"></div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="dateSel02" class="col-sm-2 control-label">结束时间： </label>
+                  <div class="col-sm-10">
+                    <div id="dateSel02" class="date-selector" data-saver="endTime" include-time="include-time"></div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-offset-2 col-sm-10">
+                    <a id="searchByTime" class="btn btn-primary" target="_top"><i class="glyphicon glyphicon-search"></i> 查询</a> <a id="resetList" class="btn btn-default" target="_top"><i class="glyphicon glyphicon-refresh"></i> 重置</a>
+                  </div>
+                </div>
+              </form>
+
+
+
+              <input id="startTime" name="startTime" type="hidden" value="2020-01-01 00:00:00" />
+              <input id="endTime" name="endTime" type="hidden" value="" />
+
+            </div></div>
+
 
 
 
@@ -110,6 +131,7 @@
                 </tbody>
               </table>
             </div>
+          <hr/>
           <div class="pager" id="pager1"></div>
             <h2 class="sub-header">&nbsp;</h2>
         </div>
@@ -166,6 +188,13 @@
           }
 
       });
+
+
+      $('#resetList').click(function (e) {
+
+
+        list1.refresh();
+      })
 
 
 

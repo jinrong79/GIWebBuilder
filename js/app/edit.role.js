@@ -1,4 +1,4 @@
-class editUser extends editBase{
+class editRole extends editBase{
 
     parseParam(params){
 
@@ -9,12 +9,12 @@ class editUser extends editBase{
 
 
 
-        this.addFormXMLUrl="settings/form_user_add.xml";
-        this.editFormXMLUrl="settings/form_user_edit.xml";
+        this.addFormXMLUrl="settings/form_role_add.xml";
+        this.editFormXMLUrl="settings/form_role_edit.xml";
 
 
         //remote url to communicate with:
-        this.url="/api/admin/users";
+        this.url="/api/admin/roles";
 
         //url to get detail data, if not provided , then use this.url.
         this.urlGetDetail=params.urlGetDetail || this.url || null;
@@ -135,8 +135,8 @@ class editUser extends editBase{
         params.requestType='POST';
         if(!params.success){
             params.success=function(e){
-                j79.mwInform("mwOK","成功","添加用户成功！点击回到列表...", function () {
-                    document.location.href=j79App.naviURL.user;
+                j79.mwInform("mwOK","成功","添加角色成功！点击回到列表...", function () {
+                    document.location.href=j79App.naviURL.role;
                 });
             }
         }
@@ -156,8 +156,8 @@ class editUser extends editBase{
         params.requestType = 'PUT';
         if (!params.success) {
             params.success = function (e) {
-                j79.mwInform("mwOK", "成功", "修改用户成功！点击回到列表...", function () {
-                    document.location.href = j79App.naviURL.user;
+                j79.mwInform("mwOK", "成功", "修改角色成功！点击回到列表...", function () {
+                    document.location.href = j79App.naviURL.role;
                 });
             }
         }

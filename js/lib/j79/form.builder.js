@@ -162,7 +162,7 @@ j79FormBuilder.prototype = {
 
         console.log('this form is ' + (flagEdit == true ? 'Edit' : 'Addnew'));
 
-        var preLoadJs = new Array('/js/lib/j79/form.ini.js');//array of js need pre-loaded.
+        var preLoadJs = new Array(j79App.pagePathPrefix+'/js/lib/j79/form.ini.js');//array of js need pre-loaded.
 
 
         var $flagStartFormGroup = true;
@@ -934,8 +934,8 @@ j79FormBuilder.prototype = {
         var actionPreJsLoaded = function () {
             if (jsCurIdx < jsAmount - 1) {
                 jsCurIdx++;
-                console.log('start load js:' + preLoadJs[jsCurIdx]);
-                $.getScript(preLoadJs[jsCurIdx], actionPreJsLoaded);
+                console.log('start load js:' +  j79App.pagePathPrefix+ preLoadJs[jsCurIdx]);
+                $.getScript(j79App.pagePathPrefix+ preLoadJs[jsCurIdx], actionPreJsLoaded);
 
             } else {//when js loading finished, call  actionFinishJsLoading:
                 selfObj.actionFinishJsLoading();

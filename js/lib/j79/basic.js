@@ -731,7 +731,7 @@
                 .attr({
                     rel: "stylesheet",
                     type: "text/css",
-                    href: urlCSS
+                    href: (j79App.pagePathPrefix || '')+urlCSS
                 }).insertAfter("head title:first");
 
             //$('head').prepend($link1);
@@ -1090,7 +1090,7 @@
             //go page number click
             $(containerSelector).delegate('.pager-bar A.go-page','click',null,function(e){
                 if (listObj) {
-                    var goPageNo = Number($ui.find('#goPageNo').val());
+                    var goPageNo = Number($(containerSelector).find('#goPageNo').val());
                     if (goPageNo >= 1 && goPageNo <= pageTotal) {
                         pageCur = goPageNo;
                         listObj.setPage(goPageNo);

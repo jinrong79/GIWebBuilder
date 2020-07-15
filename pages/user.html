@@ -59,18 +59,18 @@
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li ><a href="#">首页 <span class="sr-only">(current)</span></a></li>
-            <li class="active"><a href="#"><i class="glyphicon glyphicon-user"></i> 用户管理</a></li>            
-            <li><a href="#"><i class="glyphicon glyphicon-knight"></i> 角色管理</a></li>
-            <li><a href="#"><i class="glyphicon glyphicon-lock"></i> 权限管理</a></li>
+            <li class="active"><a href="user.html" target="_top"><i class="glyphicon glyphicon-user"></i> 用户管理</a></li>
+            <li><a href="#"  target="_top"><i class="glyphicon glyphicon-knight"></i> 角色管理</a></li>
+            <li><a href="#"  target="_top"><i class="glyphicon glyphicon-lock"></i> 权限管理</a></li>
           </ul>
           <hr/>
           <ul class="nav nav-sidebar">
-            <li><a href=""><i class="glyphicon glyphicon-book"></i> 日志列表</a></li>
+            <li><a href="log.html"  target="_top"><i class="glyphicon glyphicon-book"></i> 日志列表</a></li>
            
           </ul>
           <hr/>
           <ul class="nav nav-sidebar">
-            <li><a href=""><i class="glyphicon glyphicon-user"></i> 退出系统</a></li>
+            <li><a href="login.html"><i class="glyphicon glyphicon-user"></i> 退出系统</a></li>
           
           </ul>
         </div>
@@ -79,7 +79,36 @@
         <span class="toolbar-title-r"><a href="user_add.html" target="_blank" type="button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 添加新用户</a></span>
        
          <h2 class="sub-header">用户列表</h2>
-        
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <form class="form-inline">
+                <div class="form-group">
+                  <label for="loginid">登录名</label>
+                  <input type="text" class="form-control" id="loginid" placeholder="登录名...">
+                </div>
+
+                <div class="form-group">
+                  <label for="user_id">ID编号</label>
+                  <input type="text" class="form-control" id="user_id" placeholder="用户id...">
+                </div>
+
+                <div class="form-group">
+                  <label for="mobile">手机号</label>
+                  <input type="text" class="form-control" id="mobile" placeholder="手机号码...">
+                </div>
+
+                <button type="button" id="search" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i> 查询</button>
+                <button type="button" id="resetList" class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
+              </form>
+            </div>
+          </div>
+
+
+
+
+
+
          
           
             <div class="table-responsive">
@@ -113,6 +142,7 @@
                 </tbody>
               </table>
             </div>
+          <hr/>
           <div class="pager" id="pager1"></div>
             <h2 class="sub-header">&nbsp;</h2>
         </div>
@@ -120,8 +150,8 @@
     </div>
 
     <!-- fundamental js -->
-    <script src="/js/jquery/1.11.3/jquery.min.js"></script>
-    <script src="/js/plugin/jquery.json.js"></script>
+    <script src="../js/jquery/1.11.3/jquery.min.js"></script>
+    <script src="../js/plugin/jquery.json.js"></script>
     <!-- Bootstrap core JavaScript=============================================== -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -157,6 +187,39 @@
         list1.load();
 
 
+        $('#search').click(function(e){
+          let userId=j79.trim($('#user_id').val() || '');
+
+          let loginid=j79.trim($('#loginid').val()  || '');
+          let mobile=j79.trim($('#mobile').val()  || '');
+          if(userId || loginid || mobile){
+            let data={};
+            if(userId){
+              data.id=userId;
+            }
+            if(loginid){
+              data.loginid=loginid;
+            }
+            if(mobile){
+              data.mobile=mobile;
+            }
+            list1.load({
+              "data":data
+            });
+          }
+
+        });
+
+
+        $('#resetList').click(function (e) {
+          $('#user_id').val('');
+          $('#loginid').val('');
+          $('#mobile').val('')
+
+          list1.refresh();
+        })
+
+
         let userM=new editUser();
         userM.setupDeleteLink({
           "btn": "#list1 .btn-del-user",
@@ -167,7 +230,11 @@
           "failed":function (e) {
             alert("删除失败！发生错误。")
           }
-        })
+        });
+
+
+
+
 
 
         /*$('#list1').delegate('.btn-del-user','click',null,function(e){

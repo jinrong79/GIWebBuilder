@@ -135,7 +135,7 @@ class dataTransporterBase{
 
         let data=params.data || {};
 
-
+        console.log(data);
 
 
         if(!url){

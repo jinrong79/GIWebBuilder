@@ -223,7 +223,7 @@ j79.loadCSS("/css/j79.date.selector.css");
                 if(i==hh){
                     selected='selected';
                 }
-                viewT=i>10? i: '0'+i;
+                viewT=i>=10? i: '0'+i;
                 htmlHH+='<option value="'+(viewT)+'" '+selected+'>'+(viewT)+'</option>';
             }
 
@@ -233,7 +233,7 @@ j79.loadCSS("/css/j79.date.selector.css");
                 if(i==mm){
                     selected='selected';
                 }
-                viewT=i>10? i: '0'+i;
+                viewT=i>=10? i: '0'+i;
 
                 htmlMM+='<option value="'+(viewT)+'" '+selected+'>'+(viewT)+'</option>';
             }
@@ -244,7 +244,7 @@ j79.loadCSS("/css/j79.date.selector.css");
                 if(i==ss){
                     selected='selected';
                 }
-                viewT=i>10? i: '0'+i;
+                viewT=i>=10? i: '0'+i;
                 htmlSS+='<option value="'+(viewT)+'" '+selected+'>'+(viewT)+'</option>';
             }
 

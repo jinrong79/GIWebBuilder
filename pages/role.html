@@ -89,91 +89,13 @@
                   <tr>
                     <th>编号</th>
                     <th>角色名称</th>
-                    <th>权限列表</th>
-                    
+                    <th>描述</th>
+                    <th>权限</th>
                     <th>操作</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <td>00001012</td>
-                    <td>终端用户</td>
-                    <td>
-                    <p><span class="label label-warning">智慧市政-智能路灯</span></p>
-                    
-                    <p><span class="label label-warning">智慧市政-智能楼宇</span></p>
-                    <p><span class="label label-warning">智慧市政-智能水质</span></p>
-                    </td>
-                   
-                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
-                    
-                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>
-                    </td>
-                  </tr>
-                  
-                  <tr>
-                    <td>00001012</td>
-                    <td>沙盘用户</td>
-                    <td>
-                    <p><span class="label label-warning">智慧市政-智能路灯</span></p>
-                    
-                    <p><span class="label label-warning">智慧市政-智能楼宇</span></p>
-                    <p><span class="label label-warning">智慧市政-智能水质</span></p>
-                    </td>
-                   
-                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
-                    
-                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>
-                    </td>
-                  </tr>
-                  
-                  <tr>
-                    <td>00001012</td>
-                    <td>管理员用户</td>
-                    <td>
-                    <p><span class="label label-warning">智慧市政-智能路灯</span></p>
-                    
-                    <p><span class="label label-warning">智慧市政-智能楼宇</span></p>
-                    <p><span class="label label-warning">智慧市政-智能水质</span></p>
-                    </td>
-                   
-                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
-                    
-                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>
-                    </td>
-                  </tr>
-                  
-                  <tr>
-                    <td>00001012</td>
-                    <td>终端用户</td>
-                    <td>
-                    <p><span class="label label-warning">智慧市政-智能路灯</span></p>
-                    
-                    <p><span class="label label-warning">智慧市政-智能楼宇</span></p>
-                    <p><span class="label label-warning">智慧市政-智能水质</span></p>
-                    </td>
-                   
-                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
-                    
-                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>
-                    </td>
-                  </tr>
-                  
-                  <tr>
-                    <td>00001012</td>
-                    <td>终端用户</td>
-                    <td>
-                    <p><span class="label label-warning">智慧市政-智能路灯</span></p>
-                    
-                    <p><span class="label label-warning">智慧市政-智能楼宇</span></p>
-                    <p><span class="label label-warning">智慧市政-智能水质</span></p>
-                    </td>
-                   
-                    <td><button type="button" class="btn btn-info"><i class="glyphicon glyphicon-pencil"></i> 修改</button>
-                    
-                    <button type="button" class="btn btn-info"><i class="glyphicon glyphicon-trash"></i> 删除</button>
-                    </td>
-                  </tr>
+                <tbody id="list1">
+
                   
                   
                  
@@ -187,12 +109,96 @@
       </div>
     </div>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-       <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <!-- fundamental js -->
+    <script src="../js/jquery/1.11.3/jquery.min.js"></script>
+    <script src="../js/plugin/jquery.json.js"></script>
+    <!-- Bootstrap core JavaScript=============================================== -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+
+    <!-- j79frame js -->
+    <script src="../js/lib/j79/basic.js"></script>
+    <script src="../js/app/j79.app.js"></script>
+    <script src="../js/lib/j79/data.transporter.js"></script>
+    <script src="../js/lib/j79/list.base.js"></script>
+    <script src="../js/lib/j79/list.dynamic.js"></script>
+    <script src="../js/app/data.transporter.js"></script>
+    <script src="../js/app/list.roles.js"></script>
+    <script src="../js/lib/j79/edit.base.js"></script>
+    <script src="../js/app/edit.role.js"></script>
+
+
+    <script>
+      $(document).ready(function (e) {
+
+
+
+        //console.log(t);
+
+        let list1=new listRoles({
+
+          "perPage":20,
+
+          "ui":{
+            "list":"#list1",
+            "pager":"#pager1",
+          }
+        });
+        list1.load();
+
+
+
+        $('#search').click(function(e){
+          let userId=j79.trim($('#user_id').val() || '');
+
+          let loginid=j79.trim($('#loginid').val()  || '');
+          let mobile=j79.trim($('#mobile').val()  || '');
+          if(userId || loginid || mobile){
+            let data={};
+            if(userId){
+              data.id=userId;
+            }
+            if(loginid){
+              data.loginid=loginid;
+            }
+            if(mobile){
+              data.mobile=mobile;
+            }
+            list1.load({
+              "data":data
+            });
+          }
+
+        });
+
+
+        $('#resetList').click(function (e) {
+          $('#user_id').val('');
+          $('#loginid').val('');
+          $('#mobile').val('')
+
+          list1.refresh();
+        })
+
+
+        let itemM=new editRole();
+        itemM.setupDeleteLink({
+          "btn": "#list1 .btn-del-user",
+          "success": function (e) {
+            alert("删除成功!");
+            list1.refresh();
+          },
+          "failed":function (e) {
+            alert("删除失败！发生错误。")
+          }
+        });
+
+
+
+
+
+
+      });
+    </script>
     
   </body>
 </html>

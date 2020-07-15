@@ -2,14 +2,18 @@ class PageManager{
     constructor(params) {
 
         this.naviURL={
-            "home":"home.html",
+            "home":"#",
             "user":"user.html",
-            "privilege":"/j79frame/pages/app/privilege.html",
+            "privilege":"#",
             "role":"role.html",
             "log":"log.html",
             "login":"login.html",
-            "logout":"logout.html",
+            "logout":"login.html",
         };
+
+
+        this.pagePathPrefix="../";
+
     }//-/
 
     getTopNaviHtml(){
@@ -22,6 +26,9 @@ class PageManager{
 
         return htmlStr;
     }//-/
+
+
+
 }
 
 let j79App=new PageManager();
