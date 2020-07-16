@@ -36,7 +36,7 @@ class listRoles extends ListDynamic{
                     htmlStr=this.getPrivilegeViewHtml(PrivilegeData[key],htmlStr);
                 }else{
                     curValue='false';
-                    if(PrivilegeData[key]===true){
+                    if(PrivilegeData[key]==true || PrivilegeData[key]=='true'){
                         curValue='true';
                     }
                     htmlStr+='<div><span>'+key+'</span><b>'+curValue+'</b>';
@@ -48,7 +48,7 @@ class listRoles extends ListDynamic{
             if(PrivilegeData===true){
                 curValue='true';
             }
-            htmlStr+='<div><span>'+key+'</span><b>'+curValue+'</b>';
+            htmlStr+='<div><span>'+''+'</span><b>'+curValue+'</b>';
         }
 
         return htmlStr;

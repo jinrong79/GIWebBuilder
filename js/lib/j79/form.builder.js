@@ -334,9 +334,13 @@ j79FormBuilder.prototype = {
                 }
 
 
-                if ((flagEdit && flagStatic) || flagLocked) {
+                if ((flagEdit && flagStatic)) {
                     strDisalbed = ' disabled="disabled" ';
                     strFormInput = '';
+                }
+
+                if(flagEdit && flagLocked){
+                    strDisalbed = ' disabled="disabled" ';
                 }
 
 
@@ -344,14 +348,7 @@ j79FormBuilder.prototype = {
 
                 var viewClass= flagView ? ' view-static' :"";
 
-                /*console.log(flagEdit);
-                 console.log('disalbe form status:');
-                 console.log('flagedit:'+flagEdit + ' \ flag static:'+flagStatic);
-                 console.log(strDisalbed);
-                 console.log(strFormInput);*/
 
-                //console.log(curField+': current value='+curValue);
-                //console.log(valueData[curField]);
 
 
                 switch (ctrType.toLowerCase()) {
@@ -373,9 +370,7 @@ j79FormBuilder.prototype = {
 
                         }
 
-                        /*if( flagEdit && flagStatic){
-                         $ctrItem=$('<p class="form-control-static">'+curValue+'</p>');
-                         }*/
+
 
 
                         break;
@@ -463,6 +458,8 @@ j79FormBuilder.prototype = {
                         ctrItemStr = '<div class="json-value-setter  '+viewClass+'" '+strDisalbed + ctrTitle + dataSaver+ ' id="' + ctrId +'"  ' +
                             getAttr('json-struct-def')+
                             getAttr('sub-key-name')+
+                            getAttr('flag-transfer-boolean')+
+
                             '>';
 
 

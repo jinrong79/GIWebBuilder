@@ -1,7 +1,9 @@
 .json-value-setter {}
-.json-value-setter  ul li{ border: 1px solid #ddd; padding: 1rem; display: block; margin: 0 0 0.2rem 0; background-color: #fff;}
-.json-value-setter ul{ padding-left:0;}
-.json-value-setter li>b{ display: block; padding: 0.5rem 0;}
+.json-value-setter  ul li{ border: 1px solid #ddd; padding: 1rem; display:inline-block; margin: 0 0 0.2rem 0; background-color: #fff;}
+.json-value-setter  ul ul li{ display: inline-block; cursor: pointer;}
+.json-value-setter ul{ padding-left:0; display: block;}
+.json-value-setter li  b{ display: block; padding: 0.5rem 0;}
+.json-value-setter li.has-child{ display: block; background-color: #fafafa;}
 .json-value-setter .json-value-setter-container>ul{ border: 1px solid #ddd; padding: 0.5rem; background-color: #efefef;}
-
+.json-value-setter .toolbar span{ display: inline-block; vertical-align: middle; padding: 0 1rem;}
 .json-value-setter ul li[value="1"]{ background-color: #2b669a; color:#fff;}

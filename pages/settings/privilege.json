@@ -17,7 +17,7 @@
   },
 
   "rentalHouse":{
-    "label": "智能楼宇",
+    "label": "公租房",
     "sub": {
       "pin": {"label": "地图定位"},
       "view": {"label": "查看详情"}
@@ -150,10 +150,10 @@
   "setting": {
     "label": "系统设定",
     "sub": {
-      "time_change": {"label": "设定时间"},
-      "season_change": {"label": "设定季节"},
-      "weather_change": {"label": "设定天气"},
-      "building_light_change": {"label": "设定楼宇亮化"},
+      "time": {"label": "设定时间"},
+      "season": {"label": "设定季节"},
+      "weather": {"label": "设定天气"},
+      "building_light": {"label": "设定楼宇亮化"},
       "remote_control": {"label": "远程控制"}
     }
   },

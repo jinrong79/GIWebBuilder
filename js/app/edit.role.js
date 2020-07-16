@@ -28,6 +28,9 @@ class editRole extends editBase{
         //url to delete data,  if not provided , then use this.url.
         this.urlDelete=params.urlDelete || this.url || null;
 
+        //submit object for json type form item:
+        this.flagSubmitObjectForJson=true;
+
 
     }//-/
 

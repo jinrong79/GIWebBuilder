@@ -18,7 +18,7 @@ j79.loadCSS("/css/j79.json.value.setter.css");
         var STR_PLACEHOLDER = $(SELF).attr('placeholder') || '请选择';
 
 
-        var DATA_LIST=[];
+        var DATA={};
 
 
         var FLAG_VIEW_ONLY=this.hasClass('view-static') ? true : false;
@@ -27,6 +27,8 @@ j79.loadCSS("/css/j79.json.value.setter.css");
         var SUB_KEY=$(SELF).attr('sub-key-name') || 'sub';
 
         var URL_JSON_STRUCT=$(SELF).attr('json-struct-def') || '';
+
+        var FLAG_TRANSFER_BOOLEAN=$(SELF).attr('flag-transfer-boolean') ? true : false;
 
         var STRUCT_JSON={};
 
@@ -63,27 +65,54 @@ j79.loadCSS("/css/j79.json.value.setter.css");
          */
         var saveData = function () {
 
-            var result = null;
+            let result = null;
+
+            //function to fill json value:
+            var fillValue=function(curItem, curJson){
+                curJson=curJson || {};
+
+
+
+                let keyName=$(curItem).attr('key') || '';
+                if(!$(curItem).hasClass('has-child')){//no sub item
+
+
+
+
+                    let curV=$(curItem).attr('value') || 0;
+                    if(FLAG_TRANSFER_BOOLEAN){
+                        curV=curV==1 ? true : false;
+                    }
+                    if(keyName){
+                        curJson[keyName]=curV;
+                    }
+                }else{//has sub item:
+
+
+
+                    let curJ={};
+                   $(curItem).find('ul>li').each(function (i) {
+
+                       curJ= fillValue(this,curJ);
+                   })
+                    curJson[keyName]=curJ;
+
+                }
+
+                return curJson;
+
+            };
 
 
             //generate result:
-            var curM=$(SELF).find('#'+SELF_ID+'_value_month').val();
-            curM=curM<10? '0'+curM :''+curM;
-            var curDay=$(SELF).find('#'+SELF_ID+'_value_day').val();
-            curDay=curDay<10? '0'+curDay : ''+curDay;
-            result=$(SELF).find('#'+SELF_ID+'_value_century_year').val()+''+
-                $(SELF).find('#'+SELF_ID+'_value_year').val()+'-'+
-                curM+'-'+curDay; // +'T00:00:00.000Z';
 
+            $(SELF).find('.json-value-setter-container>ul>li').each(function(i){
+                result=fillValue(this,result);
+            });
 
+            console.log(result);
 
-            if(FLAG_TIME_INCLUDE){
-                result+=' '+$(SELF).find('#'+SELF_ID+'_value_hh').val()+":"+$(SELF).find('#'+SELF_ID+'_value_mm').val()+":"+$(SELF).find('#'+SELF_ID+'_value_ss').val()
-            }
-
-
-
-
+            //save in data_saver.
             if (DATA_SAVER != '') {
 
                 if (DATA_SAVE_PATH) {
@@ -96,7 +125,7 @@ j79.loadCSS("/css/j79.json.value.setter.css");
                     $('#' + DATA_SAVER).val(j79.toJSONString(result));
 
                 }else{
-                    $('#' + DATA_SAVER).val(result);
+                    $('#' + DATA_SAVER).val(j79.toJSONString(result));
                 }
 
             }
@@ -105,7 +134,85 @@ j79.loadCSS("/css/j79.json.value.setter.css");
         };//-/saveData
 
 
+        /**
+         * readData
+         * read data from data-savers.
+         */
+        var readData = function () {
 
+            if (DATA_SAVER != '' && $('#' + DATA_SAVER).val() && $('#' + DATA_SAVER).val() != '') {
+
+
+                var data = j79.toJSON($('#' + DATA_SAVER).val());
+                if(data===false || data==null ){
+                    return;
+                }
+
+                if (DATA_SAVE_PATH) {
+                    data = data[DATA_SAVE_PATH] ? data[DATA_SAVE_PATH] : null;
+                }
+
+                if (data) {
+                    if(typeof data =='object'){
+
+                        DATA=data;
+                    }
+
+/*
+                    //function to get value and fill in tree ui:
+                    var getValueFillTree=function(curItemList,curJson, keyName){
+                        curJson=curJson || {};
+                        console.log(keyName);
+                        console.log(curJson);
+                        console.log(curItemList);
+
+
+                        if(typeof curJson =='object'){
+
+                            console.log('has sub')
+                            for(let subkey in curJson){
+                                getValueFillTree( $(curItemList).find('li[key="'+keyName+'"] ul')[0], curJson[subkey], subkey);
+                            }
+
+                        }else{
+                            console.log('has no sub')
+                            let curV=curJson;
+                            if(FLAG_TRANSFER_BOOLEAN){
+                                let curV=curJson===true || curJson==1 || curJson=='true' ? 1:0;
+                            }
+                            console.log('cur value')
+                            console.log(curV);
+                            console.log($(curItemList).find('li[key="'+keyName+'"]'))
+                            $(curItemList).find('li[key="'+keyName+'"]').attr("value", curV);
+                        }
+
+                    };
+
+                    if(typeof data =='object'){
+                        let curList=$(SELF).find('.value-list');
+                        console.log(curList);
+                        console.log($(SELF).length);
+                        let curL=$(".json-value-setter")[0];
+                        $(curL).find("div").each(function(i){
+                            console.log("find1:");
+                            console.log(this);
+                        });
+                        //$(curList).empty();
+                        for(let key in data){
+                            getValueFillTree(curList,data[key],key);
+                        }
+
+                    }*/
+
+
+
+                }
+
+
+            }
+
+
+        };//-/
 
 
 
@@ -120,7 +227,7 @@ j79.loadCSS("/css/j79.json.value.setter.css");
 
             var loadStructJson = function (handleFinished) {
 
-                $.get(URL_JSON_STRUCT).success(function (result) {
+                $.get(URL_JSON_STRUCT+'?rnd='+Math.random()).success(function (result) {
 
                     SELF.STRUCT_JSON = result;
                     if (handleFinished && typeof handleFinished == 'function') {
@@ -133,18 +240,25 @@ j79.loadCSS("/css/j79.json.value.setter.css");
                 });
             };//-/
 
-            var getTreeHtml=function(curData, htmlStr){
+            //get json structure in tree view.
+            var getTreeHtml=function(curStructData, htmlStr, curValueData){
 
                 htmlStr=htmlStr || '';
 
-                for(let key in curData){
+                for(let key in curStructData){
 
-                    if(curData[key][SUB_KEY]){
-                        htmlStr+='<li key="'+key+'"><b>'+curData[key].label+'</b><ul>';
-                        htmlStr=getTreeHtml(curData[key][SUB_KEY], htmlStr)
+                    if(curStructData[key][SUB_KEY]){
+                        htmlStr+='<li key="'+key+'" class="has-child"><b>'+curStructData[key].label+'</b><ul>';
+                        htmlStr=getTreeHtml(curStructData[key][SUB_KEY], htmlStr, curValueData[key])
                         htmlStr+='</ul></li>';
                     }else{
-                        htmlStr+='<li key="'+key+'">'+curData[key].label+'</li>';
+
+                        let curV=curValueData[key];
+                        if(FLAG_TRANSFER_BOOLEAN){
+                            curV=curV==true || curV==1 || curV=='true' ? 1: 0;
+                        }
+
+                        htmlStr+='<li key="'+key+'" value="'+curV+'">'+curStructData[key].label+'</li>';
                     }
 
 
@@ -167,15 +281,14 @@ j79.loadCSS("/css/j79.json.value.setter.css");
                         $(this).addClass('active');
                         saveData();
                     });*/
-                    let treeHtml=getTreeHtml(SELF.STRUCT_JSON,'')
+                    let treeHtml=getTreeHtml(SELF.STRUCT_JSON,'',DATA)
 
-                    let toolbarHtml='<div class="toolbar btn-group"><a href="" class="btn btn-default btn-selelct-all">选择全部</a> <a href="" class="btn btn-default btn-unselelct-all">取消全部</a> </div>'
-
-
+                    let toolbarHtml='<div class="toolbar btn-group"><a  class="btn btn-default btn-select-all">选择全部</a> <a class="btn btn-default btn-unselect-all">取消全部</a><span>点击选择下面权限模块... </span> </div>'
 
 
-                    HTML_UI='<div class="json-value-setter-container"><ul>' +
-                        toolbarHtml+
+
+
+                    HTML_UI=toolbarHtml+'<div class="json-value-setter-container"><ul class="value-list">' +
                         treeHtml+
                         '</ul></div>';
 
@@ -186,25 +299,59 @@ j79.loadCSS("/css/j79.json.value.setter.css");
 
                 $(HTML_UI).appendTo(SELF);
 
+                saveData();
+
+
+
             });
 
-
+            //click item to select/unselect
             $(SELF).delegate('li','click', null,function (e) {
 
                 let curValue=$(this).attr('value') && $(this).attr('value')==1? 1 : 0;
 
-                console.log("click")
-
                 curValue=curValue==1? 0 :1;
-
 
                 if($(this).find("ul").length>0){
 
                 }else{
                     $(this).attr('value',curValue);
-                }
+                    $(this).children('i').remove();
+                    if(curValue==1){
 
-            })
+                        $(this).append(' <i class="glyphicon glyphicon-ok"></i>')
+                    }
+                    saveData();
+                }
+            });
+
+            //select all:
+            $(SELF).delegate('.btn-select-all','click',null,function (e) {
+
+                $(SELF).find('.json-value-setter-container li').each(function(i){
+
+                   if(!$(this).hasClass('has-child')){
+                       $(this).attr('value',1);
+                       $(this).children('i').remove();
+                       $(this).append(' <i class="glyphicon glyphicon-ok"></i>')
+                   }
+                });
+                saveData();
+            });
+            //unselect all:
+            $(SELF).delegate('.btn-unselect-all','click',null,function (e) {
+
+                $(SELF).find('.json-value-setter-container li').each(function(i){
+
+                    if(!$(this).hasClass('has-child')){
+                        $(this).attr('value',0);
+                        $(this).children('i').remove();
+
+                    }
+                });
+                saveData();
+            });
+
 
 
 
@@ -226,82 +373,23 @@ j79.loadCSS("/css/j79.json.value.setter.css");
         };//-/build
 
 
-        /**
-         * readData
-         * read data from data-savers.
-         */
-        var readData = function () {
-
-            if (DATA_SAVER != '' && $('#' + DATA_SAVER).val() && $('#' + DATA_SAVER).val() != '') {
-
-
-                var data = j79.toJSON($('#' + DATA_SAVER).val());
-                if(data===false || data==null ){
-                    return;
-                }
-
-                if (DATA_SAVE_PATH) {
-                    data = data[DATA_SAVE_PATH] ? data[DATA_SAVE_PATH] : null;
-                }
-
-                if (data) {
-
-
-                    if(typeof data =='object'){
-
-                        for(let key in data){
-
-                        }
-
-                    }
-
-
-                    //如果是单个对象，不是数组，那么转成含有此对象的数组：
-                    if(!j79.isArray(data) ){
-                        //console.log('not arra');
-                        data=[data];
-                    }
-
-                    var imgItem;
-                    for (var i = 0; i < data.length; i++) {
-                        imgItem = data[i];
-
-                        var adImg=imgItem.img || '';
-                        var adUrl=imgItem.url || '';
-                        var adTitle=imgItem.title || '';
-
-                        if(!imgItem.title){
-                            imgItem.title='';
-                        }
-                        if(!imgItem.subtitle){
-                            imgItem.subtitle='';
-                        }
-
-                        if( (CTR_TYPE==0 &&  adImg &&  adUrl) || ( CTR_TYPE==1 && ( adImg || adTitle ) && adUrl   ) ){
-
-                            $( j79.setHtml(imgItem, HTML_LI)).appendTo($(SELF).find(UI_LIST));
-
-                        }
-
-                    }
-
-                }
-
-
-            }
-
-
-        };//-/
 
 
 
+
+
+
+
+
+
+
+        //读取预设值
+        readData();
 
         //产生列表
         build();
 
-        //读取预设值
-        //readData();
-        //saveData();
+
 
 
     }

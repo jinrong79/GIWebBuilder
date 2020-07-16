@@ -4,7 +4,7 @@
   <item  id="loginid" lineEnd="yes">
     <label class="col-md-2 control-label">角色编号</label>
     <controls class="col-md-10">
-      <control required="yes" node="id"  type="text" id="id" placeholder="角色编号，25个以内的英文、数字">
+      <control required="yes" lock-edit="yes" node="id"  type="text" id="id">
       <validator type="regExp" msg="必须为25个字以内,英文，数字，横线，下划线">
         <![CDATA[^\s*[a-zA-Z0-9\-_]{1,25}\s*$]]>
       </validator>
@@ -23,6 +23,8 @@
                     <![CDATA[^\s*[a-zA-Z0-9\-_]{1,25}\s*$]]>
                 </validator>
             </control>
+
+            <control required="yes" node="timestamp"  type="hidden" id="timestamp" placeholder="上次修改时间"></control>
         </controls>
     </item>
 

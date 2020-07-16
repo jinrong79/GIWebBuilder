@@ -42,6 +42,9 @@ class editBase{
         //remote url to communicate with:
         this.url=params.url || null;
 
+        //flag for submit object type when item is json type of form item.
+        this.flagSubmitObjectForJson= params.flagSubmitObjectForJson===true;
+
         //url to get detail data, if not provided , then use this.url.
         this.urlGetDetail=params.urlGetDetail || this.url || null;
 
@@ -458,8 +461,8 @@ class editBase{
 
                     let valueType=$(this).attr('value-type') || '';
 
-                    if(SELF.flag_return_object==true && valueType.toLowerCase()=='json'){//if json type and flag_return_object==true, then return in object format.
-                        console.log('this item is json type and flag_return_object=true :');
+                    if(SELF.flagSubmitObjectForJson==true && valueType.toLowerCase()=='json'){//if json type and flagSubmitObjectForJson==true, then return in object format.
+                        console.log('this item is json type and flagSubmitObjectForJson=true :');
                         let curData=j79.toJSON($(this).val());
                         if(curData){
                             formData[$(this).attr('id')]= curData;
@@ -510,12 +513,7 @@ class editBase{
             "success":function(data){
                 $('#mw1').modal('hide');
 
-                console.log("submit data success!");
 
-                console.log(SELF.mode);
-
-                console.log(SELF.successSubmitAdd);
-                console.log(SELF.successSubmitEdit);
 
                 if(SELF.mode==0 && SELF.successSubmitAdd){
                     SELF.successSubmitAdd();
