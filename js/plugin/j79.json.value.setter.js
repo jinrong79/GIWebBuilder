@@ -154,60 +154,10 @@ j79.loadCSS("/css/j79.json.value.setter.css");
 
                 if (data) {
                     if(typeof data =='object'){
-
+                        //set data to global var: DATA
                         DATA=data;
                     }
-
-/*
-                    //function to get value and fill in tree ui:
-                    var getValueFillTree=function(curItemList,curJson, keyName){
-                        curJson=curJson || {};
-                        console.log(keyName);
-                        console.log(curJson);
-                        console.log(curItemList);
-
-
-                        if(typeof curJson =='object'){
-
-                            console.log('has sub')
-                            for(let subkey in curJson){
-                                getValueFillTree( $(curItemList).find('li[key="'+keyName+'"] ul')[0], curJson[subkey], subkey);
-                            }
-
-                        }else{
-                            console.log('has no sub')
-                            let curV=curJson;
-                            if(FLAG_TRANSFER_BOOLEAN){
-                                let curV=curJson===true || curJson==1 || curJson=='true' ? 1:0;
-                            }
-                            console.log('cur value')
-                            console.log(curV);
-                            console.log($(curItemList).find('li[key="'+keyName+'"]'))
-                            $(curItemList).find('li[key="'+keyName+'"]').attr("value", curV);
-                        }
-
-                    };
-
-                    if(typeof data =='object'){
-                        let curList=$(SELF).find('.value-list');
-                        console.log(curList);
-                        console.log($(SELF).length);
-                        let curL=$(".json-value-setter")[0];
-                        $(curL).find("div").each(function(i){
-                            console.log("find1:");
-                            console.log(this);
-                        });
-                        //$(curList).empty();
-                        for(let key in data){
-                            getValueFillTree(curList,data[key],key);
-                        }
-
-                    }*/
-
-
-
                 }
-
 
             }
 
@@ -244,6 +194,8 @@ j79.loadCSS("/css/j79.json.value.setter.css");
             var getTreeHtml=function(curStructData, htmlStr, curValueData){
 
                 htmlStr=htmlStr || '';
+                curStructData=curStructData || {};
+                curValueData=curValueData || {};
 
                 for(let key in curStructData){
 
@@ -257,8 +209,9 @@ j79.loadCSS("/css/j79.json.value.setter.css");
                         if(FLAG_TRANSFER_BOOLEAN){
                             curV=curV==true || curV==1 || curV=='true' ? 1: 0;
                         }
+                        let iconStr=curV==1? ' <i class="glyphicon glyphicon-ok"></i>' :'';
 
-                        htmlStr+='<li key="'+key+'" value="'+curV+'">'+curStructData[key].label+'</li>';
+                        htmlStr+='<li key="'+key+'" value="'+curV+'">'+curStructData[key].label+iconStr+'</li>';
                     }
 
 

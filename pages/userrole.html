@@ -57,7 +57,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar" id="leftNav">
-          <ul class="nav nav-sidebar" >
+          <ul class="nav nav-sidebar">
             <li ><a href="#">首页 <span class="sr-only">(current)</span></a></li>
             <li ><a href="#"><i class="glyphicon glyphicon-user"></i> 用户管理</a></li>            
             <li class="active"><a href="#"><i class="glyphicon glyphicon-knight"></i> 角色管理</a></li>
@@ -76,22 +76,51 @@
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         
-        <span class="toolbar-title-r"><a href="role_add.html" type="button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 添加</a></span>
+        <span class="toolbar-title-r"><a href="userrole_add.html" type="button" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> 添加</a></span>
        
-         <h2 class="sub-header">角色列表</h2>
-          
-        
-         
-          
-            <div class="table-responsive">
+         <h2 class="sub-header">用户角色分配列表</h2>
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <form class="form-inline" id="searchForm">
+                <div class="form-group">
+                  <label for="userid">用户ID</label>
+                  <input type="text" class="form-control" id="userid" placeholder="用户ID...">
+                </div>
+
+                <div class="form-group">
+                  <label for="username">用户名</label>
+                  <input type="text" class="form-control" id="username" placeholder="用户名...">
+                </div>
+
+                <div class="form-group">
+                  <label for="userid">角色ID</label>
+                  <input type="text" class="form-control" id="roleid" placeholder="用户ID...">
+                </div>
+
+                <div class="form-group">
+                  <label for="username">角色名</label>
+                  <input type="text" class="form-control" id="rolename" placeholder="用户名...">
+                </div>
+
+                <button type="button" id="search" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i> 查询</button>
+                <button type="button" id="resetList" class="btn btn-default"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
+              </form>
+            </div>
+          </div>
+
+
+
+          <div class="table-responsive">
               <table class="table table-striped">
                 <thead>
                   <tr>
                     <th>编号</th>
+                    <th>用户ID</th>
+                    <th>用户名称</th>
+                    <th>角色ID</th>
                     <th>角色名称</th>
-                    <th>描述</th>
-                    <th>权限</th>
-                    <th>操作</th>
+
                   </tr>
                 </thead>
                 <tbody id="list1">
@@ -123,9 +152,9 @@
     <script src="../js/lib/j79/list.base.js"></script>
     <script src="../js/lib/j79/list.dynamic.js"></script>
     <script src="../js/app/data.transporter.js"></script>
-    <script src="../js/app/list.roles.js"></script>
+    <script src="../js/app/list.userroles.js"></script>
     <script src="../js/lib/j79/edit.base.js"></script>
-    <script src="../js/app/edit.role.js"></script>
+    <script src="../js/app/edit.userrole.js"></script>
 
 
     <script>
@@ -133,11 +162,26 @@
 
         //set current channel
         $('#leftNav').empty();
-        $('#leftNav').append(j79App.getLeftNaviHtml('role'));
+        $('#leftNav').append(j79App.getLeftNaviHtml('userrole'));
 
         //console.log(t);
 
-        let list1=new listRoles({
+
+
+        let loadData={};
+        let searchUserId=j79.getURLParam('userid');
+        if(searchUserId){
+          $('#userid').val(searchUserId);
+          loadData.data={"userid":searchUserId};
+          /*list1.load({
+            "data": {
+              "userid":searchUserId
+            }
+          });*/
+
+        }
+
+        let list1=new listUserRoles({
 
           "perPage":20,
 
@@ -146,25 +190,30 @@
             "pager":"#pager1",
           }
         });
-        list1.load();
+        list1.load(loadData);
 
 
 
         $('#search').click(function(e){
-          let userId=j79.trim($('#user_id').val() || '');
+          let userid=j79.trim($('#userid').val() || '');
+          let username=j79.trim($('#username').val() || '');
+          let roleid=j79.trim($('#roleid').val() || '');
+          let rolename=j79.trim($('#rolename').val() || '');
 
-          let loginid=j79.trim($('#loginid').val()  || '');
-          let mobile=j79.trim($('#mobile').val()  || '');
-          if(userId || loginid || mobile){
+
+          if(userid || username || roleid || rolename){
             let data={};
-            if(userId){
-              data.id=userId;
+            if(userid){
+              data.userid=userid;
             }
-            if(loginid){
-              data.loginid=loginid;
+            if(username){
+              data.username=username;
             }
-            if(mobile){
-              data.mobile=mobile;
+            if(roleid){
+              data.roleid=roleid;
+            }
+            if(rolename){
+              data.rolename=rolename;
             }
             list1.load({
               "data":data
@@ -174,16 +223,20 @@
         });
 
 
+
+
         $('#resetList').click(function (e) {
-          $('#user_id').val('');
+          /*$('#user_id').val('');
           $('#loginid').val('');
-          $('#mobile').val('')
+          $('#mobile').val('')*/
+
+          $('#searchForm').find('input').val('');
 
           list1.refresh();
         })
 
 
-        let itemM=new editRole();
+        let itemM=new editUserRole();
         itemM.setupDeleteLink({
           "btn": "#list1 .btn-del-user",
           "success": function (e) {
@@ -194,6 +247,9 @@
             alert("删除失败！发生错误。")
           }
         });
+
+
+
 
 
 

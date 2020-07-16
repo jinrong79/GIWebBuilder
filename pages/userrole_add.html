@@ -56,21 +56,21 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar" id="leftNav">
-          <ul class="nav nav-sidebar" >
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
             <li ><a href="#">首页 <span class="sr-only">(current)</span></a></li>
-            <li class="active"><a href="#"><i class="glyphicon glyphicon-user"></i> 用户管理</a></li>            
-            <!--<li><a href="user.html"  target="_top"><i class="glyphicon glyphicon-knight"></i> 角色管理</a></li>
-            <li><a href="#"><i class="glyphicon glyphicon-lock"></i> 权限管理</a></li>-->
+            <li ><a href="#"><i class="glyphicon glyphicon-user"></i> 用户管理</a></li>            
+            <li class="active"><a href="#"><i class="glyphicon glyphicon-knight"></i> 角色管理</a></li>
+            <li><a href="#"><i class="glyphicon glyphicon-lock"></i> 权限管理</a></li>
           </ul>
           <hr/>
           <ul class="nav nav-sidebar">
-            <li><a href="log.html"  target="_top"><i class="glyphicon glyphicon-book"></i> 日志列表</a></li>
+            <li><a href=""><i class="glyphicon glyphicon-book"></i> 日志列表</a></li>
            
           </ul>
           <hr/>
           <ul class="nav nav-sidebar">
-            <li><a href="login.html"><i class="glyphicon glyphicon-user"></i> 退出系统</a></li>
+            <li><a href=""><i class="glyphicon glyphicon-user"></i> 退出系统</a></li>
           
           </ul>
         </div>
@@ -78,26 +78,25 @@
         
         
        
-         <h2 class="sub-header">用户添加</h2>
+         <h2 class="sub-header">角色添加</h2>
           
         
          	<div class="panel panel-default">
           
             
   <div class="panel-body">
-      <form class="form-horizontal" id="formEdit">
-
-  
-  
+     <form class="form-horizontal" id="formEdit">
   
 
-</form>
-      <hr/>
-      <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-10">
-              <button id="btnSubmit" type="button" class="btn btn-primary">提交</button>
-          </div>
+  
+
+    </form>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button id="btnSubmit" type="button" class="btn btn-primary">提交</button>
       </div>
+    </div>
 </div>
           
             </div>
@@ -121,35 +120,25 @@
     <script src="../js/app/data.transporter.js"></script>
     <script src="../js/lib/j79/form.builder.js"></script>
     <script src="../js/lib/j79/edit.base.js"></script>
-    <script src="../js/app/edit.user.js"></script>
+    <script src="../js/app/edit.userrole.js"></script>
 
     <script>
       $(document).ready(function (e) {
 
+        let userManger=new editUserRole({
+          "ui":{
+            "form":"#formEdit",
+            "submit":"#btnSubmit"
+          },
 
-          //set current channel
-          $('#leftNav').empty();
-          $('#leftNav').append(j79App.getLeftNaviHtml('user'));
+        });
 
-
-          let userManger=new editUser({
-              "ui":{
-                  "form":"#formEdit",
-                  "submit":"#btnSubmit"
-              },
-
-          });
-
-
-          let currentId=j79.getURLParam('id');
-          if(currentId){//edit:
-              userManger.viewEdit({"id":currentId});
-          }else{//add new:
-              userManger.viewAdd();
-          }
-
-
-
+        let currentId=j79.getURLParam('id');
+        if(currentId){//edit:
+          userManger.viewEdit({"id":currentId});
+        }else{//add new:
+          userManger.viewAdd();
+        }
 
 
 

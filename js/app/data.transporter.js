@@ -25,6 +25,7 @@ class dataTransporter extends dataTransporterBase{
                 this.onSuccess(data,this.caller);
                 return true;
             }else{
+
                 //load result, but failed
                 this.onFailed(this.caller,data.code,data.message,data);
                 return false;
@@ -35,6 +36,17 @@ class dataTransporter extends dataTransporterBase{
             return false;
 
         }
+    }//-/
+
+    /**
+     * defaultHandlerFailed
+     * @param failCode
+     * @param txtStatus
+     * @param xmlHR: when connect error, it carry xmlHR data.
+     */
+    defaultHandlerFailed(failCode, txtStatus, xmlHR){
+        alert("failed loading data!");
+
     }//-/
 
 }//==/

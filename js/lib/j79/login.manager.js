@@ -5,6 +5,9 @@ class loginManagerBase{
     }//-/
 
     parseParams(params){
+
+        params=params || {};
+
         //id for form element
         this.formUsername=params.formUsername || 'input_username';
         this.formPassword=params.formPassword || 'input_password';
@@ -30,6 +33,8 @@ class loginManagerBase{
 
         //httpRequest url
         this.url=params.url || null;
+        //url for logout
+        this.url_logout=params.url_logout || this.url || null;
         //dataTransporter:
         this.dataTransporter=new dataTransporterBase();
 
@@ -72,6 +77,32 @@ class loginManagerBase{
 
        return true;
 
+    }//-/
+
+    logout(params){
+        if(typeof this.dataTransporter=='object'){
+
+            let handlerSuccess=params.success || null;
+            let handlerFailed=params.failed || null;
+
+            let requestData={};
+
+            requestData.url=this.url_logout;
+            requestData.success=function(data){
+                localStorage.clear();
+                handlerSuccess(data);
+            };
+            requestData.failed=function(errorCode,txtStatus,xmlHR){
+                handlerFailed(errorCode,txtStatus,xmlHR);
+            }
+            requestData.caller=this;
+            requestData.isSetRequestHeader=true;
+
+            this.dataTransporter.dataPost(requestData);
+        }else{
+            console.log("data transporter not provided");
+            return false;
+        }
     }//-/
 
     handleLoginSuccess(resultData){

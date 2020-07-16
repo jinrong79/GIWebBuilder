@@ -68,8 +68,8 @@ j79.loadCSS("/css/dbselector.css");
         '<div class="view-board"></div>'+
 		'<div class="row view-summary"><div class="col-md-3 keywoard-view"></div><div class="col-md-9 pager-area"></div></div>'+ 
 		''+ 
-		'<div class="search-area"><input type="text"  class="keyword" name="keyword" id="keyword" value="" /><a id="btnSearch" class="btn btn-primary">查找</a><a id="btnSearchAll" class="btn btn-default">显示全部</a><span class="status"></span></div>'+
-		'<div class="tip-board"><p>请根据关键字搜索'+text_name+'，然后点击相应结果来选择'+text_name+'...</p><p>如果结果中没有您要的'+text_name+'，请点击 <a class="btn btn-sm btn-default" href="'+url_addnew+'" target="_blank">添加新的'+text_name+'</a></p></div>'+  
+		//'<div class="search-area"><input type="text"  class="keyword" name="keyword" id="keyword" value="" /><a id="btnSearch" class="btn btn-primary">查找</a><a id="btnSearchAll" class="btn btn-default">显示全部</a><span class="status"></span></div>'+
+		//'<div class="tip-board"><p>请根据关键字搜索'+text_name+'，然后点击相应结果来选择'+text_name+'...</p><p>如果结果中没有您要的'+text_name+'，请点击 <a class="btn btn-sm btn-default" href="'+url_addnew+'" target="_blank">添加新的'+text_name+'</a></p></div>'+
 		//'<div class="addnew-board"><input style="width:60%;" name="new_provider_name" id="new_provider_name" placeholder="请输入完整的'+text_name+'..." /><a id="btnAdd" class="btn btn-default">添加新的'+text_name+'</a></div>'+       
     	'<a  class="bu_close">关闭</a>'+
 		'</div>');
@@ -192,8 +192,11 @@ j79.loadCSS("/css/dbselector.css");
 			
 			if(iniValue && iniValue!='' && parseInt(iniValue)!=0){
 				
-				postData['searchValue']=iniValue;
-				postData['searchKey']=field_idx;
+				/*postData['searchValue']=iniValue;
+				postData['searchKey']=field_idx;*/
+
+				postData[field_idx]=iniValue;
+
 			}
 			
 			pageNo=pageNo || 1;
@@ -204,8 +207,92 @@ j79.loadCSS("/css/dbselector.css");
 			
 			//console.log('db-selector search:');
 			console.log(postData);
+
+			let dataT=new dataTransporter();
+
+			dataT.dataGet({
+				"url":db_url,
+				"requestType":"GET",
+				"data": postData,
+				"success":function(data){
+
+
+
+					wrap_obj.find('.view-board .loading').remove();
+
+					console.log("Data: " + data );
+
+					var jsonData=data;
+
+					if(typeof  jsonData =='object'){
+
+					}else{
+						return;
+					}
+
+					//try to parse result into json format
+
+
+
+						wrap_obj.dbData=jsonData.data;
+						wrap_obj.total_amount=jsonData.data.length;
+
+						if(wrap_obj.dbData  && wrap_obj.dbData.length>0){
+							var itemData, $itemLi;
+
+							var titleArr=field_title.split('|');
+
+							for(var i=0; i<wrap_obj.dbData.length ; i++){
+								itemData=wrap_obj.dbData[i];
+
+								var titleText='';
+								var sep='';
+								var sepT='';
+								for(var j=0; j<titleArr.length;j++){
+									titleText+=sep+itemData[titleArr[j]]+sepT;
+									sep=' (';
+									sepT=' )';
+								}
+
+								$itemLi=$('<li><a idx="'+itemData[field_idx]+'">'+titleText+'</a></li>');
+								$itemLi.appendTo(wrap_obj.find('.view-board'));
+							}
+
+							//view pager
+							$(ui).find('.pager-bar').remove();
+							j79.viewPager(Math.ceil(jsonData.total_amount /per_page), pageNo, $(ui).find('.pager-area'),pageHandler);
+							$(ui).find('.total-amount-no').text(jsonData.total_amount);
+
+							var searchInfo='';
+							if(postData && postData['searchValue']){
+								searchInfo='当前关键字:<b>'+postData['searchValue']+'</b> ';
+							}
+							//wrap_obj.find('.view-summary').html('<p>'+searchInfo+'总共 <b>'+wrap_obj.total_amount+'</b> 条记录，当前显示最多20条。</p>');
+
+							wrap_obj.find('.view-summary .keywoard-view').html('<p>'+searchInfo+'</p>');
+
+						}
+
+						handleLoaded(iniValue);
+
+
+
+
+
+
+
+
+
+				},
+				"failed":function(code,msg,xmlHR){
+
+
+
+				}
+			});
+
 			
-			$.post( db_url , postData, function(data,status){
+			/*$.post( db_url , postData, function(data,status){
 				          
 						  wrap_obj.find('.view-board .loading').remove();
 						
@@ -286,7 +373,7 @@ j79.loadCSS("/css/dbselector.css");
 						
 						
 							
-			});
+			});*/
 			
 			
 			

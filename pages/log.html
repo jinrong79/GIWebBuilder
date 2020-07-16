@@ -51,7 +51,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
+        <div class="col-sm-3 col-md-2 sidebar" id="leftNav">
           <ul class="nav nav-sidebar">
             <li ><a href="#">首页 <span class="sr-only">(current)</span></a></li>
             <li ><a href="user.html"  target="_top"><i class="glyphicon glyphicon-user"></i> 用户管理</a></li>
@@ -157,12 +157,14 @@
   <script>
     $(document).ready(function (e) {
 
+      //set current channel
+      $('#leftNav').empty();
+      $('#leftNav').append(j79App.getLeftNaviHtml('log'));
 
-
-      let t=localStorage.getItem("token");
+      //let t=localStorage.getItem("token");
       //let profile=JSON.parse(t);
 
-      console.log(t);
+      //console.log(t);
 
       let list1=new listLogs ({
 

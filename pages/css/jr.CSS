@@ -101,6 +101,17 @@
     animation-delay: -0.8s;
 }
 
+
+.privilege-list-view{}
+.privilege-list-view div{ padding:0.1rem 0.3rem;}
+.privilege-list-view .sub-item{ display: inline-block; vertical-align: middle; border: 1px solid #ddd; margin: 0 0.3rem 0 1rem; font-weight: normal; background-color: #fff;}
+.privilege-list-view .has-child{ font-weight: bold;padding:0.3rem; margin: 0.2rem 0;}
+.privilege-list-view .has-child>b{}
+
+
+.list-none{ padding: 3rem; vertical-align: middle; display: block; text-align: left; width: 100%;}
+
+
 @-webkit-keyframes sk-waveStretchDelay {
     0%, 40%, 100% {
         -webkit-transform: scaleY(0.4);

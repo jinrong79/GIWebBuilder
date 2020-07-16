@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<formSettings> 
+
+
+
+    <item  id="userid" lineEnd="yes">
+        <label class="col-md-2 control-label">用户</label>
+        <controls class="col-md-10">
+            <control id="CTR_db_selector_user"  type="db-selector"  placeholder="用户编号ID" data-url="/api/admin/users" data-saver="userid" text-name="用户" field-title="loginid|id" field-idx="loginid"  url-addnew="user_add.html" ></control>
+            <control  node="userid"   type="hidden" id="userid"></control>
+        </controls>
+    </item>
+
+    <item  id="userid" lineEnd="yes">
+        <label class="col-md-2 control-label">角色</label>
+        <controls class="col-md-10">
+            <control id="CTR_db_selector_role"  type="db-selector"  placeholder="角色编号ID" data-url="/api/admin/roles" data-saver="roleid" text-name="角色" field-title="id|name" field-idx="id"  url-addnew="role_add.html" ></control>
+            <control  node="roleid"   type="hidden" id="roleid"></control>
+        </controls>
+    </item>
+
+
+  
+  
+  
+  
+</formSettings>

@@ -179,6 +179,12 @@ class dataTransporterBase{
                 console.log(txtStatus);
                 console.log(errThrown);
 
+                //auth check:
+                if(errThrown.toLowerCase()=='unauthorized'){
+                   document.location.href=j79App.naviURL.login;
+                   return;
+                }
+
                 if (typeof SELF.onFailed == 'function') {
                     SELF.onFailed(10000,xmlHR.statusText,xmlHR);
                 } else {

@@ -28,18 +28,25 @@ class listRoles extends ListDynamic{
         htmlStr=htmlStr || '';
 
         let curValue;
+        let curReturnHtml;
         if(typeof PrivilegeData =="object"){
 
             for(let key  in PrivilegeData){
                 if(typeof PrivilegeData[key]=='object'){
-                    htmlStr+='<div>'+key+'</div>';
-                    htmlStr=this.getPrivilegeViewHtml(PrivilegeData[key],htmlStr);
+
+
+                    curReturnHtml=this.getPrivilegeViewHtml(PrivilegeData[key],'');
+                    if(curReturnHtml){
+                        htmlStr+='<div class="has-child"><b>'+key+':</b>'+curReturnHtml+'</div>';
+                    }
+
                 }else{
                     curValue='false';
                     if(PrivilegeData[key]==true || PrivilegeData[key]=='true'){
                         curValue='true';
+                        htmlStr+='<div class="sub-item"><span>'+key+'</span></div>';
                     }
-                    htmlStr+='<div><span>'+key+'</span><b>'+curValue+'</b>';
+                    //htmlStr+='<div><span>'+key+'</span><b>'+curValue+'</b>';
                 }
             }
 
@@ -47,8 +54,9 @@ class listRoles extends ListDynamic{
             curValue='false';
             if(PrivilegeData===true){
                 curValue='true';
+                htmlStr+='<div class="sub-item"><span>'+''+'</span></div>';
             }
-            htmlStr+='<div><span>'+''+'</span><b>'+curValue+'</b>';
+
         }
 
         return htmlStr;
@@ -72,7 +80,7 @@ class listRoles extends ListDynamic{
             item.timestamp=tt;
         }
 
-        let viewPrivilege=this.getPrivilegeViewHtml(item.privileges);
+        let viewPrivilege='<div class="privilege-list-view">'+this.getPrivilegeViewHtml(item.privileges)+'</div>';
 
         result=`<tr data-id="${item.id || ''}">\n` +
             `<td>${item.id}</td>\n` +

@@ -1,6 +1,7 @@
 class loginManager extends loginManagerBase{
 
     parseParams(params) {
+        params=params || '';
         super.parseParams(params);
 
         this.requestUsername=params.requestUsername || 'username';
@@ -11,6 +12,7 @@ class loginManager extends loginManagerBase{
         this.dataKeyPrivilege=params.dataKeyPrivilege || 'privileges';
 
         this.url="/api/auth/login";
+        this.url_logout="/api/auth/logout";
         this.dataTransporter=new dataTransporter();
 
         this.dataKeySID=params.dataKeySID || 'sid';
