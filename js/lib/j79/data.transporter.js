@@ -3,8 +3,9 @@
  * dataTransporterBase
  * transport data with remote by ajax.
  * error code:
- *           10000 : can not connect url.
- *           20000 : get result, but failed parsing result format.
+ *           10000 : can not connect remote url.
+ *           20000 : communicated with remote and got result, but failed parsing result format.
+ *           30000 : authentication failed.
  *           other : connect and get result, but result indicates failed loading data,
  *                   in this case, this error_code is provided by server.
  *
@@ -31,15 +32,15 @@ class dataTransporterBase{
         this.localStorageTokenName=params.localStorageTokenName || 'token';
 
 
-        this.handlerFailed=params.failed || this.defaultHandlerFailed;
-        this.handlerSuccess=params.handlerSuccess || this.defaultHandlerSuccess;
+        //this.handlerFailed=params.failed || this.defaultHandlerFailed;
+        //this.handlerSuccess=params.handlerSuccess || this.defaultHandlerSuccess;
 
         //call after data transport is finished and  result= success for current operation, set when call dataTransport
         this.onSuccess=null;
         //call after data transport is finished and  result= failed or error for current operation, set when call dataTransport
         this.onFailed=null;
 
-        this.resultParser=params.resultParser || this.defaultResultParser;
+        //this.resultParser=params.resultParser || this.defaultResultParser;
 
         //url prefix like domain address.
         this.urlPrefix=params.urlPrefix || '';
@@ -113,10 +114,11 @@ class dataTransporterBase{
      *                  success(resultData)
      *                  -resultData: loaded data in correct type indicated by dataType.
      *        .failed: handler when failed:
-     *                  failed(failType, txtStatus, data)
+     *                  failed(failType, xmlHR.statusText, xmlHR)
      *                  -failType: 1- parse data error;  2- connect server error
-     *                  -txtStatus: http reply text status for failure.
-     *                  -data: when parse data error, this data contains raw data.
+     *                  -statusText: http reply text status for failure.
+     *                  -xmlHR: XMLHttpRequest object or other data.
+     *        .caller:  caller of current data request.
      * @returns {boolean}
      */
     dataTransport(params){
@@ -133,7 +135,7 @@ class dataTransporterBase{
 
         this.localStorageTokenName=params.localStorageTokenName || this.localStorageTokenName;
 
-
+        //handlers on load success or failed:
         this.onSuccess=params.success || null;
         this.onFailed=params.failed || null;
 
@@ -142,7 +144,6 @@ class dataTransporterBase{
 
         let data=params.data || {};
 
-        //console.log(data);
 
 
         if(!url){
@@ -175,10 +176,14 @@ class dataTransporterBase{
                 //console.log(txtStatus);
                 //console.log(jqXHR);
 
+                //set raw result data:
+                SELF.current.rawResult=data;
 
-
+                //parse result data:
                 let resultData=SELF.resultParser(data,txtStatus,jqXHR);
-                SELF.handlerSuccess(resultData);
+
+                //call after-load handler:
+                SELF.handlerAfterLoad(resultData);
 
 
 
@@ -189,19 +194,19 @@ class dataTransporterBase{
                 console.log(txtStatus);
                 console.log(errThrown);
 
+                //check auth:
                 if(!SELF.authenticationCheckWhenError(txtStatus,errThrown,xmlHR)){
-                    return false;
+                    SELF.onFailed(30000,xmlHR.statusText,xmlHR);
+                    return;
                 }
 
-
-
+                //call back:
                 if (typeof SELF.onFailed == 'function') {
                     SELF.onFailed(10000,xmlHR.statusText,xmlHR);
                 } else {
-                    SELF.handlerFailed(10000,xmlHR.statusText,xmlHR);
+
                     console.log('failed connecting server!');
-
-
+                    SELF.defaultHandlerLoadFailed(10000,xmlHR.statusText,xmlHR);
                 }
 
             },//-/error
@@ -217,8 +222,8 @@ class dataTransporterBase{
             if(!token){
                 token=localStorage.getItem(this.localStorageTokenName);
             }
-            console.log("token add to head:");
-            console.log(token);
+            //console.log("token add to head:");
+            //console.log(token);
 
 
             if(token){
@@ -250,26 +255,35 @@ class dataTransporterBase{
 
 
     /**
-     * defaultHandlerSuccess
+     * handlerAfterLoad
      * when ajax return result successfully, after doing some parsing for result format, will call this handler to proceed the result data.
-     * @param data  : result data after parsing.
+     * mainly do  success-check and call certain handler to cope with result.
+     * [need over-write in sub-class]
+     * @param data  {boolean|object}: result data after parsing. false- parse error; other- result data after parsing.
      * @returns {boolean}
      */
-    defaultHandlerSuccess(data){
+    handlerAfterLoad(data){
 
-        if(data!==false){
+        //check success or not
+        if(data!==false){//success:
             if(typeof this.onSuccess == 'function'){
-
+                //call onSuccess:
                 this.onSuccess(data);
-
                 return true;
             }
-        }else{
+        }else{//failed:
+
+            console.log("failed parsing data!");
+
+            //if exists onFailed,  then call it:
             if(typeof this.onFailed == 'function'){
-                this.onFailed(20000, txtStatus,data);
-            }else{
-                this.handlerFailed(20000,txtStatus,data);
-                console.log("failed parsing data!");
+
+                this.onFailed(20000, "parseResultFormatError", this.current.rawResult);
+
+            }else{//or call defaultHandlerLoadFailed:
+
+                this.defaultHandlerLoadFailed(20000,"parseResultFormatError",this.current.rawResult);
+
             }
             return false;
 
@@ -278,14 +292,16 @@ class dataTransporterBase{
     }//-/
 
     /**
-     * defaultResultParser
+     * resultParser
+     * parse data format of result from ajax return.
      * @param data
      * @param txtStatus
      * @param jqXHR
      * @returns {boolean|*|jQuery.fn.init|jQuery|HTMLElement}
      */
-    defaultResultParser(data,txtStatus,jqXHR){
+    resultParser(data,txtStatus,jqXHR){
 
+        //if json:
         if(this.current.dataType==='json'){
             let jsonData;
 
@@ -295,9 +311,7 @@ class dataTransporterBase{
                 if(typeof data=='object'){
                     jsonData=data;
                 }else{
-                    //console.log(data);
                     jsonData = JSON.parse(data);
-                    //console.log(jsonData);
                 }
 
             } catch (err) { //result format is not json
@@ -308,7 +322,7 @@ class dataTransporterBase{
             }
             return jsonData;
 
-        }else if(this.current.dataType==='xml'){
+        }else if(this.current.dataType==='xml'){//if xml
             let xmlResult;
             try {
 
@@ -327,12 +341,13 @@ class dataTransporterBase{
     }//-/
 
     /**
-     * defaultHandlerFailed
+     * defaultHandlerLoadFailed
+     * default handler for load failed.
      * @param failCode
      * @param txtStatus
      * @param xmlHR: when connect error, it carry xmlHR data.
      */
-    defaultHandlerFailed(failCode, txtStatus, xmlHR){
+    defaultHandlerLoadFailed(failCode, txtStatus, xmlHR){
         alert("failed loading data! code:"+failCode+" | status:"+txtStatus);
     }//-/
 

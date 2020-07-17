@@ -178,7 +178,7 @@ class ListDynamic extends ListBase{
                     SELF.handleFailed(code,msg,xmlHR);
 
                 } else {
-                    alert('failed connecting server!');
+                    console.log('failed connecting server!');
 
                 }
 

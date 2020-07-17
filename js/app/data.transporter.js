@@ -15,7 +15,6 @@ class dataTransporter extends dataTransporterBase{
 
         super.parseParams(params);
 
-
         //keyName in localStorage for token.
         this.localStorageTokenName=params.localStorageTokenName || 'token';
 
@@ -24,31 +23,53 @@ class dataTransporter extends dataTransporterBase{
 
         //isSetRequestHeader: true[default]; false
         this.isSetRequestHeader=typeof params.isSetRequestHeader=="undefined" ? true :params.isSetRequestHeader;
+
     }//-/
 
     /**
      * defaultHandlerSuccess
-     * @param data
+     * @param data {boolean||object}
      * @returns {boolean}
      */
-    defaultHandlerSuccess(data){
+    handlerAfterLoad(data){
 
         if(data!==false){
-            if(data.code==0){
+            if(data && data.code==0){
                 //console.log(data)
                 console.log("dataTransporter:")
                 console.log(data);
-                this.onSuccess(data);
+                if(typeof this.onSuccess == 'function'){
+                    this.onSuccess(data);
+                }
                 return true;
             }else{
 
                 //load result, but failed
-                this.onFailed(data.code,data.message,data);
+                if(typeof this.onFailed == 'function') {//call onFailed:
+
+                    this.onFailed(data.code, data.message, data);
+
+                }else{//or call defaultHandlerLoadFailed:
+
+                    this.defaultHandlerLoadFailed(data.code,data.message,data);
+
+                }
                 return false;
             }
         }else{
 
-            this.onFailed(20000,'parse result data failed!'); //10000 for parsing error-code.
+            console.log("failed parsing data!");
+
+            //if exists onFailed,  then call it:
+            if(typeof this.onFailed == 'function'){
+
+                this.onFailed(20000, "parseResultFormatError", this.current.rawResult);
+
+            }else{//or call defaultHandlerLoadFailed:
+
+                this.defaultHandlerLoadFailed(20000,"parseResultFormatError",this.current.rawResult);
+
+            }
             return false;
 
         }
