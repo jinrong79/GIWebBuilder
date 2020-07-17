@@ -93,7 +93,10 @@ class loginManagerBase{
                 handlerSuccess(data);
             };
             requestData.failed=function(errorCode,txtStatus,xmlHR){
-                handlerFailed(errorCode,txtStatus,xmlHR);
+                if(handlerFailed){
+
+                    handlerFailed(errorCode,txtStatus,xmlHR);
+                }
             }
             requestData.caller=this;
             requestData.isSetRequestHeader=true;

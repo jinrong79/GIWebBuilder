@@ -1,7 +1,7 @@
 /**
  * CLASS
  * dataTransporterBase
- * load data by ajax.
+ * transport data with remote by ajax.
  * error code:
  *           10000 : can not connect url.
  *           20000 : get result, but failed parsing result format.
@@ -26,12 +26,18 @@ class dataTransporterBase{
         this.dataType=params.dataType || 'json';
 
         this.contentType=params.contentType || 'application/x-www-form-urlencoded';
+
         //keyName in localStorage for token.
         this.localStorageTokenName=params.localStorageTokenName || 'token';
 
 
         this.handlerFailed=params.failed || this.defaultHandlerFailed;
         this.handlerSuccess=params.handlerSuccess || this.defaultHandlerSuccess;
+
+        //call after data transport is finished and  result= success for current operation, set when call dataTransport
+        this.onSuccess=null;
+        //call after data transport is finished and  result= failed or error for current operation, set when call dataTransport
+        this.onFailed=null;
 
         this.resultParser=params.resultParser || this.defaultResultParser;
 
@@ -98,7 +104,7 @@ class dataTransporterBase{
      *        .dataType: default=json.
      *        .contentType: default="application/x-www-form-urlencoded"
      *        .isSetRequestHeader: bool. [default]true-- add RequestHeader ; false-- no;
-     *        .localStorageTokenName : token keyname in localStorage, default="token";
+
      *        .token: token value, if provide this, then do not read from localStorage.
      *
      *
@@ -124,7 +130,8 @@ class dataTransporterBase{
         let contentType=params.contentType || this.contentType;
 
         let isSetRequestHeader=typeof params.isSetRequestHeader=="undefined" ? this.isSetRequestHeader :params.isSetRequestHeader;
-        let localStorageTokenName=params.localStorageTokenName || this.localStorageTokenName;
+
+        this.localStorageTokenName=params.localStorageTokenName || this.localStorageTokenName;
 
 
         this.onSuccess=params.success || null;
@@ -135,7 +142,7 @@ class dataTransporterBase{
 
         let data=params.data || {};
 
-        console.log(data);
+        //console.log(data);
 
 
         if(!url){
@@ -153,7 +160,8 @@ class dataTransporterBase{
         this.current.type=requestType;
         this.current.data=data;
 
-        let optionData={
+
+        let requestSetting={
 
             "type":requestType,
             "dataType":dataType,
@@ -167,6 +175,8 @@ class dataTransporterBase{
                 //console.log(txtStatus);
                 //console.log(jqXHR);
 
+
+
                 let resultData=SELF.resultParser(data,txtStatus,jqXHR);
                 SELF.handlerSuccess(resultData);
 
@@ -179,11 +189,11 @@ class dataTransporterBase{
                 console.log(txtStatus);
                 console.log(errThrown);
 
-                //auth check:
-                if(errThrown.toLowerCase()=='unauthorized'){
-                   document.location.href=j79App.naviURL.login;
-                   return;
+                if(!SELF.authenticationCheckWhenError(txtStatus,errThrown,xmlHR)){
+                    return false;
                 }
+
+
 
                 if (typeof SELF.onFailed == 'function') {
                     SELF.onFailed(10000,xmlHR.statusText,xmlHR);
@@ -199,21 +209,21 @@ class dataTransporterBase{
         };
 
 
-        /*//set RequestHeader:
-        console.log("isSetRequestHeader");
-        console.log(isSetRequestHeader);*/
+        //set request header:
         if(isSetRequestHeader){
+
+            //get token:
             let token=params.token || null;
             if(!token){
-                token=localStorage.getItem(localStorageTokenName);
+                token=localStorage.getItem(this.localStorageTokenName);
             }
-           /* console.log("token add to head:");
-            console.log(token);*/
+            console.log("token add to head:");
+            console.log(token);
+
 
             if(token){
 
-                optionData.beforeSend=function (XMLHttpRequest) {
-
+                requestSetting.beforeSend=function (XMLHttpRequest) {
                     //XMLHttpRequest.setRequestHeader("access-control-allow-headers", "Authorization, Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, X-Requested-By, If-Modified-Since, X-File-Name, X-File-Type, Cache-Control, Origin");
                     //XMLHttpRequest.setRequestHeader("access-control-allow-methods", "GET, POST, OPTIONS, PUT, DELETE");
                     //XMLHttpRequest.setRequestHeader("access-control-allow-origin", "*");
@@ -229,18 +239,20 @@ class dataTransporterBase{
 
 
         }
-        console.log("dataTransporter request data:");
-        console.log(optionData);
+        console.log("dataTransporter request setting:");
+        console.log(requestSetting);
 
         //ajax load:
-        $.ajax(url,optionData);
+        $.ajax(url,requestSetting);
 
 
     }//-/dataTransport
 
+
     /**
      * defaultHandlerSuccess
-     * @param data
+     * when ajax return result successfully, after doing some parsing for result format, will call this handler to proceed the result data.
+     * @param data  : result data after parsing.
      * @returns {boolean}
      */
     defaultHandlerSuccess(data){
@@ -248,7 +260,7 @@ class dataTransporterBase{
         if(data!==false){
             if(typeof this.onSuccess == 'function'){
 
-                this.onSuccess(data,this.caller);
+                this.onSuccess(data);
 
                 return true;
             }
@@ -321,7 +333,25 @@ class dataTransporterBase{
      * @param xmlHR: when connect error, it carry xmlHR data.
      */
     defaultHandlerFailed(failCode, txtStatus, xmlHR){
-        alert("failed loading data!");
+        alert("failed loading data! code:"+failCode+" | status:"+txtStatus);
     }//-/
+
+
+    /**
+     * authenticationCheckWhenError
+     * check authentication when error occurred
+     * @param txtStatus : get from jquery return when ajax
+     * @param errThrown : get from jquery return when ajax
+     * @param xmlHR     : get from jquery return when ajax
+     * @returns {boolean}
+     */
+    authenticationCheckWhenError(txtStatus, errThrown,xmlHR){
+        //do some check and redirection when failed in authentication.
+        //[over-write in sub-class]
+        return true;  //true- OK, continue; false- failed authentication.
+    }//-/
+
+
+
 
 }
