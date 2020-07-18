@@ -331,7 +331,9 @@ j79.loadCSS("/css/j79.date.selector.css");
 
                 saveData();
             });
-            $(SELF).delegate('#'+SELF_ID+'_value_day', 'change', null, function (event) {
+
+
+            $(SELF).delegate('#'+SELF_ID+'_value_day, #'+SELF_ID+'_value_hh, #'+SELF_ID+'_value_mm, #'+SELF_ID+'_value_ss', 'change', null, function (event) {
                 saveData();
             });
 
