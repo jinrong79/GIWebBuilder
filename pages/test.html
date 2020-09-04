@@ -6,17 +6,26 @@
 </head>
 <body>
 <h1>TEST</h1>
+<div style="background:url(images/topbar_bg.jpg) center no-repeat; background-size: 100% 100%; width: 1800px; height: 500px;">
+    <div class="img-area-selector" style="width: 1800px; height: 500px; position: relative;"  data-saver="imgAreaData">
+
+    </div>
+    <textarea id="imgAreaData"></textarea>
+</div>
+
 <script src="/js/jquery/1.11.3/jquery.min.js"></script>
 <script src="/js/plugin/jquery.json.js"></script>
 <script src="/js/plugin/bootstrap.min.js"></script>
+<script src="/js/app/j79.app.js"></script>
 <script src="/js/lib/j79/basic.js"></script>
+<script src="/js/plugin/j79.img.area.selector.js"></script>
 <script>
     $(document).ready(function (e) {
-       $.get("test.php",function(data){
+       /*$.get("test.php",function(data){
            var jsData=j79.toJSON(data);
            console.log(jsData);
 
-        });
+        });*/
     });
 </script>
 </body>
