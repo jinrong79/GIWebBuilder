@@ -64,6 +64,11 @@ j79.loadCSS("css/j79.img.area.selector.css");
         var FLAG_AREA_RESIZE=null;
 
 
+        var HANDLE_ON_ADD=$(SELF).attr('on-add') || '';
+        var HANDLE_ON_DEL=$(SELF).attr('on-del') || '';
+        var HANDLE_ON_CHANGE=$(SELF).attr('on-change') || '';
+
+
 
 
 
@@ -223,6 +228,13 @@ j79.loadCSS("css/j79.img.area.selector.css");
                 $(SELF).find('.area-selection-temp').remove();
                 FLAG_AREA_DRAW_START=false;
 
+                //trigger event
+                if(HANDLE_ON_ADD){
+                    var runStr=HANDLE_ON_ADD.replace('id','"'+newID+'"');
+                    console.log(runStr)
+                    eval(runStr);
+                }
+
                 saveData();
 
             }
@@ -334,7 +346,18 @@ j79.loadCSS("css/j79.img.area.selector.css");
 
             $(SELF).delegate('.del','mousedown',null,function(e){
                 console.log('del')
+                var curID=$(this).closest('.area-selection').attr('id');
                 $(this).closest('.area-selection').remove();
+
+                //trigger event
+                if(HANDLE_ON_DEL){
+                    var runStr=HANDLE_ON_DEL.replace('id','"'+curID+'"');
+                    console.log(runStr)
+                    eval(runStr);
+                }
+
+                saveData();
+
                 e.stopPropagation();
                 return false;
             });

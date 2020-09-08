@@ -6,15 +6,47 @@
 </head>
 <body>
 <h1>TEST</h1>
+<p>模板代码：</p>
+<div><textarea id="templateCode">
+
+    <div class="part-month" style="width:990px;height:460px;">
+    <div class="sn-simple-logo" style="width:990px;height:460px;border:0;padding:0;top:auto;left:auto;background:none;right:auto;">
+        <div class="sn-simple-logo" style="width:1920px;height:460px;border:0;padding:0;top:0;left:0;background:none;right:auto;">
+            <!--以下是背景图-->
+            <div class="sn-simple-logo" style="background:none;border:0;padding:0;width:1920px;height:460px;top:auto;left:-465px;background-image:url(https://img.alicdn.com/imgextra/i1/1969925202/O1CN015iRGcL1oIYxEvKT67_!!1969925202.jpg);background-repeat:repeat-x;background-position:center top;background-attachment:scroll;right:auto;">&nbsp;</div>
+            <!-- 以下是单个可点击单元，由透明图片站位，在加一个hover用的半透明黑色图片-->
+            [$$list$$]
+        </div>
+    </div>
+</div>
+
+</textarea></div>
+<div>
+    <textarea id="repeatCode">
+        <div class="sn-simple-logo" data-id="{{id}}" style="right:auto;z-index:7;top:{{top}}px;left:{{left}}px;width:{{width}}px;height:{{height}}px;border:0;padding:0;background:none;overflow:hidden;">
+              <div class="subLogo" style="width:{{width}}px;height:{{height}}px;float:none;padding:0;right:auto;top:0;left:0;margin:0;border:0;border-radius:0;background:none;">
+                <!-- 默认点击单元 -->
+              	<a style="padding:0;height:auto;background:none;" href="https://ldk.tmall.hk/search.htm?orderType=&viewType=grid&keyword=0-6%D4%C2&lowPrice=&highPrice=" target="_blank">
+                	<img src="https://img.alicdn.com/imgextra/i4/1969925202/O1CN01aQM7vQ1oIYx9d6GBw_!!1969925202.png" width={{width}}" height="{{height}}" alt="">
+                </a>
+
+              </div>
+            </div>
+    </textarea>
+</div>
 <input type="file" id="fileImg" />
 <div class="img-select-container" style="position: relative; border:1px solid #ddd;">
     <img src="" id="img"/>
-    <div class="img-area-selector" style="width: 1800px; height: 500px; position:absolute;left:0px;top:0px;"  data-saver="imgAreaData" position-delta-x="300">
+    <div class="img-area-selector" on-add="handleAdd(id);" on-change="handleChange(id);" on-del="handleDel(id);" style="width: 1800px; height: 500px; position:absolute;left:0px;top:0px;"  data-saver="imgAreaData" position-delta-x="300">
 
     </div>
 </div>
 
 <textarea id="imgAreaData" style="height:100px;"></textarea>
+
+<div id="imgAreaSet">
+
+</div>
 
 <script src="../js/jquery/1.11.3/jquery.min.js"></script>
 <script src="../js/plugin/jquery.json.js"></script>
@@ -23,6 +55,23 @@
 <script src="../js/lib/j79/basic.js"></script>
 <script src="../js/plugin/j79.img.area.selector.js"></script>
 <script>
+
+    var codeResult='';
+
+
+    function handleAdd(id){
+
+        $('<div id="setting_'+id+'" area-id="'+id+'"><input type="text" /> </div>').appendTo('#imgAreaSet');
+    }
+
+    function handleDel(id){
+        $('#imgAreaSet').find('#setting_'+id).remove();
+    }
+
+    function handleChange(id){
+        //
+    }
+
     $(document).ready(function (e) {
        /*$.get("test.php",function(data){
            var jsData=j79.toJSON(data);
