@@ -17,6 +17,8 @@
    **/
    $.fn.validate = function(){
 
+   	  console.log('start form-validation!')
+
    	   var test_result;
 	   
 	   //bind change to check validation

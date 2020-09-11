@@ -67,6 +67,7 @@ j79.loadCSS("css/j79.img.area.selector.css");
         var HANDLE_ON_ADD=$(SELF).attr('on-add') || '';
         var HANDLE_ON_DEL=$(SELF).attr('on-del') || '';
         var HANDLE_ON_CHANGE=$(SELF).attr('on-change') || '';
+        var HANDLE_ON_SELECT=$(SELF).attr('on-select') || '';
 
 
 
@@ -224,14 +225,15 @@ j79.loadCSS("css/j79.img.area.selector.css");
                 var newID='imgArea_'+genID();
                 ID_LIST.push(newID);
 
-                $('<div class="area-selection" id="'+newID+'" style="background:rgba(0,0,0,0.3);position:absolute;left:'+rx+'px;top:'+ry+'px;width:'+w+'px;height:'+h+'px"><a class="del" style="user-select: none">X</a></div>').appendTo(SELF);
+                //data-width="'+w+'" data-height="'+h+'" data-left="'+(rx-POS_DX)+'" data-top="'+(ry-POS_DY)+'"
+                $('<div class="area-selection" id="'+newID+'"  style="background:rgba(0,0,0,0.3);position:absolute;left:'+rx+'px;top:'+ry+'px;width:'+w+'px;height:'+h+'px"><a class="del" style="user-select: none">X</a></div>').appendTo(SELF);
                 $(SELF).find('.area-selection-temp').remove();
                 FLAG_AREA_DRAW_START=false;
 
                 //trigger event
                 if(HANDLE_ON_ADD){
                     var runStr=HANDLE_ON_ADD.replace('id','"'+newID+'"');
-                    console.log(runStr)
+                    //console.log(runStr)
                     eval(runStr);
                 }
 
@@ -284,6 +286,16 @@ j79.loadCSS("css/j79.img.area.selector.css");
                     FLAG_AREA_DRAG_START=false;
                     AREA_SH=$(this).height();
                 }
+
+
+                if(HANDLE_ON_SELECT){
+                    console.log('select')
+                    var curId=$(this).attr('id');
+                    var runStr=HANDLE_ON_SELECT.replace('id','"'+curId+'"');
+                    //console.log(runStr)
+                    eval(runStr);
+                }
+
 
                 e.stopPropagation();
                 return false;
@@ -345,21 +357,26 @@ j79.loadCSS("css/j79.img.area.selector.css");
 
 
             $(SELF).delegate('.del','mousedown',null,function(e){
-                console.log('del')
-                var curID=$(this).closest('.area-selection').attr('id');
-                $(this).closest('.area-selection').remove();
 
-                //trigger event
-                if(HANDLE_ON_DEL){
-                    var runStr=HANDLE_ON_DEL.replace('id','"'+curID+'"');
-                    console.log(runStr)
-                    eval(runStr);
+                if(e.button==0){
+                    var curID=$(this).closest('.area-selection').attr('id');
+                    $(this).closest('.area-selection').remove();
+
+                    //trigger event
+                    if(HANDLE_ON_DEL){
+                        var runStr=HANDLE_ON_DEL.replace('id','"'+curID+'"');
+                        console.log(runStr)
+                        eval(runStr);
+                    }
+
+                    saveData();
+
+                    e.stopPropagation();
+                    return false;
                 }
 
-                saveData();
 
-                e.stopPropagation();
-                return false;
+
             });
 
 

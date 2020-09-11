@@ -6,7 +6,7 @@
     <controls class="col-md-10">
       <control required="yes" node="loginid"  type="text" id="loginid" placeholder="用户登录ID，25个以内的英文、数字">
       <validator type="regExp" msg="必须为25个字以内,英文，数字，横线，下划线">
-        <![CDATA[^\s*[a-zA-Z0-9\-_]{1,25}\s*$]]>
+        <![CDATA[^\s*[a-zA-Z]+[a-zA-Z0-9\-_]{0,24}\s*$]]>
       </validator>
 	  </control>
 
@@ -28,7 +28,7 @@
     <item  id="password2" lineEnd="yes">
         <label class="col-md-2 control-label">确认密码</label>
         <controls class="col-md-10">
-            <control required="yes" submit-ignore="yes" node="password2"  type="password" id="password2" placeholder="重复输入，确认密码">
+            <control required="yes"  node="password2"  type="password" id="password2" placeholder="重复输入，确认密码">
                 <validator type="expression" msg="2次密码输入不同！">
                     <![CDATA[$('#password').val()==$('#password2').val()]]>
                 </validator>

@@ -118,9 +118,9 @@ class editUserRole extends editBase{
         if(detailData){
             let tt=detailData.timestamp;
             if(tt){
-                tt=tt.toString().replace('T',' ');
+                /*tt=tt.toString().replace('T',' ');
                 tt=tt.replace('.000Z','');
-                detailData.timestamp=tt;
+                detailData.timestamp=tt;*/
             }
         }
 

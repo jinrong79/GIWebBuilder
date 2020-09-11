@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>K3dviz-用户</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -89,8 +89,8 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="user_id">ID编号</label>
-                  <input type="text" class="form-control" id="user_id" placeholder="用户id...">
+                  <label for="user_name">名称</label>
+                  <input type="text" class="form-control" id="user_name" placeholder="名称...">
                 </div>
 
                 <div class="form-group">
@@ -115,8 +115,9 @@
               <table class="table table-striped table-hover" id="userList">
                 <thead>
                   <tr>
-                    <th>id</th>
-                    <th>用户名</th>
+                    <!--<th>id</th>-->
+                    <th>登录名</th>
+                    <th>名称</th>
                     <th>昵称</th>
                     <th>联系方式</th>
                     <th>注册时间</th>
@@ -193,14 +194,14 @@
 
 
         $('#search').click(function(e){
-          let userId=j79.trim($('#user_id').val() || '');
+          let userName=j79.trim($('#user_name').val() || '');
 
           let loginid=j79.trim($('#loginid').val()  || '');
           let mobile=j79.trim($('#mobile').val()  || '');
-          if(userId || loginid || mobile){
+          if(userName || loginid || mobile){
             let data={};
-            if(userId){
-              data.id=userId;
+            if(userName){
+              data.name=userName;
             }
             if(loginid){
               data.loginid=loginid;
@@ -217,7 +218,7 @@
 
 
         $('#resetList').click(function (e) {
-          $('#user_id').val('');
+          $('#user_name').val('');
           $('#loginid').val('');
           $('#mobile').val('')
 

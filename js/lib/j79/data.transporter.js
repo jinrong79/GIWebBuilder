@@ -26,7 +26,7 @@ class dataTransporterBase{
 
         this.dataType=params.dataType || 'json';
 
-        this.contentType=params.contentType || 'application/x-www-form-urlencoded';
+        this.contentType=params.contentType || 'application/json';  //x-www-form-urlencoded
 
         //keyName in localStorage for token.
         this.localStorageTokenName=params.localStorageTokenName || 'token';
@@ -128,8 +128,8 @@ class dataTransporterBase{
 
         let requestType= params.requestType || 'GET';
         let url=params.url || this.url;
-        let dataType=params.dataType || this.dataType;
-        let contentType=params.contentType || this.contentType;
+        let dataType= params.dataType || this.dataType;
+        let contentType=requestType=='GET' ? 'application/x-www-form-urlencoded' : 'application/json';  //  params.contentType || this.contentType;
 
         let isSetRequestHeader=typeof params.isSetRequestHeader=="undefined" ? this.isSetRequestHeader :params.isSetRequestHeader;
 
@@ -154,12 +154,20 @@ class dataTransporterBase{
         //add url prefix.
         url=this.urlPrefix+url;
 
+
+
+        data=requestType=='GET' ? data : JSON.stringify(data);
+
         //save current options:
         this.current={};
         this.current.dataType=dataType;
         this.current.contentType=contentType;
         this.current.type=requestType;
         this.current.data=data;
+
+        console.log('final data:')
+        console.log(data);
+
 
 
         let requestSetting={
@@ -172,7 +180,7 @@ class dataTransporterBase{
 
             "success": function(data, txtStatus, jqXHR) {
 
-                //console.log(data);
+                console.log(data);
                 //console.log(txtStatus);
                 //console.log(jqXHR);
 

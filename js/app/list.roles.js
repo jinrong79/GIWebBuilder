@@ -75,9 +75,9 @@ class listRoles extends ListDynamic{
 
         let tt=item.timestamp;
         if(tt){
-            tt=tt.toString().replace('T',' ');
+            /*tt=tt.toString().replace('T',' ');
             tt=tt.replace('.000Z','');
-            item.timestamp=tt;
+            item.timestamp=tt;*/
         }
 
         let viewPrivilege='<div class="privilege-list-view">'+this.getPrivilegeViewHtml(item.privileges)+'</div>';

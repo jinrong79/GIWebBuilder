@@ -28,6 +28,20 @@ class editUser extends editBase{
         //url to delete data,  if not provided , then use this.url.
         this.urlDelete=params.urlDelete || this.url || null;
 
+        this.failSubmitAdd=function(code,msg,xmlHR){
+            //console.log (xmlHR);
+            var msg=xmlHR.responseJSON.message.toString();
+            if(msg.indexOf('Duplicate entry')){
+                alert("添加新用户出错，登录ID重复，请输入其他ID！");
+                $('#loginid').addClass('has-error-server');
+                $('#loginid').focus();
+                $('#loginid').change(function () {
+                    $(this).removeClass('has-error-server');
+                })
+            }
+
+        }
+
 
     }//-/
 
@@ -115,9 +129,9 @@ class editUser extends editBase{
         if(detailData){
             let tt=detailData.timestamp;
             if(tt){
-                tt=tt.toString().replace('T',' ');
+                /*tt=tt.toString().replace('T',' ');
                 tt=tt.replace('.000Z','');
-                detailData.timestamp=tt;
+                detailData.timestamp=tt;*/
             }
         }
 

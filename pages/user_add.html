@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>K3dviz-添加用户</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -78,7 +78,7 @@
         
         
        
-         <h2 class="sub-header">用户添加</h2>
+         <h2 id="mainTitle" class="sub-header">用户</h2>
           
         
          	<div class="panel panel-default">
@@ -144,8 +144,10 @@
           let currentId=j79.getURLParam('id');
           if(currentId){//edit:
               userManger.viewEdit({"id":currentId});
+              $('#mainTitle').text('用户修改')
           }else{//add new:
               userManger.viewAdd();
+              $('#mainTitle').text('用户添加')
           }
 
 

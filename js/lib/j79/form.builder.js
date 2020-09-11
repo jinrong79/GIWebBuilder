@@ -104,7 +104,7 @@ j79FormBuilder.prototype = {
         }
 
         //读取xml，初始化
-        $.get(this.urlXML, function (data) {
+        $.get(this.urlXML+'?rnd='+Math.random(), function (data) {
             console.log('got xml file');
             /*console.log('FORM-XML=========');
             console.log(data);*/

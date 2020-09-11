@@ -18,9 +18,9 @@
     <item  id="name" lineEnd="yes">
         <label class="col-md-2 control-label">角色名称</label>
         <controls class="col-md-10">
-            <control  node="name"  type="text" id="name" placeholder="角色名称，25个以内的英文、数字">
-                <validator type="regExp" msg="角色名称，25个以内的英文、数字">
-                    <![CDATA[^\s*[a-zA-Z0-9\-_]{1,25}\s*$]]>
+            <control  node="name"  type="text" id="name" placeholder="角色名称，25个以内">
+                <validator type="regExp" msg="角色名称，25个以内">
+                    <![CDATA[^[\S]{1,25}\s*$]]>
                 </validator>
             </control>
 

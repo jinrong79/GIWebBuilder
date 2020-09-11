@@ -36,9 +36,9 @@ class listUserRoles extends ListDynamic{
 
         let tt=item.timestamp;
         if(tt){
-            tt=tt.toString().replace('T',' ');
+            /*tt=tt.toString().replace('T',' ');
             tt=tt.replace('.000Z','');
-            item.timestamp=tt;
+            item.timestamp=tt;*/
         }
 
 
@@ -46,8 +46,9 @@ class listUserRoles extends ListDynamic{
         result=`<tr data-id="${item.id || ''}">\n` +
             `<td>${item.id}</td>\n` +
 
-            `<td>${item.userid || ""}</td>\n` +
             `<td>${item.username || ""}</td>\n` +
+
+
             `<td>${item.roleid || ""}</td>\n` +
             `<td>${item.rolename || ""}</td>\n` +
 

@@ -36,15 +36,16 @@ class listUsers extends ListDynamic{
 
         let tt=item.timestamp;
         if(tt){
-            tt=tt.toString().replace('T',' ');
+            /*tt=tt.toString().replace('T',' ');
             tt=tt.replace('.000Z','');
-            item.timestamp=tt;
+            item.timestamp=tt;*/
         }
 
         result=`<tr data-id="${item.id || ''}">\n` +
-            `<td>${item.id}</td>\n` +
+            /*`<td>${item.id}</td>\n` +*/
             `<td>${item.loginid}</td>\n` +
-            `<td>${item.name || item.nickname || ""}</td>\n` +
+            `<td>${item.name || ""}</td>\n` +
+            `<td>${item.nickname || ""}</td>\n` +
             `<td>${item.mobile || ""}</td>\n` +
             `<td>${item.last_login_time || ""}</td>\n` +
             `<td>${item.disabled==0? '': '<span class="label label-warning">失效</span>'} ${item.active==1 ? '': '<span class="label label-danger">未激活</span>'}</td>\n` +

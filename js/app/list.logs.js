@@ -38,7 +38,7 @@ class listLogs extends ListDynamic{
 
         result=`<tr data-id="${item.id || ''}">\n` +
             `<td>${item.id}</td>\n` +
-            `<td>${item.username}(${item.userid})</td>\n` +
+            `<td>${item.username}</td>\n` +
             `<td>${item.target}</td>\n` +
             `<td>${item.action}</td>\n` +
             `<td>${item.message}</td>\n` +

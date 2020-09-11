@@ -1,52 +1,172 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>TEST</h1>
-<p>模板代码：</p>
-<div><textarea id="templateCode">
+    <title>Image Area</title>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <div class="part-month" style="width:990px;height:460px;">
-    <div class="sn-simple-logo" style="width:990px;height:460px;border:0;padding:0;top:auto;left:auto;background:none;right:auto;">
-        <div class="sn-simple-logo" style="width:1920px;height:460px;border:0;padding:0;top:0;left:0;background:none;right:auto;">
-            <!--以下是背景图-->
-            <div class="sn-simple-logo" style="background:none;border:0;padding:0;width:1920px;height:460px;top:auto;left:-465px;background-image:url(https://img.alicdn.com/imgextra/i1/1969925202/O1CN015iRGcL1oIYxEvKT67_!!1969925202.jpg);background-repeat:repeat-x;background-position:center top;background-attachment:scroll;right:auto;">&nbsp;</div>
-            <!-- 以下是单个可点击单元，由透明图片站位，在加一个hover用的半透明黑色图片-->
-            [$$list$$]
+
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+
+
+    <link href="css/jr.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<style>
+    body{ background-color: #eee;}
+
+    .area-item{ background-color:#b9def0; padding:1rem; }
+
+    .content-body{ padding: 3rem;}
+
+    .container-fill{ width: 100%;}
+
+    .form-group.current{border:1px solid #67CF22; background-color: #daffb6}
+
+    .area-selection .del{display: inline-block; padding:0.5rem 1rem; color: #fff; font-family: Arial;}
+    .area-selection .del:hover{ text-decoration:none; background-color:#0d58c8; color: #fff; }
+
+</style>
+<body>
+
+<div class="container">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">图片分区</div>
+        </div>
+        <div class="panel-body content-body">
+
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="repeatCode">整体模板</label>
+                            <textarea id="templateCode" class="form-control" rows="2">
+                <div class="part-month" style="width:990px;height:{{img_height}}px;">
+                    <div class="sn-simple-logo" style="width:990px;height:{{img_height}}px;border:0;padding:0;top:auto;left:auto;background:none;right:auto;">
+                        <div class="sn-simple-logo" style="width:1920px;height:{{img_height}}px;border:0;padding:0;top:0;left:0;background:none;right:auto;">
+                        <!--以下是背景图-->
+                            <div class="sn-simple-logo" style="background:none;border:0;padding:0;width:1920px;height:{{img_height}}px;top:auto;left:-465px;background-image:url({{imgURL}});background-repeat:repeat-x;background-position:center top;background-attachment:scroll;right:auto;">&nbsp;</div>
+                            <!-- 以下是单个可点击单元，由透明图片站位，在加一个hover用的半透明黑色图片-->
+                            {{list}}
+                        </div>
+                    </div>
+                </div>
+            </textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="repeatCode">单行模板</label>
+                            <textarea id="repeatCode" class="form-control" rows="2">
+                <div class="sn-simple-logo" data-id="{{id}}" style="right:auto;z-index:7;top:{{top}}px;left:{{left}}px;width:{{width}}px;height:{{height}}px;border:0;padding:0;background:none;overflow:hidden;">
+                  <div class="subLogo" style="width:{{width}}px;height:{{height}}px;float:none;padding:0;right:auto;top:0;left:0;margin:0;border:0;border-radius:0;background:none;">
+                    <!-- 默认点击单元 -->
+                    <a style="padding:0;height:auto;background:none;" href="{{link}}" target="_blank">
+                        <img src="{{blankImgUrl}}" width="{{width}}" height="{{height}}" alt="">
+                    </a>
+
+                  </div>
+                </div>
+            </textarea>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+                <div class="form-group">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="img_delta_x" class="col-sm-2 control-label">图片Delta Left</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" id="img_delta_x" value="465"/>
+                    </div>
+                    <label for="img_delta_y" class="col-sm-2 control-label">图片Delta Top</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" id="img_delta_y" value="0"/>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="img_delta_x" class="col-sm-2 control-label">空白图片URL</label>
+                    <div class="col-sm-10">
+                        <input class="form-control"  type="text" id="blankImgUrl" value="https://img.alicdn.com/imgextra/i4/1969925202/O1CN01aQM7vQ1oIYx9d6GBw_!!1969925202.png"/>
+                    </div>
+
+                </div>
+                <HR/>
+                <div class="form-group">
+                    <label for="imgUrl" class="col-sm-2 control-label">图片URL</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="text" id="imgUrl" />
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="fileImg" class="col-sm-2 control-label">本地图片</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" type="file" id="fileImg" />
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+                    <div id="imgAreaSet"></div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2"><a class="btn btn-primary btn-lg btn-gen">generate</a></div>
+
+                </div>
+
+                <div class="form-group">
+                    <textarea id="resultCode" class="form-control"></textarea>
+
+                </div>
+
+
+            </form>
+
+
+
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<div class="container container-fill">
+    <div class="img-select-container" style="position: relative; border:1px solid #ddd;">
+        <img src="" id="img"/>
+        <div class="img-area-selector" on-add="handleAdd(id);" on-change="handleChange(id);" on-del="handleDel(id);" on-select="handleSelect(id);" style="width: 1800px; height: 50px; position:absolute;left:0px;top:0px;"  data-saver="imgAreaData" position-delta-x="300">
+
         </div>
     </div>
 </div>
 
-</textarea></div>
-<div>
-    <textarea id="repeatCode">
-        <div class="sn-simple-logo" data-id="{{id}}" style="right:auto;z-index:7;top:{{top}}px;left:{{left}}px;width:{{width}}px;height:{{height}}px;border:0;padding:0;background:none;overflow:hidden;">
-              <div class="subLogo" style="width:{{width}}px;height:{{height}}px;float:none;padding:0;right:auto;top:0;left:0;margin:0;border:0;border-radius:0;background:none;">
-                <!-- 默认点击单元 -->
-              	<a style="padding:0;height:auto;background:none;" href="https://ldk.tmall.hk/search.htm?orderType=&viewType=grid&keyword=0-6%D4%C2&lowPrice=&highPrice=" target="_blank">
-                	<img src="https://img.alicdn.com/imgextra/i4/1969925202/O1CN01aQM7vQ1oIYx9d6GBw_!!1969925202.png" width={{width}}" height="{{height}}" alt="">
-                </a>
-
-              </div>
-            </div>
-    </textarea>
-</div>
-<input type="file" id="fileImg" />
-<div class="img-select-container" style="position: relative; border:1px solid #ddd;">
-    <img src="" id="img"/>
-    <div class="img-area-selector" on-add="handleAdd(id);" on-change="handleChange(id);" on-del="handleDel(id);" style="width: 1800px; height: 500px; position:absolute;left:0px;top:0px;"  data-saver="imgAreaData" position-delta-x="300">
-
-    </div>
-</div>
 
 <textarea id="imgAreaData" style="height:100px;"></textarea>
 
-<div id="imgAreaSet">
 
-</div>
+
+
+
 
 <script src="../js/jquery/1.11.3/jquery.min.js"></script>
 <script src="../js/plugin/jquery.json.js"></script>
@@ -60,8 +180,8 @@
 
 
     function handleAdd(id){
-
-        $('<div id="setting_'+id+'" area-id="'+id+'"><input type="text" /> </div>').appendTo('#imgAreaSet');
+        var amount=$('.area-selection').length;
+        $('<div class="form-group area-item" id="setting_'+id+'" area-id="'+id+'"><label for="fileImg" class="col-sm-2 control-label">Link'+amount+':</label><div class="col-sm-10"><input class="form-control" type="text" /></div> </div>').appendTo('#imgAreaSet');
     }
 
     function handleDel(id){
@@ -70,6 +190,56 @@
 
     function handleChange(id){
         //
+    }
+
+    function handleSelect(id){
+
+        $('.area-item').removeClass('current')
+        $('.area-item[area-id="'+id+'"]').addClass('current');
+        $('.area-item[area-id="'+id+'"]').find('input').focus();
+    }
+
+    function gen(){
+
+        var result='';
+        var px=$('#img_delta_x').val();
+        var py=$('#img_delta_y').val();
+
+        $(".area-item").each(function(){
+
+
+
+            var areaId=$(this).attr('area-id');
+            var listItemCode=$('#repeatCode').val();
+            var link=$(this).find('input').val() || '';
+
+            listItemCode=listItemCode.replace(/{{id}}/g, areaId);
+            listItemCode=listItemCode.replace(/{{link}}/g, link);
+            listItemCode=listItemCode.replace(/{{left}}/g, parseInt( $('#'+areaId).css('left'))-px);
+            listItemCode=listItemCode.replace(/{{top}}/g, parseInt($('#'+areaId).css('top'))-py);
+            listItemCode=listItemCode.replace(/{{width}}/g, $('#'+areaId).width());
+            listItemCode=listItemCode.replace(/{{height}}/g, $('#'+areaId).height());
+
+            listItemCode=listItemCode.replace(/{{blankImgUrl}}/g, $('#blankImgUrl').val());
+
+
+            result+=listItemCode;
+        });
+
+        var totalResult=$('#templateCode').val();
+        totalResult=totalResult.replace('{{list}}',result);
+
+
+        totalResult=totalResult.replace(/{{imgURL}}/g,$('#imgUrl').val());
+        totalResult=totalResult.replace(/{{img_height}}/g,$('#img').height());
+
+
+
+
+        $('#resultCode').val(totalResult);
+
+
+
     }
 
     $(document).ready(function (e) {
@@ -87,14 +257,33 @@
             reader.onload = function (evt) {
                 document.getElementById('img').src = evt.target.result;
                 var image = evt.target.result;
-                $('#img').load(function(e){
-                    $('.img-area-selector').width($('#img').width());
-                    $('.img-area-selector').height($('#img').height());
-                    $('.img-select-container').width($('#img').width());
-                });
+
 
             }
             reader.readAsDataURL(file.files[0]);
+        });
+
+
+
+
+
+
+        $('.btn-gen').click(function () {
+            gen();
+        });
+
+        $('#img').load(function(e){
+            $('.img-area-selector').width($('#img').width());
+            $('.img-area-selector').height($('#img').height());
+            $('.img-select-container').width($('#img').width());
+        });
+
+        $('#imgUrl').change(function () {
+            var url=$(this).val() || '';
+            if(url){
+                $('#img').attr('src', url);
+
+            }
         })
 
     });

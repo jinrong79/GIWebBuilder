@@ -20,7 +20,7 @@
         <controls class="col-md-10">
             <control  node="name"  type="text" id="name" placeholder="角色名称，25个以内的英文、数字">
                 <validator type="regExp" msg="角色名称，25个以内的英文、数字">
-                    <![CDATA[^\s*[a-zA-Z0-9\-_]{1,25}\s*$]]>
+                    <![CDATA[^[\S]{1,25}\s*$]]>
                 </validator>
             </control>
         </controls>
