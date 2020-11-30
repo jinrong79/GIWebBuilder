@@ -49,34 +49,32 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label for="repeatCode">整体模板</label>
-                            <textarea id="templateCode" class="form-control" rows="2">
-                <div class="part-month" style="width:990px;height:{{img_height}}px;">
-                    <div class="sn-simple-logo" style="width:990px;height:{{img_height}}px;border:0;padding:0;top:auto;left:auto;background:none;right:auto;">
-                        <div class="sn-simple-logo" style="width:1920px;height:{{img_height}}px;border:0;padding:0;top:0;left:0;background:none;right:auto;">
-                        <!--以下是背景图-->
-                            <div class="sn-simple-logo" style="background:none;border:0;padding:0;width:1920px;height:{{img_height}}px;top:auto;left:-465px;background-image:url({{imgURL}});background-repeat:repeat-x;background-position:center top;background-attachment:scroll;right:auto;">&nbsp;</div>
-                            <!-- 以下是单个可点击单元，由透明图片站位，在加一个hover用的半透明黑色图片-->
-                            {{list}}
-                        </div>
-                    </div>
-                </div>
-            </textarea>
+                            <textarea id="templateCode" class="form-control" rows="6">
+                                <div class="part-month" style="width:990px;height:{{img_height}}px;" title="{{blockName}}">
+                                    <div class="{{abpClass}}" style="width:990px;height:{{img_height}}px;border:0;padding:0;top:auto;left:auto;background:none;right:auto;">
+                                        <div class="{{abpClass}}" style="width:1920px;height:{{img_height}}px;border:0;padding:0;top:0;left:0;background:none;right:auto;">
+                                        <!--以下是背景图-->
+                                            <div class="{{abpClass}}" style="background:none;border:0;padding:0;width:1920px;height:{{img_height}}px;top:auto;left:-465px;background-image:url({{imgURL}});background-repeat:repeat-x;background-position:center top;background-attachment:scroll;right:auto;"></div>
+                                            <!-- 以下是单个可点击单元，由透明图片站位，在加一个hover用的半透明黑色图片-->
+                                            {{list}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </textarea>
                         </div>
                         <div class="col-md-6">
                             <label for="repeatCode">单行模板</label>
-                            <textarea id="repeatCode" class="form-control" rows="2">
-                <div class="sn-simple-logo" data-id="{{id}}" style="right:auto;z-index:7;top:{{top}}px;left:{{left}}px;width:{{width}}px;height:{{height}}px;border:0;padding:0;background:none;overflow:hidden;">
-                  <div class="subLogo" style="width:{{width}}px;height:{{height}}px;float:none;padding:0;right:auto;top:0;left:0;margin:0;border:0;border-radius:0;background:none;">
-                    <!-- 默认点击单元 -->
-                    <a style="padding:0;height:auto;background:none;" href="{{link}}" target="_blank">
-                        <img src="{{blankImgUrl}}" width="{{width}}" height="{{height}}" alt="">
-                    </a>
-
-                  </div>
-                </div>
-            </textarea>
+                            <textarea id="repeatCode" class="form-control" rows="6">
+                                <div class="{{abpClass}}" style="right:auto;z-index:7;top:{{top}}px;left:{{left}}px;width:{{width}}px;height:{{height}}px;border:0;padding:0;background:none;overflow:hidden;">
+                                  <div class="subLogo" style="width:{{width}}px;height:{{height}}px;float:none;padding:0;right:auto;top:0;left:0;margin:0;border:0;border-radius:0;background:none;">
+                                    <!-- 默认点击单元 -->
+                                    <a style="padding:0;height:auto;background:none;" href="{{link}}" target="_blank">
+                                        <img src="{{blankImgUrl}}" width="{{width}}" height="{{height}}" alt="" />
+                                    </a>
+                                  </div>
+                                </div>
+                            </textarea>
                         </div>
-
                     </div>
 
 
@@ -85,10 +83,19 @@
 
                 <div class="form-group">
 
+                    <label for="img_delta_x" class="col-sm-2 control-label">电商分类</label>
+                    <div class="col-sm-4">
+                        <Select class="form-control" id="ctrMallType">
+                            <option value="0">天猫</option>
+                            <option value="1">淘宝</option>
+                        </Select>
+                    </div>
+                    <label for="img_delta_x" class="col-sm-2 control-label">块标识</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" type="text" id="blockName" value="block1"/>
+                    </div>
                 </div>
-
                 <div class="form-group">
-
                     <label for="img_delta_x" class="col-sm-2 control-label">图片Delta Left</label>
                     <div class="col-sm-4">
                         <input class="form-control" type="text" id="img_delta_x" value="465"/>
@@ -97,14 +104,13 @@
                     <div class="col-sm-4">
                         <input class="form-control" type="text" id="img_delta_y" value="0"/>
                     </div>
-
                 </div>
+
                 <div class="form-group">
                     <label for="img_delta_x" class="col-sm-2 control-label">空白图片URL</label>
                     <div class="col-sm-10">
                         <input class="form-control"  type="text" id="blankImgUrl" value="https://img.alicdn.com/imgextra/i4/1969925202/O1CN01aQM7vQ1oIYx9d6GBw_!!1969925202.png"/>
                     </div>
-
                 </div>
                 <HR/>
                 <div class="form-group">
@@ -125,19 +131,18 @@
 
                 <div class="form-group">
                     <div id="imgAreaSet"></div>
-
                 </div>
 
                 <div class="form-group">
                     <div class="col-sm-10 col-sm-offset-2"><a class="btn btn-primary btn-lg btn-gen">generate</a></div>
-
                 </div>
 
                 <div class="form-group">
                     <textarea id="resultCode" class="form-control"></textarea>
-
                 </div>
-
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2"><a class="btn btn-primary btn-lg btn-read">read html</a></div>
+                </div>
 
             </form>
 
@@ -199,11 +204,54 @@
         $('.area-item[area-id="'+id+'"]').find('input').focus();
     }
 
+    /**
+     * clearCode
+     * clear code for further interpretation
+     */
+    function clearCode(htmlCode){
+        let originCode = htmlCode
+
+        htmlCode = clearBlank(htmlCode)
+
+        htmlCode = clearComment(htmlCode)
+
+        return htmlCode
+    }
+
+    /**
+     * clearBlank
+     * clear blank(blank, tab, \n) between html tag
+     * like: <div> </div> => <div></div>
+     */
+    function clearBlank(htmlCode) {
+        htmlCode=htmlCode.replace(/>[\s]+</g, '><');
+        htmlCode=htmlCode.replace(/^[\s]+</g, '<');
+        htmlCode=htmlCode.replace(/>[\s]+$/g, '>');
+        return htmlCode
+    }
+
+    /**
+     * clearComment
+     * clear html comment.
+     * like: <!-- XXXX -->
+     */
+    function clearComment(htmlCode){
+        htmlCode=htmlCode.replace(/<\!\-\-((?!\-\->).)*\-\->/g, '')
+        return htmlCode
+    }
+
     function gen(){
 
         var result='';
         var px=$('#img_delta_x').val();
         var py=$('#img_delta_y').val();
+
+        let mallType = isNaN(parseInt($('#ctrMallType').val())) ? 0 : parseInt($('#ctrMallType').val())
+
+        let abpClassName =$('#ctrAbpClassName').val();
+        abpClassName = mallType === 1 ? 'footer-more-trigger' : 'sn-simple-logo'
+
+        let blockName = $('#blockName').val() || 'block1';
 
         $(".area-item").each(function(){
 
@@ -213,6 +261,7 @@
             var listItemCode=$('#repeatCode').val();
             var link=$(this).find('input').val() || '';
 
+            listItemCode=listItemCode.replace(/{{abpClass}}/g, abpClassName);
             listItemCode=listItemCode.replace(/{{id}}/g, areaId);
             listItemCode=listItemCode.replace(/{{link}}/g, link);
             listItemCode=listItemCode.replace(/{{left}}/g, parseInt( $('#'+areaId).css('left'))-px);
@@ -227,6 +276,8 @@
         });
 
         var totalResult=$('#templateCode').val();
+        totalResult=totalResult.replace(/{{blockName}}/g, blockName);
+        totalResult=totalResult.replace(/{{abpClass}}/g, abpClassName);
         totalResult=totalResult.replace('{{list}}',result);
 
 
@@ -237,6 +288,50 @@
 
 
         $('#resultCode').val(totalResult);
+
+
+
+    }
+
+    function parseListItem (htmlCode, listItemTemplateCode){
+        let cHtmlCode = clearCode( htmlCode)
+        let cListItemTempCode = clearCode(listItemTemplateCode)
+
+        // get all data key list from list-item template
+        let listItemDataKeyListMatch = cListItemTempCode.match(/\{\{[a-zA-Z0-9_]+\}\}/g)
+        console.log(listItemDataKeyListMatch);
+
+        // prepare item code regExp
+        let itemCodeRegExplized = cListItemTempCode.replace(/\{\{[a-zA-Z0-9_]+\}\}/g, function (word) {
+            let pureWord = word.replace(/\{|\}/g,'')
+            return '@@@@'+pureWord+'@@@'
+        })
+        // 转义
+        itemCodeRegExplized = itemCodeRegExplized.replace(/\{|\}|\(|\)|\/|\$|\#|\&|\*|\.|\\/g, function (word) {
+
+            return '\\'+word
+        })
+
+        // data key area change to regExp
+        itemCodeRegExplized = itemCodeRegExplized.replace(/@@@@[a-zA-Z0-9_]+@@@/g, function (word) {
+            // let pureWord = word.replace(/@/g,'')
+            return '[\\S]+'
+        })
+
+        console.log(itemCodeRegExplized);
+        console.log(cHtmlCode)
+
+        let itemReg = new RegExp(itemCodeRegExplized, 'g')
+
+        let itemFounds = cHtmlCode.match(itemReg)
+
+        console.log(itemFounds);
+
+        //let listItemCodeReg = cListItemTempCode.replace(/\{\{[a-zA-Z0-9_]+\}\}/g, '')
+
+        let resultData = []
+
+        return resultData
 
 
 
@@ -271,6 +366,13 @@
         $('.btn-gen').click(function () {
             gen();
         });
+
+        $('.btn-read').click(function () {
+            // let cleanCode = clearCode($('#resultCode').val());
+            let result = parseListItem($('#resultCode').val(), $('#repeatCode').val() )
+        });
+
+
 
         $('#img').load(function(e){
             $('.img-area-selector').width($('#img').width());
