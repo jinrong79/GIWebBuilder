@@ -184,6 +184,10 @@ class dataTransporterBase{
                 //console.log(txtStatus);
                 //console.log(jqXHR);
 
+                //var xx=jqXHR.getResponseHeader('Set-Cookie');
+                /*console.log("set cookie:")
+                console.log(jqXHR.getResponseHeader('Set-Cookie'))*/
+
                 //set raw result data:
                 SELF.current.rawResult=data;
 

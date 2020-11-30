@@ -19,7 +19,7 @@ class dataTransporter extends dataTransporterBase{
         this.localStorageTokenName=params.localStorageTokenName || 'token';
 
         //urlPrefix, usually domain.
-        this.urlPrefix="https://apps.kbitc.com:8443";
+        this.urlPrefix="http://bjlx.k3dviz.tech:63308";
 
         //isSetRequestHeader: true[default]; false
         this.isSetRequestHeader=typeof params.isSetRequestHeader=="undefined" ? true :params.isSetRequestHeader;

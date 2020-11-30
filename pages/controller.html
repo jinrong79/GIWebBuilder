@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+
+    
+<link href="css/jr.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">良乡大学城3D沙盘指挥系统管理后台</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul id="topNaviContainer" class="nav navbar-nav navbar-right">
+          </ul>
+          
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar" id="leftNav">
+          <ul class="nav nav-sidebar">
+            <li ><a href="#">首页 <span class="sr-only">(current)</span></a></li>
+            <li ><a href="user.html"  target="_top"><i class="glyphicon glyphicon-user"></i> 用户管理</a></li>
+            <!--<li><a href="#"  target="_top"><i class="glyphicon glyphicon-knight"></i> 角色管理</a></li>
+            <li><a href="#"><i class="glyphicon glyphicon-lock"></i> 权限管理</a></li>-->
+          </ul>
+          <hr/>
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="log.html"  target="_top"><i class="glyphicon glyphicon-book"></i> 日志列表</a></li>
+           
+          </ul>
+          <hr/>
+          <ul class="nav nav-sidebar">
+            <li><a href="login.html"  target="_top"><i class="glyphicon glyphicon-user"></i> 退出系统</a></li>
+          
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        
+       
+       
+         <h2 class="sub-header">沙盘远程管理</h2>
+          <div class="panel panel-default">
+            <div class="panel-body">
+
+            <a id="btnSetView1" class="btn btn-primary">设置视角1</a>
+
+
+
+
+            </div>
+          </div>
+
+
+
+
+         
+          
+
+        </div>
+      </div>
+    </div>
+
+    <!-- fundamental js -->
+    <script src="../js/jquery/1.11.3/jquery.min.js"></script>
+    <script src="../js/plugin/jquery.json.js"></script>
+    <!-- Bootstrap core JavaScript=============================================== -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- j79frame js -->
+    <script src="../js/lib/j79/basic.js"></script>
+    <script src="../js/app/j79.app.js"></script>
+    <script src="../js/lib/j79/data.transporter.js"></script>
+    <script src="../js/app/data.transporter.js"></script>
+    <script type="text/javascript" src="../js/ky/socket.io.js"></script>
+    <script type="text/javascript" src="../js/ky/k3dviz_console.js"></script>
+
+  <script>
+    let CLIENT;
+    let DEST_ID_LIST=[];
+
+    $(document).ready(function (e) {
+
+      //set current channel
+      $('#leftNav').empty();
+      $('#leftNav').append(j79App.getLeftNaviHtml('log'));
+
+      //let t=localStorage.getItem("token");
+      //let profile=JSON.parse(t);
+
+      //console.log(t);
+
+      CM.init('jinrong', '123456', function(err, client) {
+        if (err) {
+          console.log(err);
+          return;
+        }
+
+        CM.load_screen(function(err, res) {
+          if (err) {
+            console.log(err);
+            return;
+          }
+
+          CLIENT=client;
+
+          for (var destid in res) {
+            DEST_ID_LIST.push(destid);
+            client.helo(destid);	// 第一次send前调用
+
+            /*client.send(destid, {
+              // 这里写控制指令内容，如下例定位摄像机位置
+              camera_loc: {
+                id: '' + Date.now(),
+                category: '北理工'
+              }
+            });*/
+
+            //client.bye(destid);		// 最后一次send后调用
+          }
+        });
+
+        CM.load_robots(function(err, res) {
+          console.log(err || res);
+        });
+
+        CM.load_cctv_cameras(function(err, res) {
+          console.log(err || res);
+        });
+
+        CM.load_cctv_rtspurl('08200527940041030101#442dd49804174cf0b5ee7ca7d7ea8a3e', function(err, res) {
+          console.log(err || res);
+        });
+
+        client.send_cctv_to_screen('08200527940041030101#442dd49804174cf0b5ee7ca7d7ea8a3e', 'rtsp://12.0.24.118:554/08200527940041030101?DstCode=01&ServiceType=1&ClientType=1&StreamID=1&SrcTP=2&DstTP=2&SrcPP=1&DstPP=1&MediaTransMode=1&BroadcastType=0&SV=0&Token=apUVULZTp9ZsHqg1s+QDK3J9VeuEpgdJ&DomainCode=442dd49804174cf0b5ee7ca7d7ea8a3e&UserId=5&');
+
+        // CM.deinit();
+      });
+
+
+      $('#btnSetView1').click(function (e) {
+
+        for(let i=0;i<DEST_ID_LIST.length;i++){
+
+          //CLIENT.helo(DEST_ID_LIST[i]);
+
+          CLIENT.send(DEST_ID_LIST[i], '{"type":"function","command":"view","sub_command":"set","data":"1"}');
+
+          //CLIENT.bye(DEST_ID_LIST[i]);
+
+        }
+
+
+      })
+
+
+
+
+
+
+    });
+  </script>
+    
+  </body>
+</html>
