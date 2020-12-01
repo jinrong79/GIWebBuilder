@@ -293,47 +293,239 @@
 
     }
 
-    function parseListItem (htmlCode, listItemTemplateCode){
-        let cHtmlCode = clearCode( htmlCode)
-        let cListItemTempCode = clearCode(listItemTemplateCode)
-
-        // get all data key list from list-item template
-        let listItemDataKeyListMatch = cListItemTempCode.match(/\{\{[a-zA-Z0-9_]+\}\}/g)
-        console.log(listItemDataKeyListMatch);
-
-        // prepare item code regExp
-        let itemCodeRegExplized = cListItemTempCode.replace(/\{\{[a-zA-Z0-9_]+\}\}/g, function (word) {
-            let pureWord = word.replace(/\{|\}/g,'')
+    /**
+     * changeTemplateCodeToRegExp
+     * change template code to regExp string.
+     * 1. change {{key}} to @@@@key@@@
+     * 2. do regExp escape 转义
+     * 3. change @@@@key@@@ into [\S]+
+     * 4. return it
+     * @param  templateCode {string}: template code string
+     * @return {string}: regExp string of current template code.
+     */
+    function changeTemplateCodeToRegExp(templateCode){
+        // change data key template code to @@@@key@@@ format
+        let resultCode = templateCode.replace(/{{[a-zA-Z0-9_]+}}/g, function (word) {
+            let pureWord = word.replace(/{|}/g,'')
             return '@@@@'+pureWord+'@@@'
         })
         // 转义
-        itemCodeRegExplized = itemCodeRegExplized.replace(/\{|\}|\(|\)|\/|\$|\#|\&|\*|\.|\\/g, function (word) {
+        resultCode = resultCode.replace(/\{|\}|\(|\)|\/|\$|\#|\&|\*|\.|\\|\"|\'/g, function (word) {
 
             return '\\'+word
         })
 
-        // data key area change to regExp
-        itemCodeRegExplized = itemCodeRegExplized.replace(/@@@@[a-zA-Z0-9_]+@@@/g, function (word) {
+        // data key area ( @@@@key@@@ ) change to regExp
+        resultCode = resultCode.replace(/@@@@[a-zA-Z0-9_]+@@@/g, function (word) {
             // let pureWord = word.replace(/@/g,'')
             return '[\\S]+'
         })
+        return resultCode
+    }
+
+    /**
+     * parseCode
+     * parse whole code.
+     * 1. parse list
+     * 2. parse top code.
+     */
+    function parseCode (htmlCode, templateCode, listItemTemplateCode){
+        let cHtmlCode = clearCode( htmlCode)
+        let cListItemTempCode = clearCode(listItemTemplateCode)
+        templateCode = clearCode(templateCode)
+
+        let listData = parseList(cHtmlCode,listItemTemplateCode)
+
+        // remove list from template code
+        templateCode = templateCode.replace(/{{list}}/g,'')
+
+        // remove list from target code--------------
+        let itemCodeRegExplized = changeTemplateCodeToRegExp(cListItemTempCode)
+        let itemReg = new RegExp(itemCodeRegExplized, 'g')
+        cHtmlCode = cHtmlCode.replace(itemReg,'')
+
+        console.log('remove list final code:')
+        console.log(cHtmlCode)
+
+        let topData =parseListItem(cHtmlCode,templateCode)
+        topData['list'] = listData
+
+        return topData
+
+
+
+    }
+
+    /**
+     * parseList
+     * parse list in final code
+     * and return all key data list from code.
+     * @param htmlCode {string} : final whole code html
+     * @param listItemTemplateCode {string}: list item code template with {{key}} marks.
+     * @return {array}: list of data object with key from template code.
+     */
+    function parseList (htmlCode, listItemTemplateCode){
+        let resultData = []
+        let cHtmlCode = clearCode( htmlCode)
+        let cListItemTempCode = clearCode(listItemTemplateCode)
+
+        // change template code into regExp string
+        let itemCodeRegExplized = changeTemplateCodeToRegExp(cListItemTempCode)
+
+        // prepare item code regExp
+        // let itemCodeRegExplized = cListItemTempCode.replace(/{{[a-zA-Z0-9_]+}}/g, function (word) {
+        //     let pureWord = word.replace(/{|}/g,'')
+        //     return '@@@@'+pureWord+'@@@'
+        // })
+        // // 转义
+        // itemCodeRegExplized = itemCodeRegExplized.replace(/\{|\}|\(|\)|\/|\$|\#|\&|\*|\.|\\/g, function (word) {
+        //
+        //     return '\\'+word
+        // })
+        //
+        // // data key area change to regExp
+        // itemCodeRegExplized = itemCodeRegExplized.replace(/@@@@[a-zA-Z0-9_]+@@@/g, function (word) {
+        //     // let pureWord = word.replace(/@/g,'')
+        //     return '[\\S]+'
+        // })
 
         console.log(itemCodeRegExplized);
         console.log(cHtmlCode)
 
+        // make regExp obj by itemCodeRegExplized
         let itemReg = new RegExp(itemCodeRegExplized, 'g')
 
+        // match in target code and get matched item code list
         let itemFounds = cHtmlCode.match(itemReg)
 
-        console.log(itemFounds);
+
+        // console.log(itemFounds);
+
+        let curItemData
+        let i
+        // loop to parse item code, and get data into result array
+        for(i in itemFounds){
+            curItemData = parseListItem(itemFounds[i],listItemTemplateCode)
+            resultData.push(curItemData)
+        }
+
+
 
         //let listItemCodeReg = cListItemTempCode.replace(/\{\{[a-zA-Z0-9_]+\}\}/g, '')
 
-        let resultData = []
+
 
         return resultData
 
 
+
+    }
+    /**
+     * parseListItem
+     * parse single list item and return all keys and value get from itemCode html.
+     * @param itemCode {string}: single list item code html string
+     * @param itemTemplate {string}: single list item template code with {{key}} marks.
+     * @return {object}: return all key and value get from code.
+     *                   e.g.:
+     *                   return.key = XXXX
+     *
+     */
+    function parseListItem(itemCode, itemTemplate){
+        let resultData = {}
+        itemCode = clearCode(itemCode)
+        itemTemplate = clearCode(itemTemplate)
+        console.log(itemTemplate)
+        let listItemDataKeyListMatch = itemTemplate.match(/{{[a-zA-Z0-9_]+}}/g)
+        let i
+        if(listItemDataKeyListMatch.length<=0){
+            return resultData
+        }
+
+        let listItemDataKeys = []
+        for( i in listItemDataKeyListMatch){
+            if(listItemDataKeys.indexOf(listItemDataKeyListMatch[i]) == -1){
+                listItemDataKeys.push(listItemDataKeyListMatch[i])
+            }
+        }
+
+        console.log(listItemDataKeys)
+
+
+        let fromIdx = 0
+        let endIdx
+        // let searchStr = ''
+        let searchPrefix
+        let searchSufix
+        let regPrefix
+        let regSufix
+        let searchReg
+        let dataMatchList
+        let dataMatchStr
+        let tmpReg
+
+        // loop keys to parse data from code
+        for(i in listItemDataKeys){
+
+            // find key in template code
+            let foundStartIdx = itemTemplate.search(listItemDataKeys[i])
+            if(foundStartIdx === -1){
+                continue
+            }
+
+            // found key string ending index + 1, to get key and next suffix char.
+            endIdx = foundStartIdx + listItemDataKeys[i].length  // key end +1 index, means including next single char.
+            searchPrefix = foundStartIdx>0 ? itemTemplate.substr(fromIdx,foundStartIdx) : '';       // string before key
+            searchSufix = endIdx <= itemTemplate.length -1 ?  itemTemplate.substr(endIdx,1) : '';   // char after key
+
+
+            //searchStr = itemTemplate.substr(fromIdx, endIdx < itemTemplate.length -1 ? endIdx+1 : itemTemplate.length)
+
+            // console.log(listItemDataKeys[i])
+            // console.log(searchStr)
+
+            // get regExp string of prefix string and suffix string.
+            regPrefix = changeTemplateCodeToRegExp(searchPrefix)
+            regSufix = changeTemplateCodeToRegExp(searchSufix)
+
+            // console.log(searchPrefix)
+            // console.log(searchSufix)
+
+            // make regExp obj for searching current key
+            searchReg =new RegExp('^'+regPrefix+'((?!'+regSufix+').)+'+regSufix)
+
+
+            // match
+            dataMatchList = itemCode.match(searchReg)
+
+            if(dataMatchList && dataMatchList.length>0){ // if found match
+                // console.log('data found:')
+                // console.log(dataMatchList[0])
+
+                // matched string
+                dataMatchStr = dataMatchList[0]
+
+                // remove suffix and prefix string to get final data
+                if(searchPrefix.length>0){
+                    tmpReg = new RegExp('^'+regPrefix)
+                    dataMatchStr = dataMatchStr.replace(tmpReg,'')
+                }
+                if(searchSufix.length>0){
+                    tmpReg = new RegExp(regSufix+'$')
+                    dataMatchStr = dataMatchStr.replace(tmpReg,'')
+                }
+
+                // add founded data into result with key
+                resultData[listItemDataKeys[i].toString().replace(/{|}/g,'')] = dataMatchStr
+
+                console.log('detail data == ')
+                console.log(dataMatchStr)
+
+            }
+            //fromIdx = endIdx+1
+
+        }
+        console.log(resultData)
+        return resultData
 
     }
 
@@ -369,7 +561,14 @@
 
         $('.btn-read').click(function () {
             // let cleanCode = clearCode($('#resultCode').val());
-            let result = parseListItem($('#resultCode').val(), $('#repeatCode').val() )
+            let result = parseCode($('#resultCode').val(), $('#templateCode ').val(), $('#repeatCode').val())
+
+            console.log(result)
+
+            // if(resultList.length>0){
+            //
+            // }
+
         });
 
 
