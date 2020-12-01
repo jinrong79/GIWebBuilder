@@ -83,14 +83,14 @@
 
                 <div class="form-group">
 
-                    <label for="img_delta_x" class="col-sm-2 control-label">电商分类</label>
+                    <label for="ctrMallType" class="col-sm-2 control-label">电商分类</label>
                     <div class="col-sm-4">
                         <Select class="form-control" id="ctrMallType">
                             <option value="0">天猫</option>
                             <option value="1">淘宝</option>
                         </Select>
                     </div>
-                    <label for="img_delta_x" class="col-sm-2 control-label">块标识</label>
+                    <label for="blockName" class="col-sm-2 control-label">块标识</label>
                     <div class="col-sm-4">
                         <input class="form-control" type="text" id="blockName" value="block1"/>
                     </div>
@@ -107,7 +107,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="img_delta_x" class="col-sm-2 control-label">空白图片URL</label>
+                    <label for="blankImgUrl" class="col-sm-2 control-label">空白图片URL</label>
                     <div class="col-sm-10">
                         <input class="form-control"  type="text" id="blankImgUrl" value="https://img.alicdn.com/imgextra/i4/1969925202/O1CN01aQM7vQ1oIYx9d6GBw_!!1969925202.png"/>
                     </div>
@@ -159,7 +159,7 @@
 <div class="container container-fill">
     <div class="img-select-container" style="position: relative; border:1px solid #ddd;">
         <img src="" id="img"/>
-        <div class="img-area-selector" on-add="handleAdd(id);" on-change="handleChange(id);" on-del="handleDel(id);" on-select="handleSelect(id);" style="width: 1800px; height: 50px; position:absolute;left:0px;top:0px;"  data-saver="imgAreaData" position-delta-x="300">
+        <div class="img-area-selector" on-add="handleAdd(id);" on-change="handleChange(id);" on-del="handleDel(id);" on-select="handleSelect(id);" style="width: 1800px; height: 50px; position:absolute;left:0px;top:0px;"  data-saver="imgAreaData" value-type="json" position-delta-x="0">
 
         </div>
     </div>
@@ -185,7 +185,7 @@
 
 
     function handleAdd(id){
-        var amount=$('.area-selection').length;
+        var amount=$('.area-item').length + 1;
         $('<div class="form-group area-item" id="setting_'+id+'" area-id="'+id+'"><label for="fileImg" class="col-sm-2 control-label">Link'+amount+':</label><div class="col-sm-10"><input class="form-control" type="text" /></div> </div>').appendTo('#imgAreaSet');
     }
 
@@ -248,7 +248,7 @@
 
         let mallType = isNaN(parseInt($('#ctrMallType').val())) ? 0 : parseInt($('#ctrMallType').val())
 
-        let abpClassName =$('#ctrAbpClassName').val();
+        let abpClassName; //  =$('#ctrAbpClassName').val();
         abpClassName = mallType === 1 ? 'footer-more-trigger' : 'sn-simple-logo'
 
         let blockName = $('#blockName').val() || 'block1';
@@ -325,9 +325,15 @@
 
     /**
      * parseCode
-     * parse whole code.
+     * parse whole code and get data from code.
      * 1. parse list
      * 2. parse top code.
+     * @param htmlCode {string}: html code to parse
+     * @param templateCode {string}: template of overall
+     * @param listItemTemplateCode {string}: template of list item
+     * @return {object} : data get from htmlCode.
+     *                    return.list -- list data , array.
+     *                    return.XXX  -- other key data.
      */
     function parseCode (htmlCode, templateCode, listItemTemplateCode){
         let cHtmlCode = clearCode( htmlCode)
@@ -529,6 +535,78 @@
 
     }
 
+    /**
+     * readData
+     * read data and set input value by data.
+     * @param data {object}: data of current code.
+     * @return {boolean}: false - nothing been done; true - data loaded.
+     */
+    function readData (data) {
+        if(!data){
+            return false
+        }
+        // read abpClass:
+        if(data.abpClass){
+            $('#ctrMallType').val(data.abpClass.toLowerCase() === 'footer-more-trigger' ? '1':'0')
+        }
+        // read blockName:
+        if(data.blockName){
+            $('#blockName').val(data.blockName)
+        }
+
+        // read imgURL:
+        if(data.imgURL){
+            $('#imgUrl').val(data.imgURL)
+            $('#imgUrl').change()
+        }
+
+        // read list item.
+        let item
+        let items = []
+        let px=Number($('#img_delta_x').val() || 0);
+        let py=Number($('#img_delta_y').val() || 0);
+        if(data.list && data.list.length>0){
+
+            // get img area data list:
+            for(let i in data.list){
+                // set blankImgUrl
+                if(data.list[i].blankImgUrl){
+                    $('#blankImgUrl').val(data.list[i].blankImgUrl)
+                    $('#blankImgUrl').change()
+                }
+                if(data.list[i].left && data.list[i].top && data.list[i].width && data.list[i].height){
+                    items.push(
+                        {
+                            id: 'imgArea_'+i,
+                            left: Number(data.list[i].left) + px,
+                            top: Number(data.list[i].top) + py,
+                            width: data.list[i].width,
+                            height: data.list[i].height
+                        }
+                    )
+
+
+                }
+
+            }
+            // reset imgArea selector data saver to rebuild img area on img.
+            $('#imgAreaData').val(JSON.stringify(items))
+            $('#imgAreaData').change()
+
+            // rebuild area link input list:
+            $('#imgAreaSet').empty();
+            for(let i in data.list){
+                handleAdd('imgArea_'+i)
+                $('#setting_imgArea_'+i).find('input').val(data.list[i].link || '')
+            }
+        }
+
+
+
+
+
+    }
+
     $(document).ready(function (e) {
        /*$.get("test.php",function(data){
            var jsData=j79.toJSON(data);
@@ -564,6 +642,10 @@
             let result = parseCode($('#resultCode').val(), $('#templateCode ').val(), $('#repeatCode').val())
 
             console.log(result)
+
+            if(result){
+               readData(result)
+            }
 
             // if(resultList.length>0){
             //

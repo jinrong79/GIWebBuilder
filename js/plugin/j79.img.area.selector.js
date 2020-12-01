@@ -41,8 +41,8 @@ j79.loadCSS("css/j79.img.area.selector.css");
         var AREA_HEIGHT_MIN = $(SELF).attr('area-height-min') || 40;
 
         //when save data, area position data delta.
-        var POS_DX=$(SELF).attr('position-delta-x') || 0;
-        var POS_DY=$(SELF).attr('position-delta-y') || 0;
+        var POS_DX=Number($(SELF).attr('position-delta-x') || 0);
+        var POS_DY=Number($(SELF).attr('position-delta-y') || 0);
 
         var M_SX,M_SY //mouse_down start x,y relative to DOCUMENT.
         var ID_LIST=[];  //area div id list.
@@ -405,18 +405,25 @@ j79.loadCSS("css/j79.img.area.selector.css");
             //read option list:
 
 
-            if (DATA_SAVER != '' && $('#' + DATA_SAVER).val() && $('#' + DATA_SAVER).val() != '') {
+            if (DATA_SAVER != '' && $('#' + DATA_SAVER).val()) {
 
 
-                var data=$('#' + DATA_SAVER).attr('value-type')=='json' || DATA_SAVE_PATH!='' ? j79.toJSON($('#' + DATA_SAVER).val()): $('#' + DATA_SAVER).val();
+                var data=$('#' + DATA_SAVER).attr('value-type') == 'json' || !DATA_SAVE_PATH ? JSON.parse($('#' + DATA_SAVER).val()): $('#' + DATA_SAVER).val();
 
                 if (DATA_SAVE_PATH) {
                     data= data[DATA_SAVE_PATH] ? data[DATA_SAVE_PATH] : null;
                 }
 
                 if(data){
-
-
+                    $(SELF).empty()
+                    let rx,ry,w,h
+                    for(let i in data){
+                        rx= Number(data[i].left || 0) + POS_DX
+                        ry= Number(data[i].top || 0) + POS_DY
+                        w= data[i].width || 50
+                        h= data[i].height || 50
+                        $('<div class="area-selection" id="imgArea_'+i+'"  style="background:rgba(0,0,0,0.3);position:absolute;left:'+rx+'px;top:'+ry+'px;width:'+w+'px;height:'+h+'px"><a class="del" style="user-select: none">X</a></div>').appendTo(SELF);
+                    }
 
 
                 }
@@ -436,6 +443,13 @@ j79.loadCSS("css/j79.img.area.selector.css");
         //读取预设值
         readData();
         saveData();
+
+        if(DATA_SAVER){
+           $('#'+DATA_SAVER).change(function(e){
+               readData();
+           })
+        }
+
 
 
     }
