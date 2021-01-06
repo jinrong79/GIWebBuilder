@@ -1,72 +1,70 @@
 /**
- choiceBox
- *
+ * imgAreaSelector
+ * [plugin]
+ * usage: 1. include this js in html.
+ *        2. css file url must be tuned.
+ *        3. add class "img-area-selector" to any div you want to run as imgAreaSelector.
+ *           important: this div position must be "absolute".
+ *                      image laid in back, can be placed before this imgAreaSelector div.
+ *        4. add textArea element as data-saver, and give its id to imgAreaSelector as data-saver value.
  *
  */
-j79.loadCSS("css/j79.img.area.selector.css");
+j79.loadCSS("css/j79.img.area.selector.css");  // this css file url must be tuned.
 
 (function ($) {
 
     $.fn.imgAreaSelector = function () {
 
 
-        var SELF = this;
+        let SELF = this;
 
-        var SELF_ID = $(SELF).attr('id');
+        let SELF_ID = $(SELF).attr('id');
 
-        var STR_PLACEHOLDER = $(SELF).attr('placeholder') || '请选择';
-
-        var FLAG_VIEW_ONLY=this.hasClass('view-static') ? true : false;
+        let FLAG_VIEW_ONLY=this.hasClass('view-static') ? true : false;
 
 
-        var DATA_SAVER = $(SELF).attr('data-saver') || '';
+        let DATA_SAVER = $(SELF).attr('data-saver') || '';
 
         /*
          DATA_SAVE_PATH: when it not empty, save generated data to a attribute named like DATA_SAVE_PATH of the object(DATA_SAVER data indicated)
          */
-        var DATA_SAVE_PATH = $(SELF).attr('data-save-path') || '';
+        let DATA_SAVE_PATH = $(SELF).attr('data-save-path') || '';
 
         if (DATA_SAVER != '') {
            // $('#'+DATA_SAVER).hide();
         }
 
 
+        // area min width/height
+        let AREA_WIDTH_MIN = $(SELF).attr('area-width-min') || 60;
+        let AREA_HEIGHT_MIN = $(SELF).attr('area-height-min') || 40;
 
-        var AREA_WIDTH_MIN = $(SELF).attr('area-width-min') || 40;
-        var AREA_HEIGHT_MIN = $(SELF).attr('area-height-min') || 40;
-
-        //when save data, area position data delta.
-        var POS_DX=Number($(SELF).attr('position-delta-x') || 0);
-        var POS_DY=Number($(SELF).attr('position-delta-y') || 0);
-
-        var M_SX,M_SY //mouse_down start x,y relative to DOCUMENT.
-        // var ID_LIST=[];  //area div id list.
-
-        var DRAG_DX, DRAG_DY; //area drag start deltaX,deltaY relative to mouse.
-
-        var AREA_SW, AREA_SH; //area start width and height when resizing start
-
-        let AREA_CUR_NO = 0; // current area start no.
-
-        let AREA_ID_LIST = []; //area id list array
+        // when save data, area position data delta offset value.
+        let POS_DX=Number($(SELF).attr('position-delta-x') || 0);
+        let POS_DY=Number($(SELF).attr('position-delta-y') || 0);
 
 
-        //html codes-------------------------------
+        let M_SX,M_SY; // mouse_down start x,y relative to DOCUMENT.
+        let DRAG_DX, DRAG_DY; // area drag start deltaX,deltaY relative to mouse.
+        let AREA_SW, AREA_SH; // area start width and height when resizing start
+
+
+        let AREA_ID_LIST = []; // area id list array
+
+
         //UI html
-        var HTML_UI= '' ;
+        let HTML_UI= '' ;
 
 
-        var FLAG_AREA_DRAG_START=false;
-
-        var FLAG_AREA_DRAW_START=false;
-
-        var FLAG_AREA_RESIZE=null;
+        let FLAG_AREA_DRAG_START=false;
+        let FLAG_AREA_DRAW_START=false;
+        let FLAG_AREA_RESIZE=null;
 
 
-        var HANDLE_ON_ADD=$(SELF).attr('on-add') || '';
-        var HANDLE_ON_DEL=$(SELF).attr('on-del') || '';
-        var HANDLE_ON_CHANGE=$(SELF).attr('on-change') || '';
-        var HANDLE_ON_SELECT=$(SELF).attr('on-select') || '';
+        let HANDLE_ON_ADD=$(SELF).attr('on-add') || '';
+        let HANDLE_ON_DEL=$(SELF).attr('on-del') || '';
+        // let HANDLE_ON_CHANGE=$(SELF).attr('on-change') || '';
+        let HANDLE_ON_SELECT=$(SELF).attr('on-select') || '';
 
 
 
@@ -399,9 +397,8 @@ j79.loadCSS("css/j79.img.area.selector.css");
                     }
                     resetViewNo();
 
-
-
                     saveData();
+
                     e.stopPropagation();
 
                     //trigger event
@@ -449,7 +446,10 @@ j79.loadCSS("css/j79.img.area.selector.css");
                         h= data[i].height || 50
                         id=data[i].id ? data[i].id : 'imgArea_'+i;
                         AREA_ID_LIST.push(id)
-                        $('<div class="area-selection" id="'+id+'"  style="background:rgba(0,0,0,0.3);position:absolute;left:'+rx+'px;top:'+ry+'px;width:'+w+'px;height:'+h+'px"><a class="del" style="user-select: none">X</a><b class="no">'+AREA_ID_LIST.length+'</b></div>').appendTo(SELF);
+                        $('<div class="area-selection" id="'+id+'"  style="background:rgba(0,0,0,0.3);position:absolute;left:'+rx+'px;top:'+ry+'px;width:'+w+'px;height:'+h+'px">' +
+                            '<a class="del" style="user-select: none">X</a>' +
+                            '<b class="no">'+AREA_ID_LIST.length+'</b>' +
+                            '</div>').appendTo(SELF);
 
                     }
 
