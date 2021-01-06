@@ -51,6 +51,8 @@ j79.loadCSS("css/j79.img.area.selector.css");
 
         var AREA_SW, AREA_SH; //area start width and height when resizing start
 
+        let AREA_CUR_NO = 0; // current area start no.
+
 
         //html codes-------------------------------
         //UI html
@@ -76,15 +78,15 @@ j79.loadCSS("css/j79.img.area.selector.css");
 
         /**
          *  saveData
-         *  save selected data to data-savers.
+         *  save data to data-savers.
          *
          */
-        var saveData = function () {
+        let saveData = function () {
 
             var result = [];
 
 
-            //generate result:
+            //loop area-selection to generate result list:
             var curItem;
             $(SELF).find('.area-selection').each(function(idx,ele){
                 curItem={};
@@ -98,12 +100,10 @@ j79.loadCSS("css/j79.img.area.selector.css");
             });
 
 
-
-
-
-
+            // if data_saver exists, then save result into it.
             if (DATA_SAVER != '') {
 
+                // if data_save_path exists, then save result into data_saver.data_save_path
                 if (DATA_SAVE_PATH) {
                     var dataObj = j79.toJSON($('#' + DATA_SAVER).val());
                     if (!dataObj) {
@@ -111,10 +111,11 @@ j79.loadCSS("css/j79.img.area.selector.css");
                     }
                     dataObj[DATA_SAVE_PATH] = result;
                     result = dataObj;
-                    $('#' + DATA_SAVER).val(j79.toJSONString(result));
+
+                    $('#' + DATA_SAVER).val(JSON.stringify(result));
 
                 }else{
-                    $('#' + DATA_SAVER).val(j79.toJSONString(result));
+                    $('#' + DATA_SAVER).val(JSON.stringify(result));
                 }
 
             }
@@ -134,15 +135,13 @@ j79.loadCSS("css/j79.img.area.selector.css");
          *  产生列表
          *
          */
-        var build = function () {
+        let build = function () {
 
 
 
             //绘制基本UI
 
             if(FLAG_VIEW_ONLY==false){
-
-
 
                 HTML_UI='';
 
@@ -159,7 +158,8 @@ j79.loadCSS("css/j79.img.area.selector.css");
                 return  t.getTime()+"_"+Math.round(Math.random()*1000000);
             };
 
-            //mouse handler for draw area:
+            // mouse handler for draw area-------
+            // mouse down:
             $(SELF).mousedown(function(e){
                 M_SX=e.pageX;
                 M_SY=e.pageY;
@@ -175,6 +175,7 @@ j79.loadCSS("css/j79.img.area.selector.css");
 
             });
 
+            // mouse move:
             $(SELF).mousemove(function (e) {
 
                 if(FLAG_AREA_DRAW_START){
@@ -197,7 +198,8 @@ j79.loadCSS("css/j79.img.area.selector.css");
 
             })
 
-            var setupArea=function(e, flagTmp){
+            // add new area
+            let setupArea=function(e, flagTmp){
                 //width, height
                 var w=e.pageX-M_SX;
                 var h=e.pageY-M_SY;
@@ -226,9 +228,18 @@ j79.loadCSS("css/j79.img.area.selector.css");
                 ID_LIST.push(newID);
 
                 //data-width="'+w+'" data-height="'+h+'" data-left="'+(rx-POS_DX)+'" data-top="'+(ry-POS_DY)+'"
-                $('<div class="area-selection" id="'+newID+'"  style="background:rgba(0,0,0,0.3);position:absolute;left:'+rx+'px;top:'+ry+'px;width:'+w+'px;height:'+h+'px"><a class="del" style="user-select: none">X</a></div>').appendTo(SELF);
+                let newSelection = $('<div class="area-selection" id="'+newID+'"  style="background:rgba(0,0,0,0.3);position:absolute;left:'+rx+'px;top:'+ry+'px;width:'+w+'px;height:'+h+'px"><a class="del" style="user-select: none">X</a><b class="no">'+(AREA_CUR_NO+1)+'</b></div>')
+                $(newSelection).appendTo(SELF);
+                AREA_CUR_NO++
+
                 $(SELF).find('.area-selection-temp').remove();
                 FLAG_AREA_DRAW_START=false;
+
+                $(newSelection).siblings().removeClass('selected')
+                $(newSelection).addClass('selected')
+
+
+                saveData();
 
                 //trigger event
                 if(HANDLE_ON_ADD){
@@ -237,11 +248,18 @@ j79.loadCSS("css/j79.img.area.selector.css");
                     eval(runStr);
                 }
 
-                saveData();
+                if(HANDLE_ON_SELECT){
+                    console.log('select')
+                    var runStr=HANDLE_ON_SELECT.replace('id','"'+newID+'"');
+                    //console.log(runStr)
+                    eval(runStr);
+                }
+
+
 
             }
 
-
+            // mouse up:
             $(SELF).mouseup(function(e){
                 if(FLAG_AREA_DRAW_START){
                     setupArea(e);
@@ -250,7 +268,7 @@ j79.loadCSS("css/j79.img.area.selector.css");
                 FLAG_AREA_RESIZE=null;
             });
 
-
+            // mouse leave:
             $(SELF).mouseleave(function(e){
 
                 if(FLAG_AREA_DRAW_START){
@@ -261,7 +279,8 @@ j79.loadCSS("css/j79.img.area.selector.css");
 
             });
 
-            //mouse handler for drag area and resize area:
+            // mouse handler for drag area and resize area-------------
+            // start drag:
             $(SELF).delegate('.area-selection','mousedown',null,function(e){
 
                 FLAG_AREA_DRAG_START=true;
@@ -272,6 +291,9 @@ j79.loadCSS("css/j79.img.area.selector.css");
                 M_SY=e.pageY;
 
                 $(this).appendTo(SELF);
+
+                $(this).siblings().removeClass('selected')
+                $(this).addClass('selected')
 
                 if(DRAG_DX> $(this).width()*0.8){
                     FLAG_AREA_RESIZE=FLAG_AREA_RESIZE || {};
@@ -301,6 +323,7 @@ j79.loadCSS("css/j79.img.area.selector.css");
                 return false;
             });
 
+            // re-size or drag selection:
             $(SELF).delegate('.area-selection','mousemove',null,function(e){
 
                 if(FLAG_AREA_DRAG_START && !FLAG_AREA_RESIZE){
@@ -335,6 +358,7 @@ j79.loadCSS("css/j79.img.area.selector.css");
 
             });
 
+            // mouse-up on selection
             $(SELF).delegate('.area-selection','mouseup',null,function(e){
                 if(FLAG_AREA_DRAG_START) {
                     FLAG_AREA_DRAG_START = false;
@@ -345,22 +369,24 @@ j79.loadCSS("css/j79.img.area.selector.css");
                 FLAG_AREA_RESIZE=null;
             });
 
+            // mouse-leave on selection
             $(SELF).delegate('.area-selection','mouseleave',null,function(e){
                 if(FLAG_AREA_DRAG_START) {
                     FLAG_AREA_DRAG_START=false;
                     e.stopPropagation();
                     return false;
                 }
-
-
             });
 
-
+            // delete click hanlder
             $(SELF).delegate('.del','mousedown',null,function(e){
 
                 if(e.button==0){
                     var curID=$(this).closest('.area-selection').attr('id');
                     $(this).closest('.area-selection').remove();
+
+                    AREA_CUR_NO = AREA_CUR_NO>0 ? AREA_CUR_NO-1 : 0;
+
 
                     //trigger event
                     if(HANDLE_ON_DEL){
@@ -374,23 +400,7 @@ j79.loadCSS("css/j79.img.area.selector.css");
                     e.stopPropagation();
                     return false;
                 }
-
-
-
             });
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         };//-/build
@@ -400,7 +410,7 @@ j79.loadCSS("css/j79.img.area.selector.css");
          * readData
          * read data from data-savers.
          */
-        var readData = function () {
+        let readData = function () {
 
             //read option list:
 
@@ -422,7 +432,8 @@ j79.loadCSS("css/j79.img.area.selector.css");
                         ry= Number(data[i].top || 0) + POS_DY
                         w= data[i].width || 50
                         h= data[i].height || 50
-                        $('<div class="area-selection" id="imgArea_'+i+'"  style="background:rgba(0,0,0,0.3);position:absolute;left:'+rx+'px;top:'+ry+'px;width:'+w+'px;height:'+h+'px"><a class="del" style="user-select: none">X</a></div>').appendTo(SELF);
+                        $('<div class="area-selection" id="imgArea_'+i+'"  style="background:rgba(0,0,0,0.3);position:absolute;left:'+rx+'px;top:'+ry+'px;width:'+w+'px;height:'+h+'px"><a class="del" style="user-select: none">X</a><b class="no">'+(AREA_CUR_NO+1)+'</b></div>').appendTo(SELF);
+                        AREA_CUR_NO++
                     }
 
 
@@ -453,7 +464,8 @@ j79.loadCSS("css/j79.img.area.selector.css");
 
 
     }
-})(jQuery)//-----------------------------------------
+})(jQuery)
+// -----------------------------------------
 
 
 //设置所有class名为address-picker的项目。
@@ -463,10 +475,7 @@ $(document).ready(function () {
     var ctrlist = $('.' + class_name);
 
     for (i = 0; i < ctrlist.length; i++) {
-
         $("." + class_name + ":eq(" + i + ")").imgAreaSelector();
-
-
     }
 
 });
