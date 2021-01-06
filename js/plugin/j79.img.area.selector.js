@@ -16,12 +16,7 @@ j79.loadCSS("css/j79.img.area.selector.css");
 
         var STR_PLACEHOLDER = $(SELF).attr('placeholder') || '请选择';
 
-        var DATA_LIST=[];
-
         var FLAG_VIEW_ONLY=this.hasClass('view-static') ? true : false;
-
-
-
 
 
         var DATA_SAVER = $(SELF).attr('data-saver') || '';
@@ -45,13 +40,15 @@ j79.loadCSS("css/j79.img.area.selector.css");
         var POS_DY=Number($(SELF).attr('position-delta-y') || 0);
 
         var M_SX,M_SY //mouse_down start x,y relative to DOCUMENT.
-        var ID_LIST=[];  //area div id list.
+        // var ID_LIST=[];  //area div id list.
 
         var DRAG_DX, DRAG_DY; //area drag start deltaX,deltaY relative to mouse.
 
         var AREA_SW, AREA_SH; //area start width and height when resizing start
 
         let AREA_CUR_NO = 0; // current area start no.
+
+        let AREA_ID_LIST = []; //area id list array
 
 
         //html codes-------------------------------
@@ -87,18 +84,18 @@ j79.loadCSS("css/j79.img.area.selector.css");
 
 
             //loop area-selection to generate result list:
-            var curItem;
-            $(SELF).find('.area-selection').each(function(idx,ele){
+            let curItem, curEle;
+
+            for(let i=0; i<AREA_ID_LIST.length;i++){
                 curItem={};
-                curItem.id=$(this).attr('id');
-                curItem.left=Math.round($(this).position().left - POS_DX);
-                curItem.top=Math.round($(this).position().top - POS_DY);
-                curItem.width=$(this).width();
-                curItem.height=$(this).height();
+                curItem.id=AREA_ID_LIST[i];
+                curEle = $(SELF).find('#'+AREA_ID_LIST[i])[0]
+                curItem.left=Math.round($(curEle).position().left - POS_DX);
+                curItem.top=Math.round($(curEle).position().top - POS_DY);
+                curItem.width=$(curEle).width();
+                curItem.height=$(curEle).height();
                 result.push(curItem);
-
-            });
-
+            }
 
             // if data_saver exists, then save result into it.
             if (DATA_SAVER != '') {
@@ -124,11 +121,16 @@ j79.loadCSS("css/j79.img.area.selector.css");
         };//-/saveData
 
 
+        /**
+         * resetViewNo
+         * reset view-No. on selection div.
+         */
+        let resetViewNo = function(){
 
-
-
-
-
+            for(let i=0; i< AREA_ID_LIST.length; i++){
+                $('#'+AREA_ID_LIST[i]).find('.no').text(i+1)
+            }
+        };
 
         /**
          *  build
@@ -153,10 +155,13 @@ j79.loadCSS("css/j79.img.area.selector.css");
             $( HTML_UI).appendTo(SELF);
 
 
-            var genID=function(){
+            let genID=function(){
                 var t=new Date();
                 return  t.getTime()+"_"+Math.round(Math.random()*1000000);
             };
+
+
+
 
             // mouse handler for draw area-------
             // mouse down:
@@ -225,12 +230,16 @@ j79.loadCSS("css/j79.img.area.selector.css");
                 h=h>AREA_HEIGHT_MIN ? h : AREA_HEIGHT_MIN;
 
                 var newID='imgArea_'+genID();
-                ID_LIST.push(newID);
+
+                // ID_LIST.push(newID);
+                AREA_ID_LIST.push(newID)
 
                 //data-width="'+w+'" data-height="'+h+'" data-left="'+(rx-POS_DX)+'" data-top="'+(ry-POS_DY)+'"
-                let newSelection = $('<div class="area-selection" id="'+newID+'"  style="background:rgba(0,0,0,0.3);position:absolute;left:'+rx+'px;top:'+ry+'px;width:'+w+'px;height:'+h+'px"><a class="del" style="user-select: none">X</a><b class="no">'+(AREA_CUR_NO+1)+'</b></div>')
+                let newSelection = $('<div class="area-selection" id="'+newID+'"  style="background:rgba(0,0,0,0.3);position:absolute;left:'+rx+'px;top:'+ry+'px;width:'+w+'px;height:'+h+'px"><a class="del" style="user-select: none">X</a><b class="no">'+(AREA_ID_LIST.length)+'</b></div>')
                 $(newSelection).appendTo(SELF);
-                AREA_CUR_NO++
+
+
+
 
                 $(SELF).find('.area-selection-temp').remove();
                 FLAG_AREA_DRAW_START=false;
@@ -385,19 +394,24 @@ j79.loadCSS("css/j79.img.area.selector.css");
                     var curID=$(this).closest('.area-selection').attr('id');
                     $(this).closest('.area-selection').remove();
 
-                    AREA_CUR_NO = AREA_CUR_NO>0 ? AREA_CUR_NO-1 : 0;
+                    if(AREA_ID_LIST.indexOf(curID)>=0){
+                        AREA_ID_LIST.splice(AREA_ID_LIST.indexOf(curID),1)
+                    }
+                    resetViewNo();
 
+
+
+                    saveData();
+                    e.stopPropagation();
 
                     //trigger event
                     if(HANDLE_ON_DEL){
                         var runStr=HANDLE_ON_DEL.replace('id','"'+curID+'"');
-                        console.log(runStr)
+                        // console.log(runStr)
                         eval(runStr);
                     }
 
-                    saveData();
 
-                    e.stopPropagation();
                     return false;
                 }
             });
@@ -426,14 +440,17 @@ j79.loadCSS("css/j79.img.area.selector.css");
 
                 if(data){
                     $(SELF).empty()
-                    let rx,ry,w,h
+                    AREA_ID_LIST = []
+                    let rx,ry,w,h,id
                     for(let i in data){
                         rx= Number(data[i].left || 0) + POS_DX
                         ry= Number(data[i].top || 0) + POS_DY
                         w= data[i].width || 50
                         h= data[i].height || 50
-                        $('<div class="area-selection" id="imgArea_'+i+'"  style="background:rgba(0,0,0,0.3);position:absolute;left:'+rx+'px;top:'+ry+'px;width:'+w+'px;height:'+h+'px"><a class="del" style="user-select: none">X</a><b class="no">'+(AREA_CUR_NO+1)+'</b></div>').appendTo(SELF);
-                        AREA_CUR_NO++
+                        id=data[i].id ? data[i].id : 'imgArea_'+i;
+                        AREA_ID_LIST.push(id)
+                        $('<div class="area-selection" id="'+id+'"  style="background:rgba(0,0,0,0.3);position:absolute;left:'+rx+'px;top:'+ry+'px;width:'+w+'px;height:'+h+'px"><a class="del" style="user-select: none">X</a><b class="no">'+AREA_ID_LIST.length+'</b></div>').appendTo(SELF);
+
                     }
 
 
