@@ -1,6 +1,8 @@
 /**
  * imgAreaSelector
  * [plugin]
+ * author: Jin Rong. J79 studio.
+ * copyright: All rights reserved.
  * usage: 1. include this js in html.
  *        2. css file url must be tuned.
  *        3. add class "img-area-selector" to any div you want to run as imgAreaSelector.
