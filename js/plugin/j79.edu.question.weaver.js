@@ -59,11 +59,11 @@ class j79EduQuestionWeaver{
      */
     loadSetting(){
         return new Promise((resolve, reject) => {
-            if (this.settingURL) {
+            if (this.questionDataURL) {
                 console.log('url ok')
 
                 $.getJSON(
-                    this.settingURL+'?rnd='+Math.random(),
+                    this.questionDataURL+'?rnd='+Math.random(),
                     function(json){
                         // console.log(json)
                         resolve(json)
