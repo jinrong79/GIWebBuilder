@@ -75,13 +75,65 @@ class j79EduQuestionWeaver{
         })
     }//-/
     makePage(){
+
+        let i;
+
+        //get all questions match the condition:
         let qData=this.questionData.data || [];
         let curData= [];
-        for(let i=0;i<qData.length;i++){
-            if(qData[i].code && qData[i].code.toUpperCase() == this.curKnowledgeCode.toUpperCase()){
+        for(i=0;i<qData.length;i++){
+            if(qData[i].code && qData[i].code.toUpperCase().indexOf(this.curKnowledgeCode.toUpperCase()) === 0){
                 curData.push(qData[i])
             }
         }
+        //get random questions from this collections for single paper.
+        let qIDs=[];
+        let selected=[];
+        for(i=0;i<qData.length;i++){
+            qIDs.push(i)
+        }
+        if(curData.length > this.questionAmount){
+
+            i=0;
+            do{
+                if( Math.random() <= qIDs.length/this.questionAmount ){
+                    selected.push(qIDs[i])
+                    qIDs.splice(i,1)
+                }
+                i++;
+
+            }while(selected.length < this.questionAmount)
+        }else{
+            selected=qIDs;
+        }
+
+        //make page.
+        let amountPerRow= this.questionAmount / this.columnAmount
+        let colClass = 'col-md-'+ (12 / this.columnAmount)
+        let html='';
+        for(i=0;i<selected.length;i++){
+            if( i % amountPerRow == 0){
+                html+='<div class="'+colClass+'">'
+            }
+
+            html+='<div class="q-block">' +
+                '<div class="q-no">'+(i+1)+'</div>' +
+                '<div class="q">' +
+                    +'<img src="'+curData[selected[i]].question.url +'" />'+
+                '</div>' +
+                '</div>'
+
+
+
+            if( i % amountPerRow == amountPerRow-1){
+                html+='</div>'
+            }
+
+
+        }
+
+
+
     }//-/
 
 }
