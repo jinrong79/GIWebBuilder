@@ -44,6 +44,7 @@
     .answer-block{}
     .answer-block .answer{font-size: 1.5vw;}
     .answer-block .explanation{font-size: 0.8vw;}
+    #paper_title{ text-align: center; font-size: 2vw; padding-bottom: 1vh; border-bottom: 1px dotted #ccc;}
 
 
 
@@ -51,6 +52,7 @@
 <body>
 
 <div class="container">
+    <div id="paper_title"></div>
     <div class="row" id="question_paper">
 
     </div>
@@ -96,7 +98,7 @@
                answerContainer: '#answer_paper'
             });
        qM.generate({
-           title: "test1",
+           title: "函数基础（单调性，奇偶性）",
            difficultyLevel: 0,
            knowledgeCode: 'kp001001'
        })
