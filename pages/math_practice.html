@@ -20,7 +20,7 @@
     <![endif]-->
 </head>
 <style>
-    body{ background-color: #eee;}
+    body{ background-color: #fff;}
 
     .area-item{ background-color:#b9def0; padding:1rem; }
 
@@ -30,6 +30,21 @@
 
     .form-group.current{border:1px solid #67CF22; background-color: #daffb6}
 
+    .q-col{ border-right:1px dotted #ccc;}
+    .q-col:last-child{border-right: none;}
+
+    #question_paper{ background-color: #fff;}
+
+    .q-block{
+        background-color: #fff;
+    }
+    .q-block .q>img{width: 100%}
+    .q-block .q-no{font-size: 1.5vw; }
+
+    .answer-block{}
+    .answer-block .answer{font-size: 1.5vw;}
+    .answer-block .explanation{font-size: 0.8vw;}
+
 
 
 </style>
@@ -37,154 +52,21 @@
 
 <div class="container">
     <div class="row" id="question_paper">
-        <div class="col-md-4">
-            <div class="qcol" id="question_column_01">
-                <div class="q-block">
-                    <div class="q-no">1</div>
-                    <div class="q">
 
-                    </div>
-                </div>
-            </div>
-            <div class="qcol" id="question_column_02">
-
-            </div>
-            <div class="qcol" id="question_column_03">
-
-            </div>
-
-        </div>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <div class="panel-title">图片分区</div>
-        </div>
-        <div class="panel-body content-body">
+    <div class="row" id="answer_paper">
 
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="repeatCode">整体模板</label>
-                            <textarea id="templateCode" class="form-control" rows="6">
-                                <div class="part-month" style="width:990px;height:{{img_height}}px;" title="{{blockName}}">
-                                    <div class="{{abpClass}}" style="width:990px;height:{{img_height}}px;border:0;padding:0;top:auto;left:auto;background:none;right:auto;">
-                                        <div class="{{abpClass}}" style="width:1920px;height:{{img_height}}px;border:0;padding:0;top:0;left:0;background:none;right:auto;">
-                                        <!--以下是背景图-->
-                                            <div class="{{abpClass}}" style="background:none;border:0;padding:0;width:1920px;height:{{img_height}}px;top:auto;left:-465px;background-image:url({{imgURL}});background-repeat:repeat-x;background-position:center top;background-attachment:scroll;right:auto;"></div>
-                                            <!-- 以下是单个可点击单元，由透明图片站位，在加一个hover用的半透明黑色图片-->
-                                            {{list}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </textarea>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="repeatCode">单行模板</label>
-                            <textarea id="repeatCode" class="form-control" rows="6">
-                                <div class="{{abpClass}}" style="right:auto;z-index:7;top:{{top}}px;left:{{left}}px;width:{{width}}px;height:{{height}}px;border:0;padding:0;background:none;overflow:hidden;">
-                                  <div class="subLogo" style="width:{{width}}px;height:{{height}}px;float:none;padding:0;right:auto;top:0;left:0;margin:0;border:0;border-radius:0;background:none;">
-                                    <!-- 默认点击单元 -->
-                                    <a style="padding:0;height:auto;background:none;" href="{{link}}" target="_blank">
-                                        <img src="{{blankImgUrl}}" width="{{width}}" height="{{height}}" alt="" />
-                                    </a>
-                                  </div>
-                                </div>
-                            </textarea>
-                        </div>
-                    </div>
-
-
-
-                </div>
-
-                <div class="form-group">
-
-                    <label for="ctrMallType" class="col-sm-2 control-label">电商分类</label>
-                    <div class="col-sm-4">
-                        <Select class="form-control" id="ctrMallType">
-                            <option value="0">天猫</option>
-                            <option value="1">淘宝</option>
-                        </Select>
-                    </div>
-                    <label for="blockName" class="col-sm-2 control-label">块标识</label>
-                    <div class="col-sm-4">
-                        <input class="form-control" type="text" id="blockName" value="block1"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="img_delta_x" class="col-sm-2 control-label">图片Delta Left</label>
-                    <div class="col-sm-4">
-                        <input class="form-control" type="text" id="img_delta_x" value="465"/>
-                    </div>
-                    <label for="img_delta_y" class="col-sm-2 control-label">图片Delta Top</label>
-                    <div class="col-sm-4">
-                        <input class="form-control" type="text" id="img_delta_y" value="0"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="blankImgUrl" class="col-sm-2 control-label">空白图片URL</label>
-                    <div class="col-sm-10">
-                        <input class="form-control"  type="text" id="blankImgUrl" value="https://img.alicdn.com/imgextra/i4/1969925202/O1CN01aQM7vQ1oIYx9d6GBw_!!1969925202.png"/>
-                    </div>
-                </div>
-                <HR/>
-                <div class="form-group">
-                    <label for="imgUrl" class="col-sm-2 control-label">图片URL</label>
-                    <div class="col-sm-10">
-                        <input class="form-control" type="text" id="imgUrl" />
-                    </div>
-
-                </div>
-                <div class="form-group">
-                    <label for="fileImg" class="col-sm-2 control-label">本地图片</label>
-                    <div class="col-sm-10">
-                        <input class="form-control" type="file" id="fileImg" />
-                    </div>
-
-                </div>
-
-
-                <div class="form-group">
-                    <div id="imgAreaSet"></div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-10 col-sm-offset-2"><a class="btn btn-primary btn-lg btn-gen">generate</a></div>
-                </div>
-
-                <div class="form-group">
-                    <textarea id="resultCode" class="form-control"></textarea>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-10 col-sm-offset-2"><a class="btn btn-primary btn-lg btn-read">read html</a></div>
-                </div>
-
-            </form>
-
-
-
-        </div>
     </div>
+
+
 
 
 
 </div>
 
 
-<div class="container container-fill">
-    <div class="img-select-container" style="position: relative; border:1px solid #ddd;">
-        <img src="" id="img"/>
-        <div class="img-area-selector" on-add="handleAdd(id);" on-change="handleChange(id);" on-del="handleDel(id);" on-select="handleSelect(id);" style="width: 1800px; height: 50px; position:absolute;left:0px;top:0px;"  data-saver="imgAreaData" value-type="json" position-delta-x="0">
 
-        </div>
-    </div>
-</div>
-
-
-<textarea id="imgAreaData" style="height:100px;"></textarea>
 
 
 
@@ -200,497 +82,24 @@
 
 
 
-<script src="../js/plugin/j79.img.area.selector.js"></script>
+<script src="../js/plugin/j79.edu.question.weaver.js"></script>
 <script>
-
-    var codeResult='';
-
-
-    function handleAdd(id){
-        var amount=$('.area-item').length + 1;
-        $('<div class="form-group area-item" id="setting_'+id+'" area-id="'+id+'"><label for="fileImg" class="col-sm-2 control-label">Link'+amount+':</label><div class="col-sm-10"><input class="form-control" type="text" /></div> </div>').appendTo('#imgAreaSet');
-    }
-
-    function handleDel(id){
-        $('#imgAreaSet').find('#setting_'+id).remove();
-    }
-
-    function handleChange(id){
-        //
-    }
-
-    function handleSelect(id){
-
-        $('.area-item').removeClass('current')
-        $('.area-item[area-id="'+id+'"]').addClass('current');
-        // $('.area-item[area-id="'+id+'"]').find('input').focus();
-    }
-
-    /**
-     * clearCode
-     * clear code for further interpretation
-     */
-    function clearCode(htmlCode){
-        let originCode = htmlCode
-
-        htmlCode = clearBlank(htmlCode)
-
-        htmlCode = clearComment(htmlCode)
-
-        return htmlCode
-    }
-
-    /**
-     * clearBlank
-     * clear blank(blank, tab, \n) between html tag
-     * like: <div> </div> => <div></div>
-     */
-    function clearBlank(htmlCode) {
-        htmlCode=htmlCode.replace(/>[\s]+</g, '><');
-        htmlCode=htmlCode.replace(/^[\s]+</g, '<');
-        htmlCode=htmlCode.replace(/>[\s]+$/g, '>');
-        return htmlCode
-    }
-
-    /**
-     * clearComment
-     * clear html comment.
-     * like: <!-- XXXX -->
-     */
-    function clearComment(htmlCode){
-        htmlCode=htmlCode.replace(/<\!\-\-((?!\-\->).)*\-\->/g, '')
-        return htmlCode
-    }
-
-    function gen(){
-
-        var result='';
-        var px=$('#img_delta_x').val();
-        var py=$('#img_delta_y').val();
-
-        let mallType = isNaN(parseInt($('#ctrMallType').val())) ? 0 : parseInt($('#ctrMallType').val())
-
-        let abpClassName; //  =$('#ctrAbpClassName').val();
-        abpClassName = mallType === 1 ? 'footer-more-trigger' : 'sn-simple-logo'
-
-        let blockName = $('#blockName').val() || 'block1';
-
-        $(".area-item").each(function(){
-
-
-
-            var areaId=$(this).attr('area-id');
-            var listItemCode=$('#repeatCode').val();
-            var link=$(this).find('input').val() || '';
-
-            listItemCode=listItemCode.replace(/{{abpClass}}/g, abpClassName);
-            listItemCode=listItemCode.replace(/{{id}}/g, areaId);
-            listItemCode=listItemCode.replace(/{{link}}/g, link);
-            listItemCode=listItemCode.replace(/{{left}}/g, parseInt( $('#'+areaId).css('left'))-px);
-            listItemCode=listItemCode.replace(/{{top}}/g, parseInt($('#'+areaId).css('top'))-py);
-            listItemCode=listItemCode.replace(/{{width}}/g, $('#'+areaId).width());
-            listItemCode=listItemCode.replace(/{{height}}/g, $('#'+areaId).height());
-
-            listItemCode=listItemCode.replace(/{{blankImgUrl}}/g, $('#blankImgUrl').val());
-
-
-            result+=listItemCode;
-        });
-
-        var totalResult=$('#templateCode').val();
-        totalResult=totalResult.replace(/{{blockName}}/g, blockName);
-        totalResult=totalResult.replace(/{{abpClass}}/g, abpClassName);
-        totalResult=totalResult.replace('{{list}}',result);
-
-
-        totalResult=totalResult.replace(/{{imgURL}}/g,$('#imgUrl').val());
-        totalResult=totalResult.replace(/{{img_height}}/g,$('#img').height());
-
-
-
-
-        $('#resultCode').val(totalResult);
-
-
-
-    }
-
-    /**
-     * changeTemplateCodeToRegExp
-     * change template code to regExp string.
-     * 1. change {{key}} to @@@@key@@@
-     * 2. do regExp escape 转义
-     * 3. change @@@@key@@@ into [\S]+
-     * 4. return it
-     * @param  templateCode {string}: template code string
-     * @return {string}: regExp string of current template code.
-     */
-    function changeTemplateCodeToRegExp(templateCode){
-        // change data key template code to @@@@key@@@ format
-        let resultCode = templateCode.replace(/{{[a-zA-Z0-9_]+}}/g, function (word) {
-            let pureWord = word.replace(/{|}/g,'')
-            return '@@@@'+pureWord+'@@@'
-        })
-        // 转义
-        resultCode = resultCode.replace(/\{|\}|\(|\)|\/|\$|\#|\&|\*|\.|\\|\"|\'/g, function (word) {
-
-            return '\\'+word
-        })
-
-        // data key area ( @@@@key@@@ ) change to regExp
-        resultCode = resultCode.replace(/@@@@[a-zA-Z0-9_]+@@@/g, function (word) {
-            // let pureWord = word.replace(/@/g,'')
-            return '[\\S]+'
-        })
-        return resultCode
-    }
-
-    /**
-     * parseCode
-     * parse whole code and get data from code.
-     * 1. parse list
-     * 2. parse top code.
-     * @param htmlCode {string}: html code to parse
-     * @param templateCode {string}: template of overall
-     * @param listItemTemplateCode {string}: template of list item
-     * @return {object} : data get from htmlCode.
-     *                    return.list -- list data , array.
-     *                    return.XXX  -- other key data.
-     */
-    function parseCode (htmlCode, templateCode, listItemTemplateCode){
-        let cHtmlCode = clearCode( htmlCode)
-        let cListItemTempCode = clearCode(listItemTemplateCode)
-        templateCode = clearCode(templateCode)
-
-        let listData = parseList(cHtmlCode,listItemTemplateCode)
-
-        // remove list from template code
-        templateCode = templateCode.replace(/{{list}}/g,'')
-
-        // remove list from target code--------------
-        let itemCodeRegExplized = changeTemplateCodeToRegExp(cListItemTempCode)
-        let itemReg = new RegExp(itemCodeRegExplized, 'g')
-        cHtmlCode = cHtmlCode.replace(itemReg,'')
-
-        console.log('remove list final code:')
-        console.log(cHtmlCode)
-
-        let topData =parseListItem(cHtmlCode,templateCode)
-        topData['list'] = listData
-
-        return topData
-
-
-
-    }
-
-    /**
-     * parseList
-     * parse list in final code
-     * and return all key data list from code.
-     * @param htmlCode {string} : final whole code html
-     * @param listItemTemplateCode {string}: list item code template with {{key}} marks.
-     * @return {array}: list of data object with key from template code.
-     */
-    function parseList (htmlCode, listItemTemplateCode){
-        let resultData = []
-        let cHtmlCode = clearCode( htmlCode)
-        let cListItemTempCode = clearCode(listItemTemplateCode)
-
-        // change template code into regExp string
-        let itemCodeRegExplized = changeTemplateCodeToRegExp(cListItemTempCode)
-
-        // prepare item code regExp
-        // let itemCodeRegExplized = cListItemTempCode.replace(/{{[a-zA-Z0-9_]+}}/g, function (word) {
-        //     let pureWord = word.replace(/{|}/g,'')
-        //     return '@@@@'+pureWord+'@@@'
-        // })
-        // // 转义
-        // itemCodeRegExplized = itemCodeRegExplized.replace(/\{|\}|\(|\)|\/|\$|\#|\&|\*|\.|\\/g, function (word) {
-        //
-        //     return '\\'+word
-        // })
-        //
-        // // data key area change to regExp
-        // itemCodeRegExplized = itemCodeRegExplized.replace(/@@@@[a-zA-Z0-9_]+@@@/g, function (word) {
-        //     // let pureWord = word.replace(/@/g,'')
-        //     return '[\\S]+'
-        // })
-
-        console.log(itemCodeRegExplized);
-        console.log(cHtmlCode)
-
-        // make regExp obj by itemCodeRegExplized
-        let itemReg = new RegExp(itemCodeRegExplized, 'g')
-
-        // match in target code and get matched item code list
-        let itemFounds = cHtmlCode.match(itemReg)
-
-
-        // console.log(itemFounds);
-
-        let curItemData
-        let i
-        // loop to parse item code, and get data into result array
-        for(i in itemFounds){
-            curItemData = parseListItem(itemFounds[i],listItemTemplateCode)
-            resultData.push(curItemData)
-        }
-
-
-
-        //let listItemCodeReg = cListItemTempCode.replace(/\{\{[a-zA-Z0-9_]+\}\}/g, '')
-
-
-
-        return resultData
-
-
-
-    }
-    /**
-     * parseListItem
-     * parse single list item and return all keys and value get from itemCode html.
-     * @param itemCode {string}: single list item code html string
-     * @param itemTemplate {string}: single list item template code with {{key}} marks.
-     * @return {object}: return all key and value get from code.
-     *                   e.g.:
-     *                   return.key = XXXX
-     *
-     */
-    function parseListItem(itemCode, itemTemplate){
-        let resultData = {}
-        itemCode = clearCode(itemCode)
-        itemTemplate = clearCode(itemTemplate)
-        console.log(itemTemplate)
-        let listItemDataKeyListMatch = itemTemplate.match(/{{[a-zA-Z0-9_]+}}/g)
-        let i
-        if(listItemDataKeyListMatch.length<=0){
-            return resultData
-        }
-
-        let listItemDataKeys = []
-        for( i in listItemDataKeyListMatch){
-            if(listItemDataKeys.indexOf(listItemDataKeyListMatch[i]) == -1){
-                listItemDataKeys.push(listItemDataKeyListMatch[i])
-            }
-        }
-
-        console.log(listItemDataKeys)
-
-
-        let fromIdx = 0
-        let endIdx
-        // let searchStr = ''
-        let searchPrefix
-        let searchSufix
-        let regPrefix
-        let regSufix
-        let searchReg
-        let dataMatchList
-        let dataMatchStr
-        let tmpReg
-
-        // loop keys to parse data from code
-        for(i in listItemDataKeys){
-
-            // find key in template code
-            let foundStartIdx = itemTemplate.search(listItemDataKeys[i])
-            if(foundStartIdx === -1){
-                continue
-            }
-
-            // found key string ending index + 1, to get key and next suffix char.
-            endIdx = foundStartIdx + listItemDataKeys[i].length  // key end +1 index, means including next single char.
-            searchPrefix = foundStartIdx>0 ? itemTemplate.substr(fromIdx,foundStartIdx) : '';       // string before key
-            searchSufix = endIdx <= itemTemplate.length -1 ?  itemTemplate.substr(endIdx,1) : '';   // char after key
-
-
-            //searchStr = itemTemplate.substr(fromIdx, endIdx < itemTemplate.length -1 ? endIdx+1 : itemTemplate.length)
-
-            // console.log(listItemDataKeys[i])
-            // console.log(searchStr)
-
-            // get regExp string of prefix string and suffix string.
-            regPrefix = changeTemplateCodeToRegExp(searchPrefix)
-            regSufix = changeTemplateCodeToRegExp(searchSufix)
-
-            // console.log(searchPrefix)
-            // console.log(searchSufix)
-
-            // make regExp obj for searching current key
-            searchReg =new RegExp('^'+regPrefix+'((?!'+regSufix+').)+'+regSufix)
-
-
-            // match
-            dataMatchList = itemCode.match(searchReg)
-
-            if(dataMatchList && dataMatchList.length>0){ // if found match
-                // console.log('data found:')
-                // console.log(dataMatchList[0])
-
-                // matched string
-                dataMatchStr = dataMatchList[0]
-
-                // remove suffix and prefix string to get final data
-                if(searchPrefix.length>0){
-                    tmpReg = new RegExp('^'+regPrefix)
-                    dataMatchStr = dataMatchStr.replace(tmpReg,'')
-                }
-                if(searchSufix.length>0){
-                    tmpReg = new RegExp(regSufix+'$')
-                    dataMatchStr = dataMatchStr.replace(tmpReg,'')
-                }
-
-                // add founded data into result with key
-                resultData[listItemDataKeys[i].toString().replace(/{|}/g,'')] = dataMatchStr
-
-                console.log('detail data == ')
-                console.log(dataMatchStr)
-
-            }
-            //fromIdx = endIdx+1
-
-        }
-        console.log(resultData)
-        return resultData
-
-    }
-
-    /**
-     * readData
-     * read data and set input value by data.
-     * @param data {object}: data of current code.
-     * @return {boolean}: false - nothing been done; true - data loaded.
-     */
-    function readData (data) {
-        if(!data){
-            return false
-        }
-        // read abpClass:
-        if(data.abpClass){
-            $('#ctrMallType').val(data.abpClass.toLowerCase() === 'footer-more-trigger' ? '1':'0')
-        }
-        // read blockName:
-        if(data.blockName){
-            $('#blockName').val(data.blockName)
-        }
-
-        // read imgURL:
-        if(data.imgURL){
-            $('#imgUrl').val(data.imgURL)
-            $('#imgUrl').change()
-        }
-
-        // read list item.
-        let item
-        let items = []
-        let px=Number($('#img_delta_x').val() || 0);
-        let py=Number($('#img_delta_y').val() || 0);
-        if(data.list && data.list.length>0){
-
-            // get img area data list:
-            for(let i in data.list){
-                // set blankImgUrl
-                if(data.list[i].blankImgUrl){
-                    $('#blankImgUrl').val(data.list[i].blankImgUrl)
-                    $('#blankImgUrl').change()
-                }
-                if(data.list[i].left && data.list[i].top && data.list[i].width && data.list[i].height){
-                    items.push(
-                        {
-                            id: 'imgArea_'+i,
-                            left: Number(data.list[i].left) + px,
-                            top: Number(data.list[i].top) + py,
-                            width: data.list[i].width,
-                            height: data.list[i].height
-                        }
-                    )
-
-
-                }
-
-            }
-            // reset imgArea selector data saver to rebuild img area on img.
-            $('#imgAreaData').val(JSON.stringify(items))
-            $('#imgAreaData').change()
-
-            // rebuild area link input list:
-            $('#imgAreaSet').empty();
-            for(let i in data.list){
-                handleAdd('imgArea_'+i)
-                $('#setting_imgArea_'+i).find('input').val(data.list[i].link || '')
-            }
-        }
-
-
-
-
-
-    }
-
+    let qM=
     $(document).ready(function (e) {
-       /*$.get("test.php",function(data){
-           var jsData=j79.toJSON(data);
-           console.log(jsData);
+       // $('#answer_paper').hide();
 
-        });*/
-        $('#fileImg').change(function (e) {
-            var file=this;
-            if (!file.files || !file.files[0]) {
-                return;
-            }
-            var reader = new FileReader();
-            reader.onload = function (evt) {
-                document.getElementById('img').src = evt.target.result;
-                var image = evt.target.result;
-
-
-            }
-            reader.readAsDataURL(file.files[0]);
-        });
-
-
-
-
-
-
-        $('.btn-gen').click(function () {
-            gen();
-        });
-
-        $('.btn-read').click(function () {
-            // let cleanCode = clearCode($('#resultCode').val());
-            let result = parseCode($('#resultCode').val(), $('#templateCode ').val(), $('#repeatCode').val())
-
-            console.log(result)
-
-            if(result){
-               readData(result)
-            }
-
-            // if(resultList.length>0){
-            //
-            // }
-
-        });
-
-
-
-        $('#img').load(function(e){
-            $('.img-area-selector').width($('#img').width());
-            $('.img-area-selector').height($('#img').height());
-            $('.img-select-container').width($('#img').width());
-        });
-
-        $('#imgUrl').change(function () {
-            var url=$(this).val() || '';
-            if(url){
-                $('#img').attr('src', url);
-
-            }
-        })
-
+       qM = new j79EduQuestionWeaver({
+               questionDataURL: 'settings/questionData1.json',
+               questionAmount: 4,
+               columnAmount:2,
+               questionContainer:'#question_paper',
+               answerContainer: '#answer_paper'
+            });
+       qM.generate({
+           title: "test1",
+           difficultyLevel: 0,
+           knowledgeCode: 'kp001001'
+       })
     });
 </script>
 </body>

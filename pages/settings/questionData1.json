@@ -7,7 +7,7 @@
       "level": 0,
       "question":{
         "format": "image",
-        "url":"/images/q/00001.jpg"
+        "url":"images/q/00001.jpg"
       },
       "answer":{
         "format":"text",
@@ -25,7 +25,7 @@
       "level": 0,
       "question":{
         "format": "image",
-        "url":"/images/q/00002.jpg"
+        "url":"images/q/00002.jpg"
       },
       "answer":{
         "format":"text",
@@ -43,7 +43,7 @@
       "level": 1,
       "question":{
         "format": "image",
-        "url":"/images/q/00003.jpg"
+        "url":"images/q/00003.jpg"
       },
       "answer":{
         "format":"text",
@@ -53,6 +53,6 @@
         "format":"html",
         "content":"answer is C"
       }
-    },
+    }
   ]
 }

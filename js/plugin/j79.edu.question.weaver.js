@@ -12,6 +12,7 @@ class j79EduQuestionWeaver{
      * start to weave question papers
      */
     generate(data){
+        let T=this;
         //title : 考卷标题
         this.curPageTitle=data.title || null;
         //difficultyLevel: 难度等级，0开始
@@ -19,14 +20,41 @@ class j79EduQuestionWeaver{
         //knowledgeCode: 知识点编码
         this.curKnowledgeCode = data.knowledgeCode || null
 
+        let newData;
+
         //start load settings and generate
         if(!this.questionData && this.questionDataURL){
-            this.loadSetting().then(result => {
+
+            $.ajax(
+                this.questionDataURL+'?rnd='+Math.random(),
+                {
+                    "dataType":"json",
+                    "success": function(data, txtStatus, jqXHR) {
+                        console.log(data)
+                        T.questionData = data
+                        T.makePage();
+                    }
+                }
+
+
+            )
+
+            /*$.getJSON(
+                this.questionDataURL+'?rnd='+Math.random(), newData,
+                function(result){
+                    console.log(result)
+                    T.questionData = result
+                    T.makePage();
+                })*/
+
+
+            /*this.loadSetting().then(result => {
+                console.log(result)
                 this.questionData = result
                 this.makePage();
             }).catch(e=>{
                 console.log('setting file load error!')
-            })
+            })*/
         }else if(this.questionData){
             this.makePage();
         }
@@ -49,6 +77,9 @@ class j79EduQuestionWeaver{
         //columns amount in one page.
         this.columnAmount=params.columnAmount || 2;
 
+        this.questionContainer = params.questionContainer || '#question_paper';
+        this.answerContainer = params.answerContainer || '#answer_paper';
+
 
 
 
@@ -65,7 +96,7 @@ class j79EduQuestionWeaver{
                 $.getJSON(
                     this.questionDataURL+'?rnd='+Math.random(),
                     function(json){
-                        // console.log(json)
+                        console.log(json)
                         resolve(json)
                     })
 
@@ -108,32 +139,58 @@ class j79EduQuestionWeaver{
         }
 
         //make page.
+        let result = this.generatePageHtml(curData,selected);
+        if(result.question){
+           $(result.question).appendTo(this.questionContainer)
+        }
+        if(result.answer){
+            $(result.answer).appendTo(this.answerContainer)
+        }
+
+
+
+
+
+
+    }//-/
+
+    generatePageHtml(curData, selected){
+        let i;
         let amountPerRow= this.questionAmount / this.columnAmount
         let colClass = 'col-md-'+ (12 / this.columnAmount)
         let html='';
+        let htmlAnswer='';
         for(i=0;i<selected.length;i++){
             if( i % amountPerRow == 0){
-                html+='<div class="'+colClass+'">'
+                html+='<div class="q-col '+colClass+'">'
             }
 
             html+='<div class="q-block">' +
                 '<div class="q-no">'+(i+1)+'</div>' +
                 '<div class="q">' +
-                    +'<img src="'+curData[selected[i]].question.url +'" />'+
+                '<img src="'+curData[selected[i]].question.url +'" />'+
                 '</div>' +
-                '</div>'
+                '</div>';
 
+            htmlAnswer+='<div class="answer-block">' +
+                '<div class="answer">' +'<span class="answer-no">'+(i+1)+'.</span> ' +
+                curData[selected[i]].answer.content +
+                '</div>' +
+                '<div class="explanation">' +
+                curData[selected[i]].explanation.content +
+                '</div>' +
+                '</div>';
 
 
             if( i % amountPerRow == amountPerRow-1){
                 html+='</div>'
             }
 
-
         }
-
-
-
+        return {
+            question: html,
+            answer: htmlAnswer
+        }
     }//-/
 
 }
