@@ -79,6 +79,7 @@ class j79EduQuestionWeaver{
 
         this.questionContainer = params.questionContainer || '#question_paper';
         this.answerContainer = params.answerContainer || '#answer_paper';
+        this.paparTitleContainer = params.paperTitleContainer || '#paper_title'
 
 
 
@@ -146,6 +147,9 @@ class j79EduQuestionWeaver{
         if(result.answer){
             $(result.answer).appendTo(this.answerContainer)
         }
+
+        $(this.paparTitleContainer).text(this.curPageTitle)
+
 
 
 
