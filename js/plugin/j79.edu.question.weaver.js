@@ -114,30 +114,36 @@ class j79EduQuestionWeaver{
         let qData=this.questionData.data || [];
         let curData= [];
         for(i=0;i<qData.length;i++){
-            if(qData[i].code && qData[i].code.toUpperCase().indexOf(this.curKnowledgeCode.toUpperCase()) === 0){
+            if(qData[i].code && qData[i].code.toUpperCase().indexOf(this.curKnowledgeCode.toUpperCase()) === 0 && qData[i].level == this.curPageDifficultyLevel){
                 curData.push(qData[i])
             }
         }
         //get random questions from this collections for single paper.
         let qIDs=[];
         let selected=[];
-        for(i=0;i<qData.length;i++){
+        for(i=0;i<curData.length;i++){
             qIDs.push(i)
         }
         if(curData.length > this.questionAmount){
 
             i=0;
             do{
-                if( Math.random() <= qIDs.length/this.questionAmount ){
+                if( Math.random() <= this.questionAmount /curData.length ){
                     selected.push(qIDs[i])
                     qIDs.splice(i,1)
                 }
                 i++;
+                if(i>=qIDs.length){
+                    i=0
+                }
 
             }while(selected.length < this.questionAmount)
         }else{
             selected=qIDs;
         }
+
+        console.log('selected:')
+        console.log(selected);
 
         //make page.
         let result = this.generatePageHtml(curData,selected);
@@ -161,7 +167,7 @@ class j79EduQuestionWeaver{
     generatePageHtml(curData, selected){
         let i;
         let amountPerRow= this.questionAmount / this.columnAmount
-        let colClass = 'col-md-'+ (12 / this.columnAmount)
+        let colClass = 'col-'+ (12 / this.columnAmount)
         let html='';
         let htmlAnswer='';
         for(i=0;i<selected.length;i++){

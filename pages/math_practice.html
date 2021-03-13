@@ -37,9 +37,11 @@
 
     .q-block{
         background-color: #fff;
+        padding:0 0.25vw 0 1vw;
+        position:relative;
     }
     .q-block .q>img{width: 100%}
-    .q-block .q-no{font-size: 1.5vw; }
+    .q-block .q-no{font-size: 1.25vw; position:absolute; left:0.5vw; top:0.5vh; }
 
     .answer-block{}
     .answer-block .answer{font-size: 1.5vw;}
@@ -47,17 +49,21 @@
     #paper_title{ text-align: center; font-size: 2vw; padding-bottom: 1vh; border-bottom: 1px dotted #ccc;}
 
 
+    .col-4{ width:33%; display: inline-block; float:left;}
+    .col-6{ width:50%; display: inline-block; float:left;}
+
+
 
 </style>
 <body>
 
 <div class="container">
-    <div id="paper_title"></div>
+    <div id="paper_title" onclick="toggleQA()"></div>
     <div class="row" id="question_paper">
 
     </div>
 
-    <div class="row" id="answer_paper">
+    <div class="row" id="answer_paper" style="display: none;">
 
     </div>
 
@@ -86,14 +92,27 @@
 
 <script src="../js/plugin/j79.edu.question.weaver.js"></script>
 <script>
+
+    function toggleQA(){
+
+        if($('#question_paper').css('display') =='none'){
+            $('#question_paper').show();
+            $('#answer_paper').hide();
+        }else{
+            $('#question_paper').hide();
+            $('#answer_paper').show();
+        }
+
+    }//-/
+
     let qM=
     $(document).ready(function (e) {
        // $('#answer_paper').hide();
 
        qM = new j79EduQuestionWeaver({
                questionDataURL: 'settings/questionData1.json',
-               questionAmount: 4,
-               columnAmount:2,
+               questionAmount: 9,
+               columnAmount:3,
                questionContainer:'#question_paper',
                answerContainer: '#answer_paper'
             });
