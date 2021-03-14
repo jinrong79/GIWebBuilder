@@ -15,5 +15,15 @@
             <item id="kp001002005" label="组合函数的奇偶性"></item>
             <item id="kp001002006" label="复合函数的奇偶性"></item>
         </item>
+        <item id="kp001003" label="周期性">
+        </item>
+        <item id="kp001010" label="初等函数">
+            <item id="kp001010001" label="指数函数">
+                <item id="kp001010001001" label="指数函数基础"></item>
+                <item id="kp001010001002" label="指数函数图形"></item>
+            </item>
+            <item id="kp001010002" label="对数函数"></item>
+            <item id="kp001010003" label="幂函数"></item>
+        </item>
     </item>
 </root>
