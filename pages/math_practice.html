@@ -46,7 +46,9 @@
     .answer-block{}
     .answer-block .answer{font-size: 1.5vw;}
     .answer-block .explanation{font-size: 0.8vw;}
-    #paper_title{ text-align: center; font-size: 2vw; padding-bottom: 1vh; border-bottom: 1px dotted #ccc;}
+    .paper-head{padding-bottom: 1vh; border-bottom: 1px dotted #ccc; text-align: center}
+    #paper_title{  font-size: 2vw; }
+    #paper_sub_title{  font-size: 1.5vw; margin-left: 1vw; }
 
 
     .col-4{ width:33%; display: inline-block; float:left;}
@@ -55,10 +57,42 @@
 
 
 </style>
+<style media="print">
+    navbar{ display: none;}
+</style>
 <body>
 
+
 <div class="container">
-    <div id="paper_title" onclick="toggleQA()"></div>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand">Math Practice</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a type="button" data-toggle="modal" data-target="#modGenNew">Generate math practice <span class="sr-only">(current)</span></a></li>
+                    <li><a onclick="toggleQA()">toggle answer/practice</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Upload new practice</a></li>
+                            <li><a href="#">Manage practices</a></li>
+
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="paper-head"><b id="paper_title"></b><span id="paper_sub_title"></span></div>
     <div class="row" id="question_paper">
 
     </div>
@@ -76,7 +110,48 @@
 
 
 
-
+<!-- Modal -->
+<div class="modal fade" id="modGenNew" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Generate New Practice</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="CTR_title">Paper title</label>
+                        <input type="text" class="form-control" id="CTR_title" placeholder="paper big title here...">
+                    </div>
+                    <div class="form-group">
+                        <label for="CTR_subTitle">Paper sub title or chapter No.</label>
+                        <input type="text" class="form-control" id="CTR_subTitle" placeholder="paper sub title or chapter No. here...">
+                    </div>
+                    <div class="form-group">
+                        <label for="CTR_difficulty">Difficulty level</label>
+                        <select id="CTR_difficulty" class="form-control">
+                            <option value="0">1- fundamental</option>
+                            <option value="1">2- several crossed points</option>
+                            <option value="2">3- several points & basic math tricks</option>
+                            <option value="3">4- several points and tricks need hard thinking</option>
+                            <option value="4">5- difficult, need notional and associated thinking</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fileDB">Practice DB file</label>
+                        <input class="form-control" type="file" id="fileDB" />
+                        <input type="hidden" id="CTR_DBFileName"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="genNew()">Generate</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -105,22 +180,82 @@
 
     }//-/
 
-    let qM=
+    function genNew(){
+        let setting={}
+        setting.title=$('#CTR_title').val();
+        setting.subTitle=$('#CTR_subTitle').val();
+        setting.difficultyLevel=$('#CTR_difficulty').val();
+        setting.questionDataURL=$('#CTR_DBFileName').val();
+
+        let isOK =true
+
+        if(!setting.difficultyLevel){
+            $('#CTR_difficulty').closest('.form-group').addClass('has-error')
+            isOK=false
+        }
+        if(!setting.questionDataURL){
+            $('#CTR_DBFileName').closest('.form-group').addClass('has-error')
+            isOK=false
+        }
+        if(isOK){
+            $('#question_paper').empty();
+            $('#answer_paper').empty();
+            qM.generate(setting)
+        }
+        $('#modGenNew').modal('hide')
+
+    }
+
+
+
+    let qM;
+
     $(document).ready(function (e) {
+
+
+        $('#fileDB').change(function (e) {
+            var file=this;
+            if (!file.files || !file.files[0]) {
+                return;
+            }
+            console.log($('#fileDB').val())
+            console.log( e.currentTarget.files[0].name)
+
+            $('#CTR_DBFileName').val('settings/'+e.currentTarget.files[0].name)
+
+            // var reader = new FileReader();
+            // reader.onload = function (evt) {
+            //    $('#CTR_dataContent').val( evt.target.result);
+            //     //var image = evt.target.result;
+            //
+            //
+            // }
+            // reader.readAsText(file.files[0])
+            // reader.readAsDataURL(file.files[0]);
+        });
+
+
+
+
+
+
+
+
        // $('#answer_paper').hide();
 
        qM = new j79EduQuestionWeaver({
-               questionDataURL: 'settings/questionData4.json',
+
                questionAmount: 9,
                columnAmount:3,
                questionContainer:'#question_paper',
                answerContainer: '#answer_paper'
             });
-       qM.generate({
-           title: "指数基础 1-2",
-           difficultyLevel: 0,
-           knowledgeCode: 'kp001010001'
-       })
+       // qM.generate({
+       //     title: "指数基础 1-2",
+       //     difficultyLevel: 0,
+       //     // knowledgeCode: 'kp001010001',
+       //     questionDataURL: 'settings/questionData4.json'
+       // })
     });
 </script>
 </body>

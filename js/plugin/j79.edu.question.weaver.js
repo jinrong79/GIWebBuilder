@@ -15,12 +15,26 @@ class j79EduQuestionWeaver{
         let T=this;
         //title : 考卷标题
         this.curPageTitle=data.title || null;
+        //subTitle: 考卷副标题，可以是章节编号等
+        this.curPageSubTitle = data.subTitle || null;
         //difficultyLevel: 难度等级，0开始
         this.curPageDifficultyLevel=data.difficultyLevel || 0
         //knowledgeCode: 知识点编码
         this.curKnowledgeCode = data.knowledgeCode || null
 
-        let newData;
+        this.questionDataURL = data.questionDataURL || null;
+        this.questionData = data.questionData || null;
+
+        //question total amount in one page
+        this.questionAmount= data.questionAmount || this.questionAmount;
+        //columns amount in one page.
+        this.columnAmount=data.columnAmount || this.columnAmount;
+
+
+
+        if(!this.questionDataURL && !this.questionData ){
+            return false
+        }
 
         //start load settings and generate
         if(!this.questionData && this.questionDataURL){
@@ -55,7 +69,7 @@ class j79EduQuestionWeaver{
             }).catch(e=>{
                 console.log('setting file load error!')
             })*/
-        }else if(this.questionData){
+        }else{
             this.makePage();
         }
     }//-/
@@ -79,7 +93,8 @@ class j79EduQuestionWeaver{
 
         this.questionContainer = params.questionContainer || '#question_paper';
         this.answerContainer = params.answerContainer || '#answer_paper';
-        this.paparTitleContainer = params.paperTitleContainer || '#paper_title'
+        this.paperTitleContainer = params.paperTitleContainer || '#paper_title'
+        this.paperSubTitleContainer = params.paperSubTitleContainer || '#paper_sub_title'
 
 
 
@@ -114,7 +129,7 @@ class j79EduQuestionWeaver{
         let qData=this.questionData.data || [];
         let curData= [];
         for(i=0;i<qData.length;i++){
-            if(qData[i].code && qData[i].code.toUpperCase().indexOf(this.curKnowledgeCode.toUpperCase()) === 0 && qData[i].level == this.curPageDifficultyLevel){
+            if(qData[i].level == this.curPageDifficultyLevel && ( !this.curKnowledgeCode || (qData[i].code && qData[i].code.toUpperCase().indexOf(this.curKnowledgeCode.toUpperCase()) === 0 ))){
                 curData.push(qData[i])
             }
         }
@@ -154,7 +169,8 @@ class j79EduQuestionWeaver{
             $(result.answer).appendTo(this.answerContainer)
         }
 
-        $(this.paparTitleContainer).text(this.curPageTitle)
+        $(this.paperTitleContainer).text(this.curPageTitle)
+        $(this.paperSubTitleContainer).text(this.curPageSubTitle)
 
 
 
