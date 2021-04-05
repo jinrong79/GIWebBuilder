@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .btn{padding: 1rem;}
+    </style>
+</head>
+<body>
+<div>
+
+    <button onclick="resetIdx()">Reset Idx</button>
+    <div>
+        <label for="selectLinkType">Link Type:</label>
+        <select id="selectLinkType" onchange="setCurrentType()">
+            <option value="0">PC</option>
+            <option value="1">Mobile</option>
+        </select>
+    </div>
+    <hr/>
+    <div>Short-Key: Ctr+Shift+S </div>
+    <div>current no: <b id="txtIdx"></b></div>
+    <div>current idx: <b id="txtID"></b> | <a id="linkDetail" href="#" target="_blank">view</a></div>
+    <hr/>
+    <button class="btn" onclick="setNext()">Paste</button>
+
+</div>
+
+
+
+
+<script>
+    let linkData =[
+526471930152,
+527608958500,
+526493044177,
+526493224156,
+604063247072,
+37160062468,
+39200564128,
+37159923960,
+37160227213,
+37160278019,
+37179376171,
+38774060328,
+37149739479,
+37160215064,
+37160223040,
+634185757559,
+634503634595,
+634823895005,
+564691265616,
+579002857346,
+564872210303,
+579004789780
+    ]
+
+    let linkInfo = [
+        '白金3段-直邮',
+        '白金3段-保税',
+        '白金1段-直邮',
+        '白金2段-直邮',
+        '粉金1段-保税',
+        '爱他美3段-保税',
+        '爱他美3段-直邮',
+        '爱他美1段-保税',
+        '爱他美2段-保税',
+        '爱他美4段-保税',
+        '牛栏3段-保税',
+        '牛栏3段-直邮',
+        '牛栏1段-保税',
+        '牛栏2段-保税',
+        '牛栏4段-保税',
+        '有机版2段-直邮',
+        '有机版1段-直邮',
+        '有机版3段-直邮',
+        '深度2段-保税',
+        '深度2段-直邮',
+        '爱他美半水解-保税',
+        '爱他美半水解-直邮'
+    ]
+
+    let i=0
+    let curType =0
+
+    function setCurrentType(){
+       curType = document.getElementById('selectLinkType').options[document.getElementById('selectLinkType').selectedIndex].value
+
+
+    }
+
+    function resetIdx() {
+        i=0
+        document.getElementById('txtIdx').innerHTML=''
+        document.getElementById('txtID').innerHTML=''
+        document.getElementById('linkDetail').href='#'
+    }
+
+    function setNext(){
+        let linkPre=[
+            '//item.taobao.com/item.htm?id=',
+            '//h5.m.taobao.com/awp/core/detail.htm?id='
+        ]
+
+        copy(linkPre[curType]+linkData[i])
+
+        document.getElementById('txtIdx').innerHTML=i
+        document.getElementById('txtID').innerHTML=linkData[i] + ' | '+ linkInfo[i]
+        document.getElementById('linkDetail').href=linkPre[curType]+linkData[i]
+        if(i<linkData.length-1){
+
+            i++
+        }
+    }
+
+
+    function copy(copyTxt)
+    {
+        var createInput = document.createElement('input');
+        createInput.value = copyTxt;
+        document.body.appendChild(createInput);
+        createInput.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        createInput.className = 'createInput';
+        createInput.style.display='none';
+        //layer.msg('复制成功，可以粘贴了！');//没有layui的可以改为alert
+    }
+
+    document.onkeydown = onKeyDown
+    let that = this
+    // 快捷键
+    function onKeyDown () {
+
+        if (window.event.ctrlKey && window.event.shiftKey && (window.event.key == 'S')) {
+
+            setNext()
+        }
+
+    }
+
+</script>
+</body>
+</html>
