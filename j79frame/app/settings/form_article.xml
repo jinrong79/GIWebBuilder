@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<formSettings> 
+<formSettings>
 
   <item  id="name" lineEnd="yes">
     <label class="col-md-2 control-label">文章标题</label>
@@ -8,15 +8,15 @@
       <validator type="regExp" msg="必须为100个字以内">
         <![CDATA[^\s*[\S\s]{1,100}\s*$]]>
       </validator>
-	  </control>  
-    </controls>    
+	  </control>
+    </controls>
   </item>
 
     <item  id="type" lineEnd="yes">
         <label class="col-md-2 control-label">内容类型</label>
         <controls class="col-md-10">
             <control required="yes"  node="article_type" default="1"  type="select" id="article_type" placeholder="所属哪个商圈">
-                <values generator="j79.geSelectOptions(j79App.ARTICLE_TYPE);" />
+                <values generator="j79.genSelectOptions(j79App.ARTICLE_TYPE);" />
             </control>
         </controls>
     </item>
@@ -45,7 +45,7 @@
 
 
 
-  
+
   <item title="特殊内容" sep="hr" />
 
     <item  id="aticle_goods_list" lineEnd="yes">
@@ -63,7 +63,7 @@
         <label class="col-md-2 control-label">关联商品的平台分类</label>
         <controls class="col-md-10">
             <control required="yes"  node="article_ptype" default="1"  type="select" id="article_ptype" placeholder="关联商品的平台分类">
-                <values generator="j79.geSelectOptions(j79App.PRODUCT_PTYPE);" />
+                <values generator="j79.genSelectOptions(j79App.PRODUCT_PTYPE);" />
             </control>
         </controls>
     </item>
@@ -123,10 +123,10 @@
             </control>
         </controls>
     </item>
-  
-  
+
+
   <item id="detail" lineEnd="yes">
-    
+
     <label class="col-md-2 control-label">详细内容</label>
     <controls class="col-md-10">
 	  <control  type="richtext-editor" id="CTR_detail_editor2" img-path="/data/img/article" img-max-size="20000" data-saver="article_detail" toolbar-set-idx="0" height="300" placeholder="详细内容，2万个字以内"></control>
@@ -137,13 +137,13 @@
       </control>
     </controls>
   </item>
-  
 
 
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
 </formSettings>

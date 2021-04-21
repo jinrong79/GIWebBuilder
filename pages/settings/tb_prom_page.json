@@ -1,0 +1,13 @@
+{
+  "title":"tb promotion page",
+  "list":[
+    {
+      "id":"aptPro",
+      "links":["00101","223233"]
+    },
+    {
+      "id":"apt",
+      "links":["00201","223333"]
+    }
+  ]
+}
