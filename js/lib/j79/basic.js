@@ -12,7 +12,7 @@
         $(this).removeClass('btn-loading');
     };
 })(jQuery);
-//-/ 
+//-/
 
 
 
@@ -27,26 +27,26 @@
     /**
 	  *  j79.post
 	  *  post data to j79frame-server and get result, response according to result data.
-	  *  
-	 
+	  *
+
 	  *  @param {object}  postData : param data
 	  *                              {
 	  *                                url           :  post url, default="/com.php"
 	  *                                data          :  post data in object.attr foramt.
-	  *                                               {         
+	  *                                               {
 	  *                                                 target: //server dispatching target, must exists.
 	  *                                                 ... ...
 	  *                                               },
-	  *                                                 
+	  *
 	  *                                title         : //alert window title.
 	  *                                actionSuccess : //function handler call when success.
 	  *                                actionFailed  : //function handler call when failed.
 	  *                                actionErr     : //function handler call when connect error.
-	  *                                disabled      : //array of disalbed btn selector 
-	  *                                                  (string,like".btn-delete") 
-	  *                               }		
-		  
-	  
+	  *                                disabled      : //array of disalbed btn selector
+	  *                                                  (string,like".btn-delete")
+	  *                               }
+
+
 	  */
     _NS.prototype.post = function(params) {
 
@@ -122,7 +122,7 @@
                     var jsonData;
 
 
-                    //try to parse result into json format 
+                    //try to parse result into json format
                     try {
                         jsonData = JSON.parse(data);
 
@@ -155,7 +155,7 @@
 
                     var resultMain = jsonData.result;
 
-                    if (typeof resultMain != 'undefined' && resultMain == 1) { //server returned result, claiming success	(result=1)					  
+                    if (typeof resultMain != 'undefined' && resultMain == 1) { //server returned result, claiming success	(result=1)
                         //reset disabled.
                         //console.log(disabledList);
                         resetDisabled(disabledList);
@@ -169,7 +169,7 @@
 
 
 
-                    } else { //server returned result, but claiming failure( 'result'=0)			
+                    } else { //server returned result, but claiming failure( 'result'=0)
 
 
 
@@ -340,19 +340,63 @@
     }; //-/toJSONString
 
     /**
-    *  geSelectOptions
-    *  generate option string for select-control building by optionObj data.
-    *  use optionObj attribute name as value, attribute value as text.
-    */
-    _NS.prototype.geSelectOptions = function(optionObj, flagViewEmpty, currentValue) {
+     *  genSelectOptions
+     *  generate option list string for select-control by optionObj data.
+     *  e.g.:
+     *  genSelectOptions(['apple','banana','grape'],false,1) ==>
+     *
+     *                  <option value="0">apple</option>
+     *                  <option value="1" selected>banana</option>
+     *                  <option value="2">grape</option>
+     *
+     *
+     *  genSelectOptions([{label:"apple",value:0},{label:"banana",value:1},{label:"grape",value:2}],false,1) ==>
+     *
+     *                  <option value="0">apple</option>
+     *                  <option value="1" selected>banana</option>
+     *                  <option value="2">grape</option>
+     *
+     *  genSelectOptions({
+     *                     item1:{label:"apple",value:0},
+     *                     item2:{label:"banana",value:1},
+     *                     item3:{label:"grape",value:2}
+     *                   },
+     *                   false,1) ==>
+     *
+     *                  <option value="0">apple</option>
+     *                  <option value="1" selected>banana</option>
+     *                  <option value="2">grape</option>
+     *
+     *  @params optionObj array/object: option data, array format or object format.
+     *
+     *                           array format:
+     *                           array item in object format: [{"label":"option text1", "value": option_value1},{"label":"option text2", "value": option_value2},,...]
+     *                           array item in string format: ["option text1","option text2",....] ,option value will be array index.
+     *
+     *                           object format:
+     *                                          {
+     *                                              "item1":{"label":"option text1", "value": option_value1},
+     *                                              "item2":{"label":"option text2", "value": option_value2},
+     *                                          }
+     *                                          notice: item name-key like "item1" is not relevant, but item detail-key (like "label","value") is fixed, must not be other words.
+     *
+     *  @params flagViewEmpty boolean: whether view default text when currentValue is empty or not. [default]= false
+     *  @params currentValue mixed: current option value.
+     *  @params defaultText string: when no current-value given and falgViewEmpty is true, view this defaultText
+     */
+    _NS.prototype.genSelectOptions = function(optionObj, flagViewEmpty, currentValue, defaultText) {
+
         var optStr = '';
+        if(!defaultText){
+            defaultText='--请选择--'
+        }
         if(flagViewEmpty && flagViewEmpty===true){
-            optStr='<option value="">--请选择--</option>';
+            optStr='<option value="">'+defaultText+'</option>';
         }
         var curValue;
         var curIdx;
         var curLabel;
-        for (var p in optionObj) { // 方法 
+        for (var p in optionObj) { // 方法
             if (typeof(optionObj[p]) != "function") {
                 curValue=optionObj[p];
                 if(typeof(curValue)=="object"){
@@ -370,7 +414,7 @@
             }
         }
         return optStr;
-    }; //-/geSelectOptions
+    }; //-/genSelectOptions
 
     /**
      * getStringByValue
@@ -585,7 +629,7 @@
 
     /**
      *  inArray
-     *  check value whether in arr or not. 
+     *  check value whether in arr or not.
      */
     _NS.prototype.inArray = function(arr, value) {
 
@@ -622,7 +666,7 @@
         if(typeof data =='undefined' || data==null || typeof resultHtml =='undefined' || resultHtml==null || resultHtml=='' ){
             return htmlStr;
         }
-        for (var p in data) { // 方法 
+        for (var p in data) { // 方法
             if (typeof(data[p]) != "function") {
                 reg = new RegExp("\\[#" + p + "#\\]", "g");
                 v = data[p] == null ? '' : data[p];
@@ -638,14 +682,14 @@
      *  getURLParam
      *  get page url param value by param key name.
      *  @param {string} name : page url param key-name.
-     *  @return {string}     : param value. 
+     *  @return {string}     : param value.
      */
     _NS.prototype.getURLParam = function(name) {
 
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);
         //console.log('param sep:');
-        //console.log(r);		  
+        //console.log(r);
         if (r != null)
             return decodeURI(r[2]);
         return null;
@@ -752,7 +796,7 @@
      *  add value to array if it not exists in current array.
      *  @param {array} targetArray : target array to add.
      *  @param {mix}   value       : value to add to array.
-     *  
+     *
      *
      */
     _NS.prototype.addUnique = function(targetArray, value) {
@@ -821,7 +865,7 @@
      *  create modal window and view. if already exists id element then set title, bodyHtml, btnHtml and show it.
      *  @param {object} settins : setting data. has attribute: title | bodyHtml | btnHtml | className | size='small'
      *  @param {string} id      : modal win id. if not set id, will generate by random number and return id.
-     *  @return {string}        : id of modal window. 
+     *  @return {string}        : id of modal window.
      */
     _NS.prototype.viewModal = function(settings, id) {
 
@@ -847,7 +891,7 @@
                 '<div class="modal-footer">' + strBtnHtml +'</div>' +
                 '</div></div></div>');
            $uiModal.appendTo('body');
-        } else { //if exists certain id element.		  
+        } else { //if exists certain id element.
 
             if (settings) {
                 if (settings.title) {
@@ -1207,7 +1251,7 @@
 
     /**
      *  getCookie
-     *  @param {string} name  : cookie key name.  
+     *  @param {string} name  : cookie key name.
      *  @return {null/string} : if no cookie, then return null, else return cookie value.
      */
     _NS.prototype.getCookie = function(name) {
@@ -1265,6 +1309,40 @@
     };//-/
 
 
+    /**
+     * loadSetting
+     * load setting json and return promise.
+     * @param settingURL string: setting json file url.
+     * @returns {Promise<any>}: promise
+     *
+     * e.g.:
+     * j79.loadSetting('settings/tb_prom_page.json').then( settingJSON =>{
+            console.log(settingJSON)
+        }).catch(e =>{
+            console.log(e)
+        })
+     */
+    _NS.prototype.loadSetting=function(settingURL){
+
+        return new Promise((resolve, reject) => {
+            if (settingURL) {
+
+                $.getJSON(
+                    settingURL+'?rnd='+Math.random(),
+                    function(json){
+                        //console.log(json)
+                        resolve(json)
+
+                }).error(function(jqXHR, textStatus, errorThrown){
+                    reject(new Error(errorThrown))
+                })
+
+            } else {
+                reject(new Error("Setting URL is invalid!"))
+            }
+        })
+
+    };//-/
 
 
 
