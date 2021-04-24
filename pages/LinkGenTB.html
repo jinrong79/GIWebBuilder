@@ -5,6 +5,7 @@
     <title>Title</title>
     <style>
         .btn{padding: 1rem;}
+        .btn-s{padding:0.5rem 1rem;}
     </style>
 </head>
 <body>
@@ -23,7 +24,8 @@
     <div>current no: <b id="txtIdx"></b></div>
     <div>current idx: <b id="txtID"></b> | <a id="linkDetail" href="#" target="_blank">view</a></div>
     <hr/>
-    <button class="btn" onclick="setNext()">Paste</button>
+    <button class="btn" onclick="setNext()">Paste Next</button>
+    <button class="btn-s" onclick="setCurrent()">Paste Current</button>
 
 </div>
 
@@ -99,6 +101,27 @@
             '//item.taobao.com/item.htm?id=',
             '//h5.m.taobao.com/awp/core/detail.htm?id='
         ]
+
+        copy(linkPre[curType]+linkData[i])
+
+        document.getElementById('txtIdx').innerHTML=i
+        document.getElementById('txtID').innerHTML=linkData[i] + ' | '+ linkInfo[i]
+        document.getElementById('linkDetail').href=linkPre[curType]+linkData[i]
+        if(i<linkData.length-1){
+
+            i++
+        }
+    }
+
+    function setCurrent(){
+        let linkPre=[
+            '//item.taobao.com/item.htm?id=',
+            '//h5.m.taobao.com/awp/core/detail.htm?id='
+        ]
+
+        if(i>0){
+            i--;
+        }
 
         copy(linkPre[curType]+linkData[i])
 
