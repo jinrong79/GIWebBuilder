@@ -1344,6 +1344,44 @@
 
     };//-/
 
+    /**
+     * loadHtml
+     * load setting json and return promise.
+     * @param loadingURL string: setting json file url.
+     * @returns {Promise<any>}: promise
+     *
+     * e.g.:
+     * j79.loadHtml('page/pageA.html').then( htmlText =>{
+            console.log(htmlText)
+        }).catch(e =>{
+            console.log(e)
+        })
+     */
+    _NS.prototype.loadHtml=function(loadingURL){
+
+        return new Promise((resolve, reject) => {
+            if (loadingURL) {
+
+
+
+                $.ajax({
+                    url:loadingURL+'?rnd='+Math.random(),
+                    type:'get',
+                    success:function(res){
+                        resolve(res)
+                    },
+                    error:function(e){
+                        reject(new Error(e))
+                    }
+                });
+
+            } else {
+                reject(new Error("Setting URL is invalid!"))
+            }
+        })
+
+    };//-/
+
 
 
 

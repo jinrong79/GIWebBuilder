@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+
+
+    <link href="css/jr.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        .btn{padding: 1rem;}
+        input{width: 80%}
+        textarea{width: 100%;}
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title">天猫活动页-自定义首页</div>
+        </div>
+        <div class="panel-body content-body">
+
+            <form class="form-horizontal">
+
+
+
+
+                <div class="form-group">
+                    <label for="topImgUrl" class="col-sm-2 control-label">TopImg URL</label>
+                    <div class="col-sm-10">
+                        <input class="form-control img-url-input"  type="text" id="topImgUrl" value=""/>
+                    </div>
+                </div>
+                <HR/>
+                <div class="form-group">
+                    <label for="proImgUrl1" class="col-sm-2 control-label">ProImg1 URL</label>
+                    <div class="col-sm-10">
+                        <input class="form-control img-url-input" type="text" id="proImgUrl1" />
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="proImgUrl2" class="col-sm-2 control-label">ProImg2 URL</label>
+                    <div class="col-sm-10">
+                        <input class="form-control img-url-input" type="text" id="proImgUrl2" />
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="proImgUrl3" class="col-sm-2 control-label">ProImg3 URL</label>
+                    <div class="col-sm-10">
+                        <input class="form-control img-url-input" type="text" id="proImgUrl3" />
+                    </div>
+
+                </div>
+                <HR/>
+                <div class="form-group">
+
+                    <div class="col-sm-10">
+                       <Button class="btn btn-primary btn-lg" type="button" id="btnGen" onclick="gen();">Generate</Button>
+                    </div>
+
+                </div>
+                <HR/>
+                <div class="form-group">
+                    <label for="proImgUrl3" class="col-sm-2 control-label">Html Code</label>
+                    <div class="col-sm-10">
+                        <textarea rows="10" class="form-control" id="txtHtmlCode"></textarea>
+                    </div>
+
+                </div>
+
+
+
+
+
+
+            </form>
+
+
+
+
+        </div>
+    </div>
+
+
+
+</div>
+<div id="imgPreviewArea">
+    <img class="img-preview" src="" id="topImg"/>
+    <img class="img-preview" src="" id="proImg1"/>
+    <img class="img-preview" src="" id="proImg2"/>
+    <img class="img-preview" src="" id="proImg3"/>
+</div>
+<script src="../js/jquery/1.11.3/jquery.min.js"></script>
+<script src="../js/plugin/jquery.json.js"></script>
+<script src="../js/plugin/bootstrap.min.js"></script>
+<script src="../js/app/j79.app.js"></script>
+<script src="../js/lib/j79/basic.js"></script>
+<script>
+
+    let proImgData={};
+    let templateHtml=''
+
+    function gen(){
+        let workingHtml=templateHtml
+
+        let dataCur={}
+        dataCur.topimglink=proImgData.topImg.url
+        dataCur.topimgheight=proImgData.topImg.height
+
+        dataCur.proimgheight1=proImgData.proImg1.height
+        dataCur.proimgheight2=proImgData.proImg2.height
+        dataCur.proimgheight3=proImgData.proImg3.height
+
+        dataCur.proimglink1=proImgData.proImg1.url
+        dataCur.proimglink2=proImgData.proImg2.url
+        dataCur.proimglink3=proImgData.proImg3.url
+
+
+
+        $('#txtHtmlCode').val(j79.setHtml(dataCur, workingHtml))
+    }
+
+    $(document).ready(function (e) {
+
+
+
+
+        j79.loadHtml('settings/home_template.html').then( htmlText =>{
+            templateHtml=htmlText
+            //console.log(htmlText)
+        }).catch(e =>{
+            console.log(e)
+        })
+
+
+
+        //generate
+        // $('#btnGen').click(function(){
+        //
+        //
+        //     let workingHtml=templateHtml
+        //
+        //     let dataCur={}
+        //     dataCur.topimglink=proImgData.topImg.url
+        //     dataCur.topimgheight=proImgData.topImg.height
+        //
+        //     dataCur.proimgheight1=proImgData.proImg1.height
+        //     dataCur.proimgheight2=proImgData.proImg2.height
+        //     dataCur.proimgheight3=proImgData.proImg3.height
+        //
+        //     dataCur.proimglink1=proImgData.proImg1.url
+        //     dataCur.proimglink2=proImgData.proImg2.url
+        //     dataCur.proimglink3=proImgData.proImg3.url
+        //
+        //
+        //
+        //     $('#txtHtmlCode').val(j79.setHtml(dataCur, workingHtml))
+        //
+        //
+        // })
+
+
+
+
+
+        $('.img-preview').load(function(e){
+
+            let curId=$(this).attr('id')
+
+            console.log(curId)
+
+            let curData = proImgData[curId] || {}
+            curData.width =$(this).width()
+            curData.height =$(this).height()
+            console.log(curData)
+            proImgData[curId]=curData
+
+            console.log(proImgData)
+
+        });
+
+        $('.img-url-input').change(function () {
+
+
+
+            var url=$(this).val() || '';
+            if(url){
+
+                let curId=$(this).attr('id')
+                let imgId= curId.replace('Url','')
+
+                let curData = proImgData[imgId] || {}
+                curData.url =url
+                console.log(curData)
+                proImgData[imgId]=curData
+
+                $('#'+imgId).attr('src', url);
+
+            }
+        })
+    })
+
+
+
+</script>
+</body>
+</html>
