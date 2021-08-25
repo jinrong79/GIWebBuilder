@@ -64,7 +64,7 @@
                         <div class="col-md-6">
                             <label for="repeatCode">单行模板</label>
                             <textarea id="repeatCode" class="form-control" rows="6">
-                                <div class="{{abpClass}}" style="right:auto;z-index:7;top:{{top}}px;left:{{left}}px;width:{{width}}px;height:{{height}}px;border:0;padding:0;background:none;overflow:hidden;">
+                                <div class="{{abpClass}}" data-id="{{dataId}}" style="right:auto;z-index:7;top:{{top}}px;left:{{left}}px;width:{{width}}px;height:{{height}}px;border:0;padding:0;background:none;overflow:hidden;">
                                   <div class="subLogo" style="width:{{width}}px;height:{{height}}px;float:none;padding:0;right:auto;top:0;left:0;margin:0;border:0;border-radius:0;background:none;">
                                     <!-- 默认点击单元 -->
                                     <a style="padding:0;height:auto;background:none;" href="{{link}}" target="_blank">
@@ -262,6 +262,7 @@
 
             listItemCode=listItemCode.replace(/{{abpClass}}/g, abpClassName);
             listItemCode=listItemCode.replace(/{{id}}/g, areaId);
+            listItemCode=listItemCode.replace(/{{dataId}}/g, areaId);
             listItemCode=listItemCode.replace(/{{link}}/g, link);
             listItemCode=listItemCode.replace(/{{left}}/g, parseInt( $('#'+areaId).css('left'))-px);
             listItemCode=listItemCode.replace(/{{top}}/g, parseInt($('#'+areaId).css('top'))-py);
